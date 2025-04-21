@@ -1,4 +1,4 @@
-import { PrismaClient } from "../generated/prisma/client/index.js";
+import { PrismaClient } from "../generated/prisma/index.js";
 import bcrypt from "bcryptjs";
 import jwt from 'jsonwebtoken';
 import crypto from 'crypto'
@@ -24,10 +24,10 @@ export const userDBClient = globalThisForPrisma.userPrisma || new PrismaClient()
   },
   model: {
     user: {
-      async isPasswodValid(this, password) {
+      async isPasswodValid(password) {
         return await bcrypt.compare(password, this.password)
       },
-      generateAccessToken(this) {
+      generateAccessToken() {
         return jwt.sign(
           {
             id: this.id,
@@ -41,7 +41,7 @@ export const userDBClient = globalThisForPrisma.userPrisma || new PrismaClient()
           }
         )
       },
-      generateRefreshToken(this) {
+      generateRefreshToken() {
         return jwt.sign(
           {
             id: this.id
