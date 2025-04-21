@@ -1,6 +1,6 @@
 import { body } from 'express-validator'
 
-export const userRegistrationValidatior = () => {
+export const userRegistrationValidator = () => {
   return [
     body("email")
       .trim()
