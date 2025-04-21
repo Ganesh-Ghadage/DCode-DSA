@@ -1,6 +1,7 @@
 import { PrismaClient } from "../generated/prisma/client/index.js";
 import bcrypt from "bcryptjs";
-import jwt from 'jsonwebtoken'
+import jwt from 'jsonwebtoken';
+import crypto from 'crypto'
 
 const globalThisForPrisma = globalThis
 
@@ -51,6 +52,15 @@ export const userDBClient = globalThisForPrisma.userPrisma || new PrismaClient()
           }
         )
       },
+      generateVerificationToken() {
+        const unHashedToken = crypto.randomBytes(16).toString('hex')
+
+        const hashedToken = crypto.createHash('sha256').update(unHashedToken).digest('hex')
+
+        const tokenExpiry = Date.now() + (20*60*1000) // 20 min
+
+        return { unHashedToken, hashedToken, tokenExpiry }
+      }
     }  
   }
 });
