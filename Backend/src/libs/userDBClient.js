@@ -20,15 +20,6 @@ export const userDBClient = globalThisForPrisma.userPrisma || new PrismaClient()
       }
     }
   },
-  model: {
-    user: {
-      async isPasswordValid(password) {
-        return await bcrypt.compare(password, this.password)
-      },
-      
-      
-    }  
-  }
 });
 
 if (process.env.NODE_ENV !== 'production') globalThisForPrisma.userPrisma = userDBClient

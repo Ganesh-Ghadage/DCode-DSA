@@ -1,4 +1,3 @@
-import { db } from '../libs/db.js'
 import { ApiResponce } from '../utils/ApiResponce.js'
 import { ApiError } from '../utils/ApiError.js'
 import { asyncHandler } from '../utils/asyncHandler.js'
@@ -7,6 +6,7 @@ import { userDBClient } from '../libs/userDBClient.js'
 import { upolodOnClodinary, deleteFromCloudinary } from '../utils/cloudinary.js'
 import crypto from 'crypto'
 import jwt from 'jsonwebtoken';
+import bcrypt from 'bcryptjs'
 import { sendVerifyMail } from '../utils/mail.js'
 import { cookieOptions } from '../utils/constants.js'
 
@@ -170,5 +170,51 @@ export const registerUser = asyncHandler(async (req, res) => {
 
     throw new ApiError(500, error?.message || "User Registration Failed", error)
   }
+
+})
+
+export const loginUser = asyncHandler(async (req, res) => {
+  const { email, password } = req.body
+
+  const user = await userDBClient.user.findUnique({
+    where: {
+      email
+    }
+  })
+
+  if(!user) {
+    throw new ApiError(404, "Invalid Credentials")
+  }
+
+  const isPasswordValid = await bcrypt.compare(password, user.password)
+
+  if(!isPasswordValid) {
+    throw new ApiError(404, "Invalid Credentials")
+  }
+
+  const { accessToken, refreshToken } = await generateAccessAndRefreshToken(user.id)
+
+  if(!accessToken || !refreshToken) {
+    throw new ApiError(502, "Tokens generation failed")
+  }
+
+  const loggedInUser = await userDBClient.user.findUnique({
+    where: {
+      id: user.id
+    },
+    omit: {
+      password: true,
+      refreshToken: true
+    }
+  })
+  
+
+  return res
+    .status(200)
+    .cookie("accessToken", accessToken, {...cookieOptions, maxAge: 1000*60*60*24*1})
+    .cookie("refreshToken", refreshToken, {...cookieOptions, maxAge: 1000*60*60*24*10})
+    .json(
+      new ApiResponce(201, loggedInUser, "User logged In successfull")
+    )
 
 })
