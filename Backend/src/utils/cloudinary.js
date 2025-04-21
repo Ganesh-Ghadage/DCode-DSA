@@ -39,7 +39,7 @@ const deleteFromCloudinary = async (publicUrl) => {
     if(!publicUrl) return false;
 
     const fileName = publicUrl.split('/').pop();  // Extract filename
-    const publicId = `project_management/${fileName.split('.').slice(0, -1).join('.')}`; // Extract publicId
+    const publicId = `leetlab/${fileName.split('.').slice(0, -1).join('.')}`; // Extract publicId
 
     const result = await cloudinary.uploader.destroy(publicId, { resource_type: 'image' });
     

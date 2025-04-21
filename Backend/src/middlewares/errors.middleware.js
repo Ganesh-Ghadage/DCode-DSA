@@ -1,4 +1,4 @@
-import { Prisma } from "@prisma/client"
+import { Prisma } from "../generated/prisma/index.js"
 import { ApiError } from "../utils/ApiError.js"
 
 const errorHandler = (err, req, res, next) => {
@@ -9,15 +9,15 @@ const errorHandler = (err, req, res, next) => {
     const errorMessage = error?.message || "Something Went Wrong"
 
     error = new ApiError(statusCode, errorMessage, error?.error || [], error?.stack)
-
-    const response = {
-      ...error,
-      message: error.message,
-      ...(process.env.NODE_ENV === "development" ? {stack: error?.stack} : {})
-    }
-
-    return res.status(error.statusCode).json(response)
   }
+
+  const response = {
+    ...error,
+    message: error.message,
+    ...(process.env.NODE_ENV === "development" ? {stack: error?.stack} : {})
+  }
+
+  return res.status(error.statusCode).json(response)
 }
 
 export default errorHandler

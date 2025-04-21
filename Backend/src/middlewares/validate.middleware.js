@@ -4,8 +4,8 @@ import { ApiError } from '../utils/ApiError.js'
 const validator = (req, res, next) => {
   const errors = validationResult(req)
 
-  if(!errors) {
-    next()
+  if(errors.isEmpty()) {
+    return next()
   }
 
   const extractedError = []
