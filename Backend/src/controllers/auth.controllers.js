@@ -290,3 +290,8 @@ export const logoutUser = asyncHandler(async (req, res) => {
     .clearCookie("refreshToken", cookieOptions)
     .json(new ApiResponce(200, loggedOutUser, "User logged out successfully"))
 })
+
+
+export const getUserProfile = asyncHandler((req, res) => {
+  res.status(200).json(new ApiResponce(200, req?.user, "User profile fetched successfully"))
+})

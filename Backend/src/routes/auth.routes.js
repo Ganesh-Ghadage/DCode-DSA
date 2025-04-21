@@ -2,7 +2,7 @@ import express from 'express'
 import { upload } from '../middlewares/multer.middleware.js'
 import { userLoginValidator, userRegistrationValidator, userVerificationValidator } from '../validators/auth.validators.js'
 import validate from '../middlewares/validate.middleware.js'
-import { loginUser, logoutUser, registerUser, verifyUser } from '../controllers/auth.controllers.js'
+import { getUserProfile, loginUser, logoutUser, registerUser, verifyUser } from '../controllers/auth.controllers.js'
 import { authMiddleware } from '../middlewares/auth.middleware.js'
 
 const authRouter = express.Router()
@@ -29,6 +29,11 @@ authRouter.get('/verify/:token',
 authRouter.post('/logout',
   authMiddleware,
   logoutUser
+)
+
+authRouter.get('/profile',
+  authMiddleware,
+  getUserProfile
 )
 
 export default authRouter
