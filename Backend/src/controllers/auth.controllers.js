@@ -263,3 +263,30 @@ export const verifyUser = asyncHandler(async (req, res) => {
       )
     )
 })
+
+export const logoutUser = asyncHandler(async (req, res) => {
+  const user = req.user
+
+  if(!user) {
+    throw new ApiError(403, "Unauthorized request")
+  }
+
+  const loggedOutUser = await userDBClient.user.update({
+    where: {
+      id: user.id
+    },
+    data: {
+      refreshToken: null
+    },
+    omit: {
+      password: true,
+      refreshToken: true
+    }
+  })
+
+  return res
+    .status(200)
+    .clearCookie("accessToken", cookieOptions)
+    .clearCookie("refreshToken", cookieOptions)
+    .json(new ApiResponce(200, loggedOutUser, "User logged out successfully"))
+})
