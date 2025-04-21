@@ -55,4 +55,4 @@ export const userDBClient = globalThisForPrisma.userPrisma || new PrismaClient()
   }
 });
 
-if (process.env.NODE_ENV !== 'production') globalThisForPrisma.userPrisma = db
+if (process.env.NODE_ENV !== 'production') globalThisForPrisma.userPrisma = userDBClient
