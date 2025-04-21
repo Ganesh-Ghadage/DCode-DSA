@@ -1,4 +1,4 @@
-import { body } from 'express-validator'
+import { body, param } from 'express-validator'
 
 export const userRegistrationValidator = () => {
   return [
@@ -31,5 +31,13 @@ export const userLoginValidator = () => {
       .isLength({min: 8}).withMessage("Username should be more than 8 char")
       .isLength({max: 20}).withMessage("Username cannot exceed more than 20 char")
       .isStrongPassword({minUppercase: 1, minNumbers: 2,  minSymbols: 1}).withMessage("Password should contain at least 1 Uppcase letter, 1 Symbol and at least 2 number"),
+  ]
+}
+
+export const userVerificationValidator = () => {
+  return [
+    param('token')
+      .trim()
+      .notEmpty().withMessage("Verfication token is required")
   ]
 }

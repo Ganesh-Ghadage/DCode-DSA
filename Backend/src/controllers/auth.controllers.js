@@ -117,12 +117,12 @@ export const registerUser = asyncHandler(async (req, res) => {
         id: createdUser.id
       },
       data: {
-        emailVerificationToken: unHashedToken,
+        emailVerificationToken: hashedToken,
         emailVerificationExpiry: tokenExpiry
       }
     })
 
-    await sendVerifyMail(createdUser.name, createdUser.email, hashedToken)
+    await sendVerifyMail(createdUser.name, createdUser.email, unHashedToken)
 
     const { accessToken, refreshToken } = await generateAccessAndRefreshToken(createdUser.id)
 
@@ -217,4 +217,49 @@ export const loginUser = asyncHandler(async (req, res) => {
       new ApiResponce(201, loggedInUser, "User logged In successfull")
     )
 
+})
+
+export const verifyUser = asyncHandler(async (req, res) => {
+  const { token } = req.params
+
+  const hashedToken = crypto.createHash('sha256').update(token).digest('hex')
+
+  const user = await userDBClient.user.findFirst({
+    where: {
+      emailVerificationToken: hashedToken
+    }
+  })
+
+  if(!user) {
+    throw new ApiError(404, "Invalid verification token")
+  }
+
+  if(user.emailVerificationExpiry <= new Date()) {
+    throw new ApiError(406, "Verification token expired")
+  }
+
+  await userDBClient.user.update({
+    where: {
+      id: user.id
+    },
+    data: {
+      isEmailVerified: true,
+      emailVerificationToken: null,
+      emailVerificationExpiry: null
+    }
+  })
+
+  return res
+    .status(200)
+    .json(new ApiResponce(
+      200, 
+      {
+        id: user.id,
+        email: user.email,
+        name: user.name,
+        role: user.role
+      }, 
+      "User verified succesfully"
+      )
+    )
 })

@@ -75,7 +75,7 @@ async function sendVerifyMail(name, email, token) {
           <div class="content">
             <p>Hello <strong>${name}</strong>,</p>
             <p>Thank you for signing up. Please use the link below to verify your email address:</p>
-            <div class="token-box"><a href="${process.env.BASE_URl}/api/v1/users/verify/${token}">Verify Email</a></div>
+            <div class="token-box"><a href="${process.env.BASE_URl}/api/v1/auth/verify/${token}">Verify Email</a></div>
             <p>This token will expire in 20 minutes. If you did not request this, please ignore this email.</p>
             <p>Thanks,<br />The Team</p>
           </div>
@@ -91,7 +91,7 @@ async function sendVerifyMail(name, email, token) {
     from: process.env.MAILTRAP_EMAIL,
     to: email, // list of receivers
     subject: "Verify your mail",
-    text: `Plase click on below like to verify your email: ${process.env.BASE_URl}/api/v1/users/verify/${token}`, 
+    text: `Plase click on below like to verify your email: ${process.env.BASE_URl}/api/v1/auth/verify/${token}`, 
     html: htmlTemplate
   }
 
