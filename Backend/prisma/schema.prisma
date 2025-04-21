@@ -23,15 +23,15 @@ model user {
   id String @id @default(uuid())
   name String?
   email String @unique
-  image String 
+  image String?
   role UserRole @default(USER)
   password String
-  refreshToken String
-  forgotPasswordToken String
-  forgotPasswordExpiry DateTime 
+  refreshToken String?
+  forgotPasswordToken String?
+  forgotPasswordExpiry DateTime? 
   isEmailVerified Boolean @default(false)
-  emailVerificationToken String
-  emailVerificationExpiry DateTime 
+  emailVerificationToken String?
+  emailVerificationExpiry DateTime? 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
