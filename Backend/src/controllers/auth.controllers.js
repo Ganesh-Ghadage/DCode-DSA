@@ -474,3 +474,46 @@ export const changePasswordViaToken = asyncHandler(async (req, res) => {
     throw new ApiError(500, error?.message || "Password update failed", error)
   }
 })
+
+export const updatePassword = asyncHandler(async (req, res) => {
+  const { email, oldPassword, newPassword } = req.body
+
+  try {
+    const user = await userDBClient.user.findUnique({
+      where: {
+        email
+      }
+    })
+
+    if(!user) {
+      throw new ApiError(404, "User not found")
+    }
+
+    const isPasswordValid = await bcrypt.compare(oldPassword, user.password)
+
+    if(!isPasswordValid) {
+      throw new ApiError(404, "Invalid Credentials")
+    }
+
+    const updatedUser = await userDBClient.user.update({
+      where: {
+        email
+      },
+      data: {
+        password: newPassword
+      },
+      omit: {
+        password: true,
+        refreshToken: true
+      }
+    })
+
+    return res
+      .status(200)
+      .json(new ApiResponce(200, updatedUser, "Password Changed successfully"))
+  } catch (error) {
+    console.log(error)
+
+    throw new ApiError(500, error?.message || "Password update failed", error)
+  }
+})

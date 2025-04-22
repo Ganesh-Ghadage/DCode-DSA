@@ -1,8 +1,8 @@
 import express from 'express'
 import { upload } from '../middlewares/multer.middleware.js'
-import { changePasswordViaTokenValidator, forgotPasswordValidator, refreshAccessTokenValidator, userLoginValidator, userRegistrationValidator, userVerificationValidator } from '../validators/auth.validators.js'
+import { changePasswordViaTokenValidator, forgotPasswordValidator, refreshAccessTokenValidator, updatePasswordValidator, userLoginValidator, userRegistrationValidator, userVerificationValidator } from '../validators/auth.validators.js'
 import validate from '../middlewares/validate.middleware.js'
-import { changePasswordViaToken, forgotPassword, getUserProfile, loginUser, logoutUser, refreshAccessToken, registerUser, resendVerificationMail, verifyUser } from '../controllers/auth.controllers.js'
+import { changePasswordViaToken, forgotPassword, getUserProfile, loginUser, logoutUser, refreshAccessToken, registerUser, resendVerificationMail, updatePassword, verifyUser } from '../controllers/auth.controllers.js'
 import { authMiddleware } from '../middlewares/auth.middleware.js'
 
 const authRouter = express.Router()
@@ -58,6 +58,12 @@ authRouter.put('/change-password/:token',
   changePasswordViaTokenValidator(),
   validate,
   changePasswordViaToken
+)
+
+authRouter.patch('/update-password',
+  updatePasswordValidator(),
+  validate,
+  updatePassword
 )
 
 export default authRouter
