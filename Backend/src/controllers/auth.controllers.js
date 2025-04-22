@@ -330,3 +330,47 @@ export const resendVerificationMail = asyncHandler(async (req, res) => {
     throw new ApiError(500, error?.message || "Verification mail sent failed")
   }
 })
+
+export const refreshAccessToken = asyncHandler(async (req, res) => {
+  const incomingRefreshToken = req.cookies?.refreshToken
+  
+  try {
+    const { id } = jwt.verify(incomingRefreshToken, process.env.REFRESH_TOKEN_SECRET)
+  
+    const user = await userDBClient.user.findUnique({
+      where: {
+        id
+      },
+      omit: {
+        password: true
+      }
+    })
+  
+    if(!user) {
+      throw new ApiError(403, "Invalid refresh token")
+    }
+  
+    if(incomingRefreshToken !== user?.refreshToken) {
+      throw new ApiError(403, "Invalid refresh token")
+    }
+  
+    const { accessToken, refreshToken } = await generateAccessAndRefreshToken(user.id)
+  
+    if(!accessToken || !refreshToken) {
+      throw new ApiError(502, "Tokens generation failed")
+    }
+  
+    return res
+      .status(200)
+      .cookie("accessToken", accessToken, {...cookieOptions, maxAge: 1000*60*60*24*1})
+      .cookie("refreshToken", refreshToken, {...cookieOptions, maxAge: 1000*60*60*24*10})
+      .json(
+        new ApiResponce(201, user, "accessToken and refreshToken renewed sucessfully")
+      )
+  } catch (error) {
+    console.log(error)
+
+    throw new ApiError(500, "Something went worng, token are not generated", error)
+  }
+
+})

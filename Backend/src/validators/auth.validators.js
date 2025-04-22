@@ -1,4 +1,4 @@
-import { body, param } from 'express-validator'
+import { body, cookie, param } from 'express-validator'
 
 export const userRegistrationValidator = () => {
   return [
@@ -39,5 +39,13 @@ export const userVerificationValidator = () => {
     param('token')
       .trim()
       .notEmpty().withMessage("Verfication token is required")
+  ]
+}
+
+export const refreshAccessTokenValidator = () => {
+  return [
+    cookie("refreshToken")
+      .trim()
+      .notEmpty().withMessage("Refresh Token not found")
   ]
 }
