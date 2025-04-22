@@ -180,7 +180,7 @@ async function sendForgotPasswordMail(name, email, token) {
     from: process.env.MAILTRAP_EMAIL,
     to: email, // list of receivers
     subject: "Verify your mail",
-    text: `Plase click on below like to verify your email: ${process.env.BASE_URl}/api/v1/auth/verify/${token}`, 
+    text: `Plase click on below like to verify your email: ${process.env.BASE_URl}/api/v1/auth/change-password/${token}`, 
     html: htmlTemplate
   }
 

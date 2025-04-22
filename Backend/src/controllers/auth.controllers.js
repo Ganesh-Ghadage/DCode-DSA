@@ -9,6 +9,7 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs'
 import { sendForgotPasswordMail, sendVerifyMail } from '../utils/mail.js'
 import { cookieOptions } from '../utils/constants.js'
+import e from 'express'
 
 const generateAccessAndRefreshToken = async (userId) => {
   if (!userId) {
@@ -421,5 +422,55 @@ export const forgotPassword = asyncHandler(async (req, res) => {
     console.log(error)
 
     throw new ApiError(500, error?.message || "Failed to generate forgot password link", error)
+  }
+})
+
+export const changePasswordViaToken = asyncHandler(async (req, res) => {
+  const { token } = req?.params
+  const { email, newPassword } = req.body
+
+  try {
+    const hashedToken = crypto.createHash('sha256').update(token).digest('hex')
+    
+    const user = await userDBClient.user.findUnique({
+      where: {
+        email
+      }
+    })
+
+    if(!user) {
+      throw new ApiError(404, "User not found")
+    }
+
+    if(user.forgotPasswordExpiry <= new Date()) {
+      throw new ApiError(406, "Token expired")
+    }
+
+    if(user.forgotPasswordToken !== hashedToken) {
+      throw new ApiError(402, "Invalid token")
+    }
+
+    const updatedUser = await userDBClient.user.update({
+      where: {
+        email
+      },
+      data: {
+        password: newPassword,
+        forgotPasswordToken: null,
+        forgotPasswordExpiry: null
+      },
+      omit: {
+        password: true,
+        refreshToken: true
+      }
+    })
+
+    return res
+      .status(200)
+      .json(new ApiResponce(200, updatedUser, "Password Changed successfully"))
+  } catch (error) {
+    console.log(error)
+
+    throw new ApiError(500, error?.message || "Password update failed", error)
   }
 })
