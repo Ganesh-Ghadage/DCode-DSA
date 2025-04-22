@@ -103,7 +103,7 @@ export const registerUser = asyncHandler(async (req, res) => {
         email,
         password,
         role: UserRole.USER,
-        image: image.url || null
+        image: image?.url || null
       }
     })
 
