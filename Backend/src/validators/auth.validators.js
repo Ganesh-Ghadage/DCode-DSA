@@ -49,3 +49,12 @@ export const refreshAccessTokenValidator = () => {
       .notEmpty().withMessage("Refresh Token not found")
   ]
 }
+
+export const forgotPasswordValidator = () => {
+  return [
+    body("email")
+      .trim()
+      .notEmpty().withMessage("Email is required")
+      .isEmail().withMessage("Invalid Email format"),
+  ]
+}

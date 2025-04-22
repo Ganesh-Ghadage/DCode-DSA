@@ -1,8 +1,8 @@
 import express from 'express'
 import { upload } from '../middlewares/multer.middleware.js'
-import { refreshAccessTokenValidator, userLoginValidator, userRegistrationValidator, userVerificationValidator } from '../validators/auth.validators.js'
+import { forgotPasswordValidator, refreshAccessTokenValidator, userLoginValidator, userRegistrationValidator, userVerificationValidator } from '../validators/auth.validators.js'
 import validate from '../middlewares/validate.middleware.js'
-import { getUserProfile, loginUser, logoutUser, refreshAccessToken, registerUser, resendVerificationMail, verifyUser } from '../controllers/auth.controllers.js'
+import { forgotPassword, getUserProfile, loginUser, logoutUser, refreshAccessToken, registerUser, resendVerificationMail, verifyUser } from '../controllers/auth.controllers.js'
 import { authMiddleware } from '../middlewares/auth.middleware.js'
 
 const authRouter = express.Router()
@@ -46,6 +46,12 @@ authRouter.get('/refresh-tokens',
   validate,
   authMiddleware,
   refreshAccessToken
+)
+
+authRouter.get('/forgot-password',
+  forgotPasswordValidator(),
+  validate,
+  forgotPassword
 )
 
 export default authRouter

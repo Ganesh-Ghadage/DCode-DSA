@@ -7,7 +7,7 @@ import { upolodOnClodinary, deleteFromCloudinary } from '../utils/cloudinary.js'
 import crypto from 'crypto'
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs'
-import { sendVerifyMail } from '../utils/mail.js'
+import { sendForgotPasswordMail, sendVerifyMail } from '../utils/mail.js'
 import { cookieOptions } from '../utils/constants.js'
 
 const generateAccessAndRefreshToken = async (userId) => {
@@ -373,4 +373,53 @@ export const refreshAccessToken = asyncHandler(async (req, res) => {
     throw new ApiError(500, "Something went worng, token are not generated", error)
   }
 
+})
+
+export const forgotPassword = asyncHandler(async (req, res) => {
+  const { email } = req.body
+
+  try {
+    const user = await userDBClient.user.findUnique({
+      where: {
+        email
+      },
+      omit: {
+        password: true,
+        refreshToken: true
+      }
+    })
+
+    if(!user) {
+      throw new ApiError(404, "User not found")
+    }
+
+    const { unHashedToken, hashedToken, tokenExpiry } = generateVerificationToken()
+
+    const updatedUser = await userDBClient.user.update({
+      where: {
+        id: user.id
+      },
+      data: {
+        forgotPasswordToken: hashedToken,
+        forgotPasswordExpiry: tokenExpiry
+      },
+      omit: {
+        password: true,
+        refreshToken: true
+      }
+    })
+
+    await sendForgotPasswordMail(updatedUser.name, updatedUser.email, unHashedToken)
+
+    return res
+      .status(200)
+      .json(
+        new ApiResponce(201, updatedUser, "Forgort password link sent successfully, check email for link")
+      )
+
+  } catch (error) {
+    console.log(error)
+
+    throw new ApiError(500, error?.message || "Failed to generate forgot password link", error)
+  }
 })
