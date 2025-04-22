@@ -291,7 +291,42 @@ export const logoutUser = asyncHandler(async (req, res) => {
     .json(new ApiResponce(200, loggedOutUser, "User logged out successfully"))
 })
 
-
 export const getUserProfile = asyncHandler((req, res) => {
   res.status(200).json(new ApiResponce(200, req?.user, "User profile fetched successfully"))
+})
+
+export const resendVerificationMail = asyncHandler(async (req, res) => {
+  const user = req?.user
+
+  if(!user) {
+    throw new ApiError(403, "Unauthorized request")
+  }
+
+  const { unHashedToken, hashedToken, tokenExpiry } = generateVerificationToken()
+
+  try {
+    const updateduser = await userDBClient.user.update({
+      where: {
+        id: user.id
+      },
+      data: {
+        emailVerificationToken: hashedToken,
+        emailVerificationExpiry: tokenExpiry
+      },
+      omit: {
+        password: true,
+        refreshToken: true
+      }
+    })
+  
+    await sendVerifyMail(user.name, user.email, unHashedToken)
+
+    return res
+      .status(200)
+      .json(new ApiResponce(200, updateduser, "Verification mail sent successfully, Kindly check your mail"))
+  } catch (error) {
+    console.log(error)
+
+    throw new ApiError(500, error?.message || "Verification mail sent failed")
+  }
 })
