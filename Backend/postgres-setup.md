@@ -6,7 +6,7 @@
 docker run --name my-postgres -e POSTGRES_USER=myuser -e POSTGRES_PASSWORD=mypassword -p 5432:5432 -d postgres
 ```
 
-make sure docker is running before runing above command
+> make sure docker is running before runing above command
 
 The url looks something like below
 ```
