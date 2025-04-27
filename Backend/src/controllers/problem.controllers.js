@@ -67,7 +67,7 @@ export const createProblem = asyncHandler(async (req, res) => {
       }
     })
 
-    return res.status(200).json(new ApiResponce(200, problem, "Problem created successfully"))
+    return res.status(201).json(new ApiResponce(201, problem, "Problem created successfully"))
   
   } catch (error) {
     console.error("Error while creating problem: ", error)
