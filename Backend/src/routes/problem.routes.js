@@ -2,7 +2,7 @@ import express from 'express'
 import { authMiddleware } from '../middlewares/auth.middleware.js'
 import { checkAdmin } from '../middlewares/admin.middleware.js'
 import { createProblem, deleteProblem, getALLProblems, getALLProblemSolvedByUser, getProblemById, updateProblem } from '../controllers/problem.controllers.js'
-import { createProblemValidator, getProblemByIdValidator } from '../validators/problem.validators.js'
+import { createProblemValidator, getProblemByIdValidator, updateProblemValidator } from '../validators/problem.validators.js'
 import validator from '../middlewares/validate.middleware.js'
 
 const problemRouter = express.Router()
@@ -13,7 +13,7 @@ problemRouter.get("/get-all-problems", authMiddleware, getALLProblems)
 
 problemRouter.get("/get-problem/:id", authMiddleware, getProblemByIdValidator(), validator, getProblemById)
 
-problemRouter.put("/update-problem/:id", authMiddleware, checkAdmin, updateProblem)
+problemRouter.put("/update-problem/:id", authMiddleware, checkAdmin, updateProblemValidator(), validator, updateProblem)
 
 problemRouter.delete("/delete-problem/:id", authMiddleware, checkAdmin, deleteProblem)
 

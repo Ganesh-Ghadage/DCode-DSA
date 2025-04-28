@@ -16,19 +16,19 @@ export const createProblemValidator = () => {
       .isArray()
       .notEmpty().withMessage("tags are required"),
     body("examples")
-      .isJSON()
+      .isArray()
       .notEmpty().withMessage("examples are required"),
     body("constraints")
       .trim()
       .notEmpty().withMessage("constraints are required"),
     body("testcases")
-      .isJSON()
+      .isArray()
       .notEmpty().withMessage("testcases are required"),
     body("codeSnippets")
-      .isJSON()
+      .isObject()
       .notEmpty().withMessage("codeSnippets are required"),
     body("referenceSolutions")
-      .isJSON()
+      .isObject()
       .notEmpty().withMessage("referenceSolutions are required"),
   ]
 }
@@ -38,5 +38,14 @@ export const getProblemByIdValidator = () => {
     param("id")
       .trim()
       .notEmpty().withMessage("Problem id is required")
+  ]
+}
+
+export const updateProblemValidator = () => {
+  return [
+    param("id")
+      .trim()
+      .notEmpty().withMessage("Problem id is required"),
+    createProblemValidator()
   ]
 }

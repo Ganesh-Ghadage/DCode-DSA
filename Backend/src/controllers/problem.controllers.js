@@ -116,7 +116,86 @@ export const getProblemById = asyncHandler(async (req, res) => {
   }
 })
 
-export const updateProblem = asyncHandler(async (req, res) => {})
+export const updateProblem = asyncHandler(async (req, res) => {
+  const {title, description, difficulty, tags, examples, constraints, testcases, codeSnippets, referenceSolutions} = req.body
+  const { id } = req.params
+
+  try {
+    const problem = await db.problem.findUnique({
+      where: {
+        id
+      }
+    })
+
+    if(!problem) {
+      throw new ApiError(404, "Problem not found")
+    }
+
+    const exisitingTestcases = problem.testcases
+
+    const isTestCasesUpdated = !testcases.every((testcase, idx) => (
+      testcase.input === exisitingTestcases[idx].input && testcase.output === exisitingTestcases[idx].output
+    ))
+
+    for(const [language, solutionCode] of Object.entries(referenceSolutions)) {
+      if(problem.referenceSolutions[language] !== solutionCode || isTestCasesUpdated) {
+        console.log(`code changed for ${language} or testcases has changed executing with judge0`)
+        const languageId = getJudge0LangunageId(language)
+
+        if(!languageId) {
+          throw new ApiError(406, `langunage ${language} is not supported`)
+        }
+
+        const submissions = testcases.map(({input, output}) => ({
+          source_code: solutionCode,
+          language_id: languageId,
+          stdin: input,
+          expected_output: output
+        }))
+
+        const submissionResult = await submitBatch(submissions)
+
+        const tokens = submissionResult.map(res => res.token)
+        console.log(tokens)
+
+        const results = await pollbatchResults(tokens)
+
+        for(let i = 0; i < results.length; i++) {
+          const result = results[i]
+
+          if(result.status.id !== 3) {
+            throw new ApiError(400, `Testcase ${i+1} failed for langunage ${language}, status: ${result.status.description}`)
+          }
+        }
+      } 
+    }
+
+    const updatedProblem = await db.problem.update({
+      where: {
+        id
+      },
+      data: {
+        title, 
+        description, 
+        difficulty, 
+        tags, 
+        examples, 
+        constraints, 
+        testcases, 
+        codeSnippets, 
+        referenceSolutions,
+        userId: req.user.id
+      }
+    })
+
+    return res.status(200).json(new ApiResponce(200, updatedProblem, "Problem updated succesfully"))
+
+  } catch (error) {
+    console.error("Error while updating problem", error)
+
+    throw new ApiError(500, error?.message || "Error while updating problem", error)
+  }
+})
 
 export const deleteProblem = asyncHandler(async (req, res) => {})
 
