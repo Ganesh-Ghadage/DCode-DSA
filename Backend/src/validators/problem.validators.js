@@ -1,4 +1,4 @@
-import { body } from 'express-validator'
+import { body, param } from 'express-validator'
 
 export const createProblemValidator = () => {
   return [
@@ -30,5 +30,13 @@ export const createProblemValidator = () => {
     body("referenceSolutions")
       .isJSON()
       .notEmpty().withMessage("referenceSolutions are required"),
+  ]
+}
+
+export const getProblemByIdValidator = () => {
+  return [
+    param("id")
+      .trim()
+      .notEmpty().withMessage("Problem id is required")
   ]
 }

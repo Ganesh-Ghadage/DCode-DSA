@@ -93,7 +93,28 @@ export const getALLProblems = asyncHandler(async (req, res) => {
   }
 })
 
-export const getProblemById = asyncHandler(async (req, res) => {})
+export const getProblemById = asyncHandler(async (req, res) => {
+  const { id } = req.params
+
+  try {
+    const problem = await db.problem.findUnique({
+      where: {
+        id
+      }
+    })
+
+    if(!problem) {
+      throw new ApiError(404, "Problem not found")
+    }
+
+    return res.status(200).json(new ApiResponce(200, problem, "Problem fetched succesfully"))
+
+  } catch (error) {
+    console.error("Error while fetching problem", error)
+
+    throw new ApiError(500, error?.message || "Error while fetching problem", error)
+  }
+})
 
 export const updateProblem = asyncHandler(async (req, res) => {})
 
