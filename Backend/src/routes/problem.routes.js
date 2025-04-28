@@ -2,12 +2,12 @@ import express from 'express'
 import { authMiddleware } from '../middlewares/auth.middleware.js'
 import { checkAdmin } from '../middlewares/admin.middleware.js'
 import { createProblem, deleteProblem, getALLProblems, getALLProblemSolvedByUser, getProblemById, updateProblem } from '../controllers/problem.controllers.js'
-import { getProblemByIdValidator } from '../validators/problem.validators.js'
+import { createProblemValidator, getProblemByIdValidator } from '../validators/problem.validators.js'
 import validator from '../middlewares/validate.middleware.js'
 
 const problemRouter = express.Router()
 
-problemRouter.post("/create-problem", authMiddleware, checkAdmin, createProblem)
+problemRouter.post("/create-problem", authMiddleware, checkAdmin, createProblemValidator(), validator, createProblem)
 
 problemRouter.get("/get-all-problems", authMiddleware, getALLProblems)
 
