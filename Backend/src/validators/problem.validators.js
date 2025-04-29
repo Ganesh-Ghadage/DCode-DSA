@@ -1,6 +1,6 @@
 import { body, param } from 'express-validator'
 
-export const createProblemValidator = () => {
+export const problemFieldsValidator = () => {
   return [
     body("title")
       .trim()
@@ -33,7 +33,7 @@ export const createProblemValidator = () => {
   ]
 }
 
-export const getProblemByIdValidator = () => {
+export const problemIdValidator = () => {
   return [
     param("id")
       .trim()
@@ -41,11 +41,9 @@ export const getProblemByIdValidator = () => {
   ]
 }
 
-export const updateProblemValidator = () => {
+export const problemIdAndFieldValidator = () => {
   return [
-    param("id")
-      .trim()
-      .notEmpty().withMessage("Problem id is required"),
-    createProblemValidator()
+    problemIdValidator(),
+    problemFieldsValidator()
   ]
 }
