@@ -72,7 +72,7 @@ export const createProblem = asyncHandler(async (req, res) => {
   } catch (error) {
     console.error("Error while creating problem: ", error)
 
-    throw new ApiError(500, error?.message || "Error while creating problem: ", error)
+    throw new ApiError(error.statusCode || 500, error?.message || "Error while creating problem: ", error)
   }
 })
 
@@ -89,7 +89,7 @@ export const getALLProblems = asyncHandler(async (req, res) => {
   } catch (error) {
     console.error("Error while fetching problems", error)
 
-    throw new ApiError(500, error?.message || "Error while fetching problems", error)
+    throw new ApiError(error.statusCode || 500, error?.message || "Error while fetching problems", error)
   }
 })
 
@@ -112,7 +112,7 @@ export const getProblemById = asyncHandler(async (req, res) => {
   } catch (error) {
     console.error("Error while fetching problem", error)
 
-    throw new ApiError(500, error?.message || "Error while fetching problem", error)
+    throw new ApiError(error.statusCode || 500, error?.message || "Error while fetching problem", error)
   }
 })
 
@@ -193,7 +193,7 @@ export const updateProblem = asyncHandler(async (req, res) => {
   } catch (error) {
     console.error("Error while updating problem", error)
 
-    throw new ApiError(500, error?.message || "Error while updating problem", error)
+    throw new ApiError(error.statusCode || 500, error?.message || "Error while updating problem", error)
   }
 })
 

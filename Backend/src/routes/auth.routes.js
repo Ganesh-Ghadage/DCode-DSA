@@ -36,19 +36,19 @@ authRouter.get('/profile',
   getUserProfile
 )
 
-authRouter.get('/resend-verify-email',
+authRouter.post('/resend-verify-email',
   authMiddleware,
   resendVerificationMail
 )
 
-authRouter.get('/refresh-tokens',
+authRouter.post('/refresh-tokens',
   refreshAccessTokenValidator(),
   validate,
   authMiddleware,
   refreshAccessToken
 )
 
-authRouter.get('/forgot-password',
+authRouter.post('/forgot-password',
   forgotPasswordValidator(),
   validate,
   forgotPassword
@@ -60,7 +60,7 @@ authRouter.put('/change-password/:token',
   changePasswordViaToken
 )
 
-authRouter.patch('/update-password',
+authRouter.put('/update-password',
   updatePasswordValidator(),
   validate,
   updatePassword

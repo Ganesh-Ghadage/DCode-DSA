@@ -21,6 +21,6 @@ export const checkAdmin = asyncHandler(async (req, res, next) => {
     return next()
 
   } catch (error) {
-    throw new ApiError(502, error?.message || "Error checking admin role")
+    throw new ApiError(error?.statusCode || 502, error?.message || "Error checking admin role", error)
   }
 })

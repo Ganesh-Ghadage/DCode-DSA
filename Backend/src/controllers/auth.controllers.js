@@ -9,7 +9,6 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs'
 import { sendForgotPasswordMail, sendVerifyMail } from '../utils/mail.js'
 import { cookieOptions } from '../utils/constants.js'
-import e from 'express'
 
 const generateAccessAndRefreshToken = async (userId) => {
   if (!userId) {
@@ -169,7 +168,7 @@ export const registerUser = asyncHandler(async (req, res) => {
       })
     }
 
-    throw new ApiError(500, error?.message || "User Registration Failed", error)
+    throw new ApiError(error?.statusCode || 500, error?.message || "User Registration Failed", error)
   }
 
 })
@@ -215,7 +214,7 @@ export const loginUser = asyncHandler(async (req, res) => {
     .cookie("accessToken", accessToken, {...cookieOptions, maxAge: 1000*60*60*24*1})
     .cookie("refreshToken", refreshToken, {...cookieOptions, maxAge: 1000*60*60*24*10})
     .json(
-      new ApiResponce(201, loggedInUser, "User logged In successfull")
+      new ApiResponce(200, loggedInUser, "User logged In successfull")
     )
 
 })
@@ -293,7 +292,7 @@ export const logoutUser = asyncHandler(async (req, res) => {
 })
 
 export const getUserProfile = asyncHandler((req, res) => {
-  res.status(200).json(new ApiResponce(200, req?.user, "User profile fetched successfully"))
+  return res.status(200).json(new ApiResponce(200, req?.user, "User profile fetched successfully"))
 })
 
 export const resendVerificationMail = asyncHandler(async (req, res) => {
@@ -328,7 +327,7 @@ export const resendVerificationMail = asyncHandler(async (req, res) => {
   } catch (error) {
     console.log(error)
 
-    throw new ApiError(500, error?.message || "Verification mail sent failed")
+    throw new ApiError(error?.statusCode || 500, error?.message || "Verification mail sent failed")
   }
 })
 
@@ -371,7 +370,7 @@ export const refreshAccessToken = asyncHandler(async (req, res) => {
   } catch (error) {
     console.log(error)
 
-    throw new ApiError(500, "Something went worng, token are not generated", error)
+    throw new ApiError(error?.statusCode || 500, error?.message || "Something went worng, token are not generated", error)
   }
 
 })
@@ -421,7 +420,7 @@ export const forgotPassword = asyncHandler(async (req, res) => {
   } catch (error) {
     console.log(error)
 
-    throw new ApiError(500, error?.message || "Failed to generate forgot password link", error)
+    throw new ApiError(error?.statusCode || 500, error?.message || "Failed to generate forgot password link", error)
   }
 })
 
@@ -468,10 +467,11 @@ export const changePasswordViaToken = asyncHandler(async (req, res) => {
     return res
       .status(200)
       .json(new ApiResponce(200, updatedUser, "Password Changed successfully"))
+  
   } catch (error) {
     console.log(error)
 
-    throw new ApiError(500, error?.message || "Password update failed", error)
+    throw new ApiError(error?.statusCode || 500, error?.message || "Password update failed", error)
   }
 })
 
@@ -514,6 +514,6 @@ export const updatePassword = asyncHandler(async (req, res) => {
   } catch (error) {
     console.log(error)
 
-    throw new ApiError(500, error?.message || "Password update failed", error)
+    throw new ApiError(error?.statusCode || 500, error?.message || "Password update failed", error)
   }
 })

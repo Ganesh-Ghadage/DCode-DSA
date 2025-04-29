@@ -33,7 +33,7 @@ export const authMiddleware = asyncHandler(async (req, res, next) => {
     return next()
 
   } catch (error) {
-    throw new ApiError(400, error?.message || "Invalid Token")
+    throw new ApiError(error?.statusCode || 500, error?.message || "Error while authenticating user", error)
   }
 
 })
