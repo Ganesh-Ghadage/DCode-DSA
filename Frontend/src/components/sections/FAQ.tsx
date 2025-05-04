@@ -19,7 +19,7 @@ const faqItems: FAQItem[] = [
     id: 'faq-content-2',
     question: 'When does Dcode DSA launch?',
     answer:
-      "We're planning to launch in Q3 2023. Join our waitlist to be notified when we go live and get exclusive early access benefits. Early waitlist members will receive special discounts and premium features.",
+      "We're planning to launch soon. Join our waitlist to be notified when we go live and get exclusive early access benefits. Early waitlist members will receive special discounts and premium features.",
   },
   {
     id: 'faq-content-3',
@@ -31,7 +31,7 @@ const faqItems: FAQItem[] = [
     id: 'faq-content-4',
     question: 'What programming languages are supported?',
     answer:
-      "At launch, we'll support Python, Java, C++, and JavaScript. We plan to add more languages based on user feedback and demand. Our code editor provides syntax highlighting and auto-completion for all supported languages.",
+      "At launch, we'll support Python, Java, and JavaScript. We plan to add more languages based on user feedback and demand. Our code editor provides syntax highlighting and auto-completion for all supported languages.",
   },
   {
     id: 'faq-content-5',
