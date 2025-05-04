@@ -1,11 +1,12 @@
 import './App.css'
+import Hero from './components/Hero'
 
 function App() {
 
   return (
-    <>
-      <h1>DCode DSA</h1>
-    </>
+    <div className='w-full h-screen'>
+      <Hero />
+    </div>
   )
 }
 
