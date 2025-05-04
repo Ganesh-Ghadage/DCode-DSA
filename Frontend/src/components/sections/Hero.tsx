@@ -82,16 +82,22 @@ const Hero: React.FC = () => {
 
   return (
     <section className="bg-neutral-900 text-white relative overflow-hidden">
-      <div className='flex flex-col justify-center items-center gap-6 relative bg-[url(/dcodedsa_bg.webp)] bg-center -z-0 bg-no-repeat bg-cover h-[600px] w-full'>
-        <div className='bg-black opacity-40 absolute inset-0 h-[600px] w-full -z-10'></div>
-          <SparklesText className='text-9xl'>Decode DSA</SparklesText>
-          <TextAnimate className='text-5xl font-semibold' animation="blurInUp" by="character" once>
-            Decode your DSA Skills
-          </TextAnimate>
-          <div className="absolute top-50 right-90 bg-blue-600 text-white py-2 px-4 rounded-lg transform rotate-6">
-            <span className="text-sm font-medium">Launching Soon</span>
-          </div>
+      <div className="flex flex-col justify-center items-center gap-6 p-5 relative bg-[url('/dcodedsa_bg.webp')] bg-center bg-no-repeat bg-cover h-[600px] w-full">
+        <div className="bg-black opacity-40 absolute inset-0 h-[600px] w-full -z-10"></div>
+
+        <SparklesText className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl">
+          Decode DSA
+        </SparklesText>
+
+        <TextAnimate className="text-3xl sm:text-4xl md:text-5xl font-semibold text-wrap" animation="blurInUp" by="word" once>
+          Decode your DSA Skills
+        </TextAnimate>
+
+        <div className="absolute top-70 sm:top-60 md:top-52 lg:top-50 right-10 sm:right-12 md:right-16 lg:right-35 xl:right-100 bg-blue-600 text-white py-2 px-4 rounded-lg transform rotate-6">
+          <span className="text-xs sm:text-sm font-medium">Launching Soon</span>
+        </div>
       </div>
+
       
       <div className="container mx-auto py-10 px-20 relative z-10">
         <div className="flex flex-col md:flex-row items-center justify-around">
