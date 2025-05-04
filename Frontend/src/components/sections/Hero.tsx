@@ -1,12 +1,16 @@
 import { useEffect, useRef, useState } from 'react';
 import { SparklesText } from '../magicui/sparkles-text';
 import { TextAnimate } from '../magicui/text-animate';
+import { useForm } from '@formspree/react';
+import Notification from '../comps/Notification';
 
 const Hero: React.FC = () => {
   const [isModalOpen, setModalOpen] = useState(false);
   const [lastFocusedElement, setLastFocusedElement] = useState<HTMLElement | null>(null);
   const modalRef = useRef<HTMLDivElement>(null);
   const modalContentRef = useRef<HTMLDivElement>(null);
+  const [state, submitForm, _ ] = useForm("xanoegoy");
+  const [showNotification, setShowNotification] = useState(false);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -66,9 +70,13 @@ const Hero: React.FC = () => {
     lastFocusedElement?.focus();
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    alert("Thanks for joining our waitlist! We'll notify you when we launch.");
+    await submitForm(e)
+    if (state.succeeded) {
+      setShowNotification(true);
+      setTimeout(() => setShowNotification(false), 5500);
+    }
     closeModal();
   };
 
@@ -188,11 +196,15 @@ const Hero: React.FC = () => {
                 type="submit"
                 className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-6 rounded-lg transition-all duration-300"
               >
-                Join Waitlist
+                {state.submitting ? 'Submitting...' : 'Join Waitlist'}
               </button>
             </form>
           </div>
         </div>
+      )}
+
+      {showNotification && (
+        <Notification />
       )}
     </section>
   );
