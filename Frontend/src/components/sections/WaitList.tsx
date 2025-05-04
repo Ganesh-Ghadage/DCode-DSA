@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { useForm } from '@formspree/react';
 
 const WaitList = () => {
   const [countdown, setCountdown] = useState({
@@ -10,6 +11,7 @@ const WaitList = () => {
 
   const [showNotification, setShowNotification] = useState(false);
   const emailRef = useRef<HTMLInputElement>(null);
+  const [state, submitForm, _ ] = useForm("xanoegoy");
 
   useEffect(() => {
     const countdownDate = new Date();
@@ -37,11 +39,15 @@ const WaitList = () => {
     return () => clearInterval(interval);
   }, []);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (emailRef.current) emailRef.current.value = '';
-    setShowNotification(true);
-    setTimeout(() => setShowNotification(false), 5500);
+
+    await submitForm(e)
+    if (state.succeeded) {
+      if (emailRef.current) emailRef.current.value = '';
+      setShowNotification(true);
+      setTimeout(() => setShowNotification(false), 5500);
+    }
   };
 
   return (
@@ -91,6 +97,8 @@ const WaitList = () => {
             <form onSubmit={handleSubmit} className="flex flex-col md:flex-row gap-4">
               <input
                 type="email"
+                id="email"
+                name="email"
                 ref={emailRef}
                 placeholder="Enter your email address"
                 className="flex-grow px-4 py-3 rounded-lg bg-white/10 border border-white/30 text-white placeholder-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-400"
@@ -99,6 +107,7 @@ const WaitList = () => {
               <button
                 type="submit"
                 className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-6 rounded-lg transition-all duration-300 transform hover:scale-105"
+                disabled={state.submitting}
               >
                 Join Waitlist
               </button>
