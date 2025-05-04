@@ -1,5 +1,7 @@
 import { Github, Linkedin, TwitterIcon } from 'lucide-react';
 import React, { useState } from 'react';
+import { useForm } from '@formspree/react';
+import Notification from '../comps/Notification';
 
 interface FooterNavLink {
   label: string;
@@ -14,16 +16,22 @@ const footerNavLinks: FooterNavLink[] = [
 ];
 
 const Footer: React.FC = () => {
-  const [isSubscribed, setIsSubscribed] = useState<boolean>(false);
+  const [emailValue, setEmailValue] = useState('')
+  const [state, submitForm, _ ] = useForm("xanoegoy", {
+    data: {
+      subject: 'Someone joined the newsletter',
+    }
+  });
+  const [showNotification, setShowNotification] = useState(false);
 
-  const handleNewsletterSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setIsSubscribed(true);
-
-    // Simulate form submission (you can replace this with an actual API call)
-    setTimeout(() => {
-      setIsSubscribed(false);
-    }, 5000);
+    await submitForm(e)
+    setEmailValue('')
+    if (state.succeeded) {
+      setShowNotification(true);
+      setTimeout(() => setShowNotification(false), 5500);
+    }
   };
 
   return (
@@ -119,18 +127,23 @@ const Footer: React.FC = () => {
             <p className="text-gray-400 mb-4">
               Subscribe to our newsletter for the latest updates and features.
             </p>
-            <form id="newsletter-form" className="flex flex-col sm:flex-row gap-2" onSubmit={handleNewsletterSubmit}>
+            <form id="newsletter-form" className="flex flex-col sm:flex-row gap-2" onSubmit={handleSubmit}>
               <input
                 type="email"
+                id='email'
+                name='email'
+                value={emailValue}
+                onChange={e => setEmailValue(e.target.value)}
                 placeholder="Your email"
                 className="px-4 py-2 bg-neutral-800 border border-neutral-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-white"
                 required
               />
               <button
                 type="submit"
-                className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-300"
+                className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-300 cursor-pointer"
+                disabled={state.submitting}
               >
-                Subscribe
+                {state.submitting ? 'Submitting...' : 'Subscribe'}
               </button>
             </form>
           </div>
@@ -156,18 +169,8 @@ const Footer: React.FC = () => {
       </div>
 
       {/* Newsletter Success Notification */}
-      {isSubscribed && (
-        <div
-          id="newsletter-success"
-          className="fixed bottom-4 right-4 bg-green-600 text-white px-6 py-3 rounded-lg shadow-lg transform translate-y-20 opacity-0 transition-all duration-500 z-50"
-        >
-          <div className="flex items-center">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
-            </svg>
-            <span>Thanks for subscribing!</span>
-          </div>
-        </div>
+      {showNotification && (
+        <Notification message="Thanks for subscribing!" />
       )}
     </footer>
   );

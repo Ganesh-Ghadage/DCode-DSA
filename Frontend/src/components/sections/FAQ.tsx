@@ -1,4 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
+import { useForm } from '@formspree/react';
+import Notification from '../comps/Notification';
 
 interface FAQItem {
   id: string;
@@ -44,6 +46,8 @@ export default function FAQ() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const modalRef = useRef<HTMLDivElement>(null);
   const previouslyFocused = useRef<HTMLElement | null>(null);
+  const [state, submitForm, _ ] = useForm("xanoegoy");
+  const [showNotification, setShowNotification] = useState(false);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -71,6 +75,16 @@ export default function FAQ() {
   const closeModal = () => {
     setIsModalOpen(false);
     previouslyFocused.current?.focus();
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    await submitForm(e)
+    if (state.succeeded) {
+      setShowNotification(true);
+      setTimeout(() => setShowNotification(false), 5500);
+    }
+    closeModal();
   };
 
   return (
@@ -170,14 +184,14 @@ export default function FAQ() {
               <h2 className="text-2xl font-bold mb-4">Contact Us</h2>
               <p className="text-gray-600 mb-6">Have a question or need assistance? Send us a message and we'll get back to you as soon as possible.</p>
 
-              <form className="space-y-4">
+              <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
                   <label htmlFor="contact-name" className="block text-sm font-medium text-gray-700 mb-1">Name</label>
                   <input
                     type="text"
                     id="contact-name"
                     name="name"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-2 text-gray-900 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     required
                   />
                 </div>
@@ -187,7 +201,7 @@ export default function FAQ() {
                     type="email"
                     id="contact-email"
                     name="email"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-2 text-gray-900 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     required
                   />
                 </div>
@@ -197,19 +211,24 @@ export default function FAQ() {
                     id="contact-message"
                     name="message"
                     rows={4}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-2 text-gray-900 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     required
                   ></textarea>
                 </div>
                 <button
                   type="submit"
                   className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-6 rounded-lg transition-all duration-300"
+                  disabled={state.submitting}
                 >
-                  Send Message
+                  {state.submitting ? 'Submitting...' : 'Send Message'}
                 </button>
               </form>
             </div>
           </div>
+        )}
+
+        {showNotification && (
+          <Notification message="Thanks for query, We will get back to you soon!" />
         )}
       </div>
     </section>

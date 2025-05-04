@@ -195,6 +195,7 @@ const Hero: React.FC = () => {
               <button
                 type="submit"
                 className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-6 rounded-lg transition-all duration-300"
+                disabled={state.submitting}
               >
                 {state.submitting ? 'Submitting...' : 'Join Waitlist'}
               </button>
@@ -204,7 +205,7 @@ const Hero: React.FC = () => {
       )}
 
       {showNotification && (
-        <Notification />
+        <Notification message="You've been added to our waitlist!" />
       )}
     </section>
   );
