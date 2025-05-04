@@ -17,7 +17,7 @@ const footerNavLinks: FooterNavLink[] = [
 
 const Footer: React.FC = () => {
   const [emailValue, setEmailValue] = useState('')
-  const [state, submitForm, _ ] = useForm("xanoegoy", {
+  const [state, submitForm, _ ] = useForm(import.meta.env.VITE_FORMSPREE_HASHID, {
     data: {
       subject: 'Someone joined the newsletter',
     }

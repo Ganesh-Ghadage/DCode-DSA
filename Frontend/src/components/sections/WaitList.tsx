@@ -12,7 +12,7 @@ const WaitList = () => {
 
   const [showNotification, setShowNotification] = useState(false);
   const emailRef = useRef<HTMLInputElement>(null);
-  const [state, submitForm, _ ] = useForm("xanoegoy");
+  const [state, submitForm, _ ] = useForm(import.meta.env.VITE_FORMSPREE_HASHID);
 
   useEffect(() => {
     const countdownDate = new Date();

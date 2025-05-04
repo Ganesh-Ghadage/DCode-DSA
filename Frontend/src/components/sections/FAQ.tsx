@@ -46,7 +46,7 @@ export default function FAQ() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const modalRef = useRef<HTMLDivElement>(null);
   const previouslyFocused = useRef<HTMLElement | null>(null);
-  const [state, submitForm, _ ] = useForm("xanoegoy");
+  const [state, submitForm, _ ] = useForm(import.meta.env.VITE_FORMSPREE_HASHID);
   const [showNotification, setShowNotification] = useState(false);
 
   useEffect(() => {

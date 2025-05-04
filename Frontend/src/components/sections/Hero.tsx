@@ -9,7 +9,7 @@ const Hero: React.FC = () => {
   const [lastFocusedElement, setLastFocusedElement] = useState<HTMLElement | null>(null);
   const modalRef = useRef<HTMLDivElement>(null);
   const modalContentRef = useRef<HTMLDivElement>(null);
-  const [state, submitForm, _ ] = useForm("xanoegoy");
+  const [state, submitForm, _ ] = useForm(import.meta.env.VITE_FORMSPREE_HASHID);
   const [showNotification, setShowNotification] = useState(false);
 
   useEffect(() => {
