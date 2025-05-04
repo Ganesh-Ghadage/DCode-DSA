@@ -1,6 +1,6 @@
 import React from 'react'
-import { SparklesText } from './magicui/sparkles-text'
-import { TextAnimate } from './magicui/text-animate'
+import { SparklesText } from '../magicui/sparkles-text'
+import { TextAnimate } from '../magicui/text-animate'
 
 function Hero() {
   return (
