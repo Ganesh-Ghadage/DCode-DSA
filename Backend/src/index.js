@@ -7,6 +7,7 @@ import errorHandler from './middlewares/errors.middleware.js'
 import healthCheckRouter from './routes/healthCheck.routes.js'
 import authRouter from './routes/auth.routes.js'
 import problemRouter from './routes/problem.routes.js'
+import executeCodeRouter from './routes/executeCode.routes.js'
 
 dotenv.config()
 
@@ -21,6 +22,7 @@ app.use(cookieParser())
 app.use('/api/v1/health-check', healthCheckRouter)
 app.use('/api/v1/auth', authRouter)
 app.use('/api/v1/problems', problemRouter)
+app.use('/api/v1/execute-code', executeCodeRouter)
 
 app.use(errorHandler)
 
