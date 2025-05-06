@@ -201,4 +201,52 @@ export const deletePlaylist = asyncHandler(async (req, res) => {
 	}
 });
 
-export const removeProblemFromPlaylist = asyncHandler(async (req, res) => {});
+export const removeProblemFromPlaylist = asyncHandler(async (req, res) => {
+	const { playlistId } = req.params;
+	const { problemIds } = req.body;
+
+	try {
+		const exisitingPlaylist = await db.Playlist.findUnique({
+			where: {
+				id: playlistId,
+			},
+		});
+
+		if (!exisitingPlaylist) {
+			throw new ApiError(404, "Playlist not found");
+		}
+
+		if (exisitingPlaylist.userId !== req.user.id) {
+			throw new ApiError(
+				403,
+				"You are not allowed to remove problems from this playlist"
+			);
+		}
+
+		const deletedProblems = await db.ProblemInPlaylist.deleteMany({
+			where: {
+				playlistId,
+				problemId: {
+					in: problemIds,
+				},
+			},
+		});
+
+		return res
+			.status(200)
+			.json(
+				new ApiResponce(
+					200,
+					deletedProblems,
+					"Problem removed successfully from playlist"
+				)
+			);
+	} catch (error) {
+		console.error("Error While removing problem from playlist", error);
+		throw new ApiError(
+			error.statusCode || 500,
+			error?.message || "Error While removing problem from playlist",
+			error
+		);
+	}
+});

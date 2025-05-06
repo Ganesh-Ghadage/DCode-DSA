@@ -50,6 +50,8 @@ playlistRouter.delete(
 playlistRouter.delete(
 	"/:playlistId/remove-problem",
 	authMiddleware,
+  playlistProblemsValidator(),
+  validator,
 	removeProblemFromPlaylist
 );
 
