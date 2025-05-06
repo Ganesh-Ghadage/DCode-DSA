@@ -23,6 +23,30 @@ export const getAllSubmission = asyncHandler(async (req, res) => {
 		);
 });
 
-export const getSubmissionForProblem = asyncHandler(async (req, res) => {});
+export const getSubmissionForProblem = asyncHandler(async (req, res) => {
+	const userId = req.user.id;
+	const { problemId } = req.params;
+
+	const submissions = await db.Submission.findMany({
+		where: {
+			userId,
+			problemId,
+		},
+	});
+
+	if (!submissions) {
+		throw new ApiError(400, "Submissions not found the problem");
+	}
+
+	res
+		.status(200)
+		.json(
+			new ApiResponce(
+				200,
+				submissions,
+				"All submissions fetched successfully for problem"
+			)
+		);
+});
 
 export const getSubmissionAllForProblem = asyncHandler(async (req, res) => {});
