@@ -217,7 +217,7 @@ export const deleteProblem = asyncHandler(async (req, res) => {
       }
     })
 
-    return res.status(200).json(new ApiResponce(200, deleteProblem, "Problem deleted successfully"))
+    return res.status(200).json(new ApiResponce(200, deletedProblem, "Problem deleted successfully"))
 
   } catch (error) {
     console.error("Error While deleting Problem", error)
