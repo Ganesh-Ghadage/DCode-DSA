@@ -8,7 +8,7 @@ import {
 	getPlaylistDetails,
 	removeProblemFromPlaylist,
 } from "../controllers/playlist.controllers.js";
-import { createPlaylistValidator, playlistIdPramaValidator } from "../validators/playlist.validators.js";
+import { createPlaylistValidator, playlistIdPramaValidator, playlistProblemsValidator } from "../validators/playlist.validators.js";
 import validator from "../middlewares/validate.middleware.js";
 
 const playlistRouter = express.Router();
@@ -32,7 +32,9 @@ playlistRouter.post(
 );
 
 playlistRouter.post(
-	"/:playlistId/add-problem",
+	"/:playlistId/add-problems",
+  playlistProblemsValidator(),
+  validator,
 	authMiddleware,
 	addProblemToPlaylist
 );

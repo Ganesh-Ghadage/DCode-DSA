@@ -70,7 +70,6 @@ export const getAllPlaylistDetails = asyncHandler(async (req, res) => {
 		return res
 			.status(200)
 			.json(new ApiResponce(200, playlists, "Playlists fetched successfully"));
-
 	} catch (error) {
 		console.error("Error While fetching playlists", error);
 		throw new ApiError(
@@ -82,13 +81,13 @@ export const getAllPlaylistDetails = asyncHandler(async (req, res) => {
 });
 
 export const getPlaylistDetails = asyncHandler(async (req, res) => {
-  const { playlistId } = req.params;
+	const { playlistId } = req.params;
 
-  try {
+	try {
 		const playlist = await db.Playlist.findUnique({
 			where: {
 				userId: req.user.id,
-        id: playlistId
+				id: playlistId,
 			},
 			include: {
 				problems: {
@@ -106,7 +105,6 @@ export const getPlaylistDetails = asyncHandler(async (req, res) => {
 		return res
 			.status(200)
 			.json(new ApiResponce(200, playlist, "Playlist fetched successfully"));
-      
 	} catch (error) {
 		console.error("Error While fetching playlist", error);
 		throw new ApiError(
@@ -115,10 +113,54 @@ export const getPlaylistDetails = asyncHandler(async (req, res) => {
 			error
 		);
 	}
-})
+});
 
-export const addProblemToPlaylist = asyncHandler(async (req, res) => {})
+export const addProblemToPlaylist = asyncHandler(async (req, res) => {
+	const { playlistId } = req.params;
+	const { problemIds } = req.body;
 
-export const deletePlaylist = asyncHandler(async (req, res) => {})
+	try {
+		const playlistProblems = [];
 
-export const removeProblemFromPlaylist = asyncHandler(async (req, res) => {})
+		for (let i = 0; i < problemIds.length; i++) {
+			const problemId = problemIds[i];
+
+			const addedProblem = await db.ProblemInPlaylist.upsert({
+				where: {
+					playlistId_problemId: {
+						problemId,
+						playlistId,
+					},
+				},
+				update: {},
+				create: {
+					playlistId,
+					problemId,
+				},
+			});
+
+			playlistProblems.push(addedProblem);
+		}
+
+		return res
+			.status(201)
+			.json(
+				new ApiResponce(
+					201,
+					playlistProblems,
+					"Problem added in playlist successfully"
+				)
+			);
+	} catch (error) {
+		console.error("Error While adding problems in playlist", error);
+		throw new ApiError(
+			error.statusCode || 500,
+			error?.message || "Error While adding problems in playlist",
+			error
+		);
+	}
+});
+
+export const deletePlaylist = asyncHandler(async (req, res) => {});
+
+export const removeProblemFromPlaylist = asyncHandler(async (req, res) => {});

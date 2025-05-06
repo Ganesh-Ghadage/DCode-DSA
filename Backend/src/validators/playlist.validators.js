@@ -19,3 +19,14 @@ export const playlistIdPramaValidator = () => {
       .isUUID().withMessage("Invalid Playlist Id")
   ]
 }
+
+export const playlistProblemsValidator = () => {
+  return [
+    playlistIdPramaValidator(),
+    body("problemIds")
+      .trim()
+      .notEmpty().withMessage("ProblemIds are required")
+      .isArray().withMessage("ProblemIds should be an array")
+      .isArray({min: 1}).withMessage("ProblemIds array should contain at least 1 value")
+  ]
+}
