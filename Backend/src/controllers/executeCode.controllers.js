@@ -72,7 +72,7 @@ export const executeCode = asyncHandler(async (req, res) => {
 		data: {
 			userId,
 			problemId,
-			sourceCode: JSON.stringify({ [language]: source_code }),
+			sourceCode: { [language]: source_code },
 			language,
 			stdin: stdin.join("\n"),
 			stdout: JSON.stringify(detailedResult.map((r) => r.stdout)),
