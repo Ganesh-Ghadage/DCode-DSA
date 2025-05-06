@@ -9,6 +9,7 @@ import authRouter from './routes/auth.routes.js'
 import problemRouter from './routes/problem.routes.js'
 import executeCodeRouter from './routes/executeCode.routes.js'
 import submissionRouter from './routes/submission.routes.js'
+import playlistRouter from './routes/playlist.routes.js'
 
 dotenv.config()
 
@@ -25,6 +26,7 @@ app.use('/api/v1/auth', authRouter)
 app.use('/api/v1/problems', problemRouter)
 app.use('/api/v1/execute-code', executeCodeRouter)
 app.use('/api/v1/submissions', submissionRouter)
+app.use('/api/v1/playlist', playlistRouter)
 
 app.use(errorHandler)
 
