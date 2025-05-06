@@ -8,7 +8,7 @@ export const authMiddleware = asyncHandler(async (req, res, next) => {
   const accessToken = req.cookies.accessToken
 
   if(!accessToken) {
-    throw new ApiError(404, "User is not authenticated")
+    throw new ApiError(401, "User is not authenticated")
   }
 
   try {
@@ -25,7 +25,7 @@ export const authMiddleware = asyncHandler(async (req, res, next) => {
     })
   
     if(!user) {
-      throw new ApiError(404, "Invalid access token")
+      throw new ApiError(401, "Invalid access token")
     }
   
     req.user = user
