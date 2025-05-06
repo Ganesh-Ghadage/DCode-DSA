@@ -161,6 +161,44 @@ export const addProblemToPlaylist = asyncHandler(async (req, res) => {
 	}
 });
 
-export const deletePlaylist = asyncHandler(async (req, res) => {});
+export const deletePlaylist = asyncHandler(async (req, res) => {
+	const { playlistId } = req.params;
+
+	try {
+		const exisitingPlaylist = await db.Playlist.findUnique({
+			where: {
+				id: playlistId,
+			},
+		});
+
+		if (!exisitingPlaylist) {
+			throw new ApiError(404, "Playlist not found or already deleted");
+		}
+
+		if (exisitingPlaylist.userId !== req.user.id) {
+			throw new ApiError(403, "You are not allowed to delete this playlist");
+		}
+
+		const deletedPlaylist = await db.Playlist.delete({
+			where: {
+				id: playlistId,
+				userId: req.user.id,
+			},
+		});
+
+		return res
+			.status(200)
+			.json(
+				new ApiResponce(200, deletedPlaylist, "Playlist deleted successfully")
+			);
+	} catch (error) {
+		console.error("Error While deleting playlist", error);
+		throw new ApiError(
+			error.statusCode || 500,
+			error?.message || "Error While deleting playlist",
+			error
+		);
+	}
+});
 
 export const removeProblemFromPlaylist = asyncHandler(async (req, res) => {});

@@ -39,7 +39,13 @@ playlistRouter.post(
 	addProblemToPlaylist
 );
 
-playlistRouter.delete("/:playlistId", authMiddleware, deletePlaylist);
+playlistRouter.delete(
+  "/:playlistId", 
+  playlistIdPramaValidator(),
+  validator,
+  authMiddleware, 
+  deletePlaylist
+);
 
 playlistRouter.delete(
 	"/:playlistId/remove-problem",
