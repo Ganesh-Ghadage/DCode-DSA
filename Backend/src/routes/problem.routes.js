@@ -17,6 +17,6 @@ problemRouter.put("/update-problem/:id", authMiddleware, checkAdmin, problemIdAn
 
 problemRouter.delete("/delete-problem/:id", authMiddleware, checkAdmin, problemIdValidator(), validator, deleteProblem)
 
-problemRouter.get("get-solved-problems", authMiddleware, getALLProblemSolvedByUser)
+problemRouter.get("/get-solved-problems", authMiddleware, getALLProblemSolvedByUser)
 
 export default problemRouter
