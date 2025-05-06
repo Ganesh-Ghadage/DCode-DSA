@@ -48,7 +48,38 @@ export const createPlaylist = asyncHandler(async (req, res) => {
 	}
 });
 
-export const getAllPlaylistDetails = asyncHandler(async (req, res) => {})
+export const getAllPlaylistDetails = asyncHandler(async (req, res) => {
+	try {
+		const playlists = await db.Playlist.findMany({
+			where: {
+				userId: req.user.id,
+			},
+			include: {
+				problems: {
+					include: {
+						problem: true,
+					},
+				},
+			},
+		});
+
+		if (!playlists) {
+			throw new ApiError(401, "No playlist found for user");
+		}
+
+		return res
+			.status(200)
+			.json(new ApiResponce(200, playlists, "Playlists fetched successfully"));
+      
+	} catch (error) {
+		console.error("Error While fetching playlists", error);
+		throw new ApiError(
+			error.statusCode || 500,
+			error?.message || "Error While fetching playlists",
+			error
+		);
+	}
+});
 
 export const getPlaylistDetails = asyncHandler(async (req, res) => {})
 
