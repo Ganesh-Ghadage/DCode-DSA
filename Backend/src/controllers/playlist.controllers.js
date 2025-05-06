@@ -120,6 +120,23 @@ export const addProblemToPlaylist = asyncHandler(async (req, res) => {
 	const { problemIds } = req.body;
 
 	try {
+    const exisitingPlaylist = await db.Playlist.findUnique({
+			where: {
+				id: playlistId,
+			},
+		});
+
+		if (!exisitingPlaylist) {
+			throw new ApiError(404, "Playlist not found");
+		}
+
+		if (exisitingPlaylist.userId !== req.user.id) {
+			throw new ApiError(
+				403,
+				"You are not allowed to add problems into this playlist"
+			);
+		}
+
 		const playlistProblems = [];
 
 		for (let i = 0; i < problemIds.length; i++) {
