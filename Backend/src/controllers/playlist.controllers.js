@@ -70,7 +70,7 @@ export const getAllPlaylistDetails = asyncHandler(async (req, res) => {
 		return res
 			.status(200)
 			.json(new ApiResponce(200, playlists, "Playlists fetched successfully"));
-      
+
 	} catch (error) {
 		console.error("Error While fetching playlists", error);
 		throw new ApiError(
@@ -81,7 +81,41 @@ export const getAllPlaylistDetails = asyncHandler(async (req, res) => {
 	}
 });
 
-export const getPlaylistDetails = asyncHandler(async (req, res) => {})
+export const getPlaylistDetails = asyncHandler(async (req, res) => {
+  const { playlistId } = req.params;
+
+  try {
+		const playlist = await db.Playlist.findUnique({
+			where: {
+				userId: req.user.id,
+        id: playlistId
+			},
+			include: {
+				problems: {
+					include: {
+						problem: true,
+					},
+				},
+			},
+		});
+
+		if (!playlist) {
+			throw new ApiError(401, "No playlist found for user");
+		}
+
+		return res
+			.status(200)
+			.json(new ApiResponce(200, playlist, "Playlist fetched successfully"));
+      
+	} catch (error) {
+		console.error("Error While fetching playlist", error);
+		throw new ApiError(
+			error.statusCode || 500,
+			error?.message || "Error While fetching playlist",
+			error
+		);
+	}
+})
 
 export const addProblemToPlaylist = asyncHandler(async (req, res) => {})
 
