@@ -120,7 +120,7 @@ export const addProblemToPlaylist = asyncHandler(async (req, res) => {
 	const { problemIds } = req.body;
 
 	try {
-    const exisitingPlaylist = await db.Playlist.findUnique({
+		const exisitingPlaylist = await db.Playlist.findUnique({
 			where: {
 				id: playlistId,
 			},
@@ -263,6 +263,52 @@ export const removeProblemFromPlaylist = asyncHandler(async (req, res) => {
 		throw new ApiError(
 			error.statusCode || 500,
 			error?.message || "Error While removing problem from playlist",
+			error
+		);
+	}
+});
+
+export const updatePlaylist = asyncHandler(async (req, res) => {
+	const { playlistId } = req.params;
+	const { name, description } = req.body;
+	const userId = req.user.id;
+
+	try {
+		const exisitingPlaylist = await db.Playlist.findUnique({
+			where: {
+				id: playlistId,
+			},
+		});
+
+		if (!exisitingPlaylist) {
+			throw new ApiError(404, "Playlist not found");
+		}
+
+		if (exisitingPlaylist.userId !== userId) {
+			throw new ApiError(403, "You are not allowed to update this playlist");
+		}
+
+		const updatedPlaylist = await db.Playlist.update({
+			where: {
+				id: playlistId,
+				userId,
+			},
+			data: {
+				name,
+				description,
+			},
+		});
+
+		return res
+			.status(200)
+			.json(
+				new ApiResponce(200, updatedPlaylist, "Playlist updated successfully")
+			);
+	} catch (error) {
+		console.error("Error While updating playlist", error);
+		throw new ApiError(
+			error.statusCode || 500,
+			error?.message || "Error While updatin playlist",
 			error
 		);
 	}

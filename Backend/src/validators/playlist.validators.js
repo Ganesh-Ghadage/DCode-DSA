@@ -30,3 +30,10 @@ export const playlistProblemsValidator = () => {
       .isArray({min: 1}).withMessage("ProblemIds array should contain at least 1 value")
   ]
 }
+
+export const updatedPlaylistValidator = () => {
+  return [
+    playlistIdPramaValidator(),
+    createPlaylistValidator()
+  ]
+}
