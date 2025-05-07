@@ -23,8 +23,11 @@ import {
 	verifyUser,
 } from "../controllers/auth.controllers.js";
 import { authMiddleware } from "../middlewares/auth.middleware.js";
+import { apiRateLimiter } from "../utils/rateLimiter.js";
 
 const authRouter = express.Router();
+
+const authLimit = apiRateLimiter(5, 10);
 
 /**
  * @swagger
@@ -54,6 +57,7 @@ const authRouter = express.Router();
  */
 authRouter.post(
 	"/register",
+	authLimit,
 	upload.single("image"),
 	userRegistrationValidator(),
 	validate,
@@ -70,7 +74,7 @@ authRouter.post(
  *       200:
  *         description: Login successful
  */
-authRouter.post("/login", userLoginValidator(), validate, loginUser);
+authRouter.post("/login", authLimit, userLoginValidator(), validate, loginUser);
 
 /**
  * @swagger

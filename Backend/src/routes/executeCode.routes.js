@@ -3,8 +3,11 @@ import { executeCode } from "../controllers/executeCode.controllers.js";
 import { authMiddleware } from "../middlewares/auth.middleware.js";
 import { executeCodeValidator } from "../validators/executeCode.validators.js";
 import validator from "../middlewares/validate.middleware.js";
+import { apiRateLimiter } from "../utils/rateLimiter.js";
 
 const executeCodeRouter = express.Router();
+
+const executionLimit = apiRateLimiter(1, 1)
 
 /**
  * @swagger
@@ -126,6 +129,7 @@ const executeCodeRouter = express.Router();
  */
 executeCodeRouter.post(
 	"/",
+	executionLimit,
 	authMiddleware,
 	executeCodeValidator(),
 	validator,
