@@ -210,6 +210,24 @@ exports.Prisma.ProblemInPlaylistScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.SheetScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  company: 'company',
+  description: 'description',
+  userId: 'userId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ProblemInSheetScalarFieldEnum = {
+  id: 'id',
+  problemId: 'problemId',
+  sheetId: 'sheetId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -252,7 +270,9 @@ exports.Prisma.ModelName = {
   TestCaseResult: 'TestCaseResult',
   ProblemSolved: 'ProblemSolved',
   Playlist: 'Playlist',
-  ProblemInPlaylist: 'ProblemInPlaylist'
+  ProblemInPlaylist: 'ProblemInPlaylist',
+  Sheet: 'Sheet',
+  ProblemInSheet: 'ProblemInSheet'
 };
 
 /**
