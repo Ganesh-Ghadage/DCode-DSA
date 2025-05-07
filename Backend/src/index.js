@@ -10,6 +10,7 @@ import problemRouter from './routes/problem.routes.js'
 import executeCodeRouter from './routes/executeCode.routes.js'
 import submissionRouter from './routes/submission.routes.js'
 import playlistRouter from './routes/playlist.routes.js'
+import sheetRouter from './routes/sheet.routes.js'
 
 import { swaggerSpec, swaggerUi } from './swaggerConfi.js'
 
@@ -31,6 +32,7 @@ app.use('/api/v1/problems', problemRouter)
 app.use('/api/v1/execute-code', executeCodeRouter)
 app.use('/api/v1/submissions', submissionRouter)
 app.use('/api/v1/playlist', playlistRouter)
+app.use('/api/v1/sheet', sheetRouter)
 
 app.use(errorHandler)
 
