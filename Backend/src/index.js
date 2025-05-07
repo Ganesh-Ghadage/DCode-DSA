@@ -11,6 +11,8 @@ import executeCodeRouter from './routes/executeCode.routes.js'
 import submissionRouter from './routes/submission.routes.js'
 import playlistRouter from './routes/playlist.routes.js'
 
+import { swaggerSpec, swaggerUi } from './swaggerConfi.js'
+
 dotenv.config()
 
 const app = express()
@@ -20,6 +22,8 @@ const PORT = process.env.PORT || 8000
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 app.use(cookieParser())
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec))
 
 app.use('/api/v1/health-check', healthCheckRouter)
 app.use('/api/v1/auth', authRouter)
