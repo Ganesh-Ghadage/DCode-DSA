@@ -15,7 +15,7 @@ const executeCodeRouter = express.Router();
 
 /**
  * @swagger
- * /execute:
+ * /api/v1/execute-code:
  *   post:
  *     summary: Execute user code and test against multiple test cases
  *     tags: [ExecuteCode]
