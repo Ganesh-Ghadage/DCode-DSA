@@ -35,8 +35,8 @@ const options = {
 				description: "Problem Management APIs",
 			},
 			{
-				name: "Submission",
-				description: "Code submission route",
+				name: "Submissions",
+				description: "API for handling code submissions",
 			},
 		],
 		components: {
