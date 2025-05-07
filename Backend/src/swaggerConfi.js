@@ -31,8 +31,8 @@ const options = {
 				description: "Playlist management route",
 			},
 			{
-				name: "Problem",
-				description: "Problem management route",
+				name: "Problems",
+				description: "Problem Management APIs",
 			},
 			{
 				name: "Submission",
