@@ -217,7 +217,7 @@ export const deleteProblem = asyncHandler(async (req, res) => {
       }
     })
 
-    return res.status(200).json(new ApiResponce(200, deleteProblem, "Problem deleted successfully"))
+    return res.status(200).json(new ApiResponce(200, deletedProblem, "Problem deleted successfully"))
 
   } catch (error) {
     console.error("Error While deleting Problem", error)
@@ -225,4 +225,56 @@ export const deleteProblem = asyncHandler(async (req, res) => {
   }
 })
 
-export const getALLProblemSolvedByUser = asyncHandler(async (req, res) => {})
+export const getALLProblemSolvedByUser = asyncHandler(async (req, res) => {
+	const userId = req.user.id;
+
+	try {
+		// const solvedProblems = await db.ProblemSolved.findMany({
+		// 	where: {
+		// 		userId,
+		// 	},
+    //   include: {
+    //     user: true,
+    //     problem: true
+    //   }
+		// });
+
+    const solvedProblems = await db.Problem.findMany({
+      where: {
+        solvedBy: {
+          some: {
+            userId
+          }
+        }
+      },
+      include: {
+        solvedBy: {
+          where: {
+            userId
+          }
+        }
+      }
+    });
+
+		if (!solvedProblems) {
+			throw new ApiError(404, "User haven't solved any problem");
+		}
+
+		return res
+			.status(200)
+			.json(
+				new ApiResponce(
+					200,
+					solvedProblems,
+					"user solved problems fetched succssfully"
+				)
+			);
+	} catch (error) {
+		console.error("Error While fetching user solved Problem", error);
+		throw new ApiError(
+			error.statusCode || 500,
+			error?.message || "Error While fetching user solved Problem",
+			error
+		);
+	}
+});
