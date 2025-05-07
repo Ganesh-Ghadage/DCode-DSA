@@ -6,6 +6,7 @@ const options = {
 		openapi: "3.0.0",
 		info: {
 			title: "DCode DSA",
+			description: "Personalized DSA learning platform to help you master algorithms and ace technical interviews.",
 			version: "1.0.0",
 		},
 		servers: [
