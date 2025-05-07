@@ -302,6 +302,10 @@ export const resendVerificationMail = asyncHandler(async (req, res) => {
     throw new ApiError(403, "Unauthorized request")
   }
 
+  if(user.isEmailVerified) {
+    throw new ApiError(402, "User is already verified")
+  }
+
   const { unHashedToken, hashedToken, tokenExpiry } = generateVerificationToken()
 
   try {
