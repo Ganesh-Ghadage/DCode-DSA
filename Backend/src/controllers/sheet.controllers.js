@@ -201,6 +201,47 @@ export const addProblemInSheet = asyncHandler(async (req, res) => {
 	}
 });
 
-export const removeProblemFromSheet = asyncHandler(async (req, res) => {});
+export const removeProblemFromSheet = asyncHandler(async (req, res) => {
+	const { sheetId } = req.params;
+	const { problemIds } = req.body;
+
+	try {
+		const exisitingSheet = await db.Sheet.findUnique({
+			where: {
+				id: sheetId,
+			},
+		});
+
+		if (!exisitingSheet) {
+			throw new ApiError(404, "Playlist not found");
+		}
+
+		const deletedProblems = await db.ProblemInSheet.deleteMany({
+			where: {
+				sheetId,
+				problemId: {
+					in: problemIds,
+				},
+			},
+		});
+
+		return res
+			.status(200)
+			.json(
+				new ApiResponce(
+					200,
+					deletedProblems,
+					"Problem removed successfully from sheet"
+				)
+			);
+	} catch (error) {
+		console.error("Error While removing problem from sheet", error);
+		throw new ApiError(
+			error.statusCode || 500,
+			error?.message || "Error While removing problem from sheet",
+			error
+		);
+	}
+});
 
 export const deleteSheet = asyncHandler(async (req, res) => {});

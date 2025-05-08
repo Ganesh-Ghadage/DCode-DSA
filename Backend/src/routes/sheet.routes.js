@@ -57,7 +57,14 @@ sheetRouter.post(
 	addProblemInSheet
 );
 
-sheetRouter.delete("/:sheetId/remove-problem", removeProblemFromSheet);
+sheetRouter.delete(
+	"/:sheetId/remove-problem",
+	authMiddleware,
+	checkAdmin,
+	sheetProblemsValidator(),
+	validator,
+	removeProblemFromSheet
+);
 
 sheetRouter.delete("/:sheetId", deleteSheet);
 
