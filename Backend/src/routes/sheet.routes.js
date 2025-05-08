@@ -66,6 +66,13 @@ sheetRouter.delete(
 	removeProblemFromSheet
 );
 
-sheetRouter.delete("/:sheetId", deleteSheet);
+sheetRouter.delete(
+	"/:sheetId",
+	authMiddleware,
+	checkAdmin,
+	sheetIdParamsValidator(),
+	validator,
+	deleteSheet
+);
 
 export default sheetRouter;

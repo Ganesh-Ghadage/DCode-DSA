@@ -244,4 +244,37 @@ export const removeProblemFromSheet = asyncHandler(async (req, res) => {
 	}
 });
 
-export const deleteSheet = asyncHandler(async (req, res) => {});
+export const deleteSheet = asyncHandler(async (req, res) => {
+	const { sheetId } = req.params;
+
+	try {
+		const exisitingSheet = await db.Sheet.findUnique({
+			where: {
+				id: sheetId,
+			},
+		});
+
+		if (!exisitingSheet) {
+			throw new ApiError(404, "Sheet not found or already deleted");
+		}
+
+		//TODO: add check if we have any paid active user purchase for sheet
+
+		const deletedSheet = await db.Sheet.delete({
+			where: {
+				id: sheetId,
+			},
+		});
+
+		return res
+			.status(200)
+			.json(new ApiResponce(200, deletedSheet, "Sheet deleted successfully"));
+	} catch (error) {
+		console.error("Error While deleting sheet", error);
+		throw new ApiError(
+			error.statusCode || 500,
+			error?.message || "Error While deleting sheet",
+			error
+		);
+	}
+});
