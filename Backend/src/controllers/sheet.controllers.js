@@ -145,7 +145,61 @@ export const updateSheet = asyncHandler(async (req, res) => {
 	}
 });
 
-export const addProblemInSheet = asyncHandler(async (req, res) => {});
+export const addProblemInSheet = asyncHandler(async (req, res) => {
+	const { sheetId } = req.params;
+	const { problemIds } = req.body;
+
+	try {
+		const exisitingSheet = await db.Sheet.findUnique({
+			where: {
+				id: sheetId,
+			},
+		});
+
+		if (!exisitingSheet) {
+			throw new ApiError(404, "Sheet not found");
+		}
+
+		const sheetProblems = [];
+
+		for (let i = 0; i < problemIds.length; i++) {
+			const problemId = problemIds[i];
+
+			const addedProblem = await db.ProblemInSheet.upsert({
+				where: {
+					sheetId_problemId: {
+						problemId,
+						sheetId,
+					},
+				},
+				update: {},
+				create: {
+					sheetId,
+					problemId,
+				},
+			});
+
+			sheetProblems.push(addedProblem);
+		}
+
+		return res
+			.status(201)
+			.json(
+				new ApiResponce(
+					201,
+					sheetProblems,
+					"Problem added in sheet successfully"
+				)
+			);
+	} catch (error) {
+		console.error("Error While adding problems in sheet", error);
+		throw new ApiError(
+			error.statusCode || 500,
+			error?.message || "Error While adding problems in sheet",
+			error
+		);
+	}
+});
 
 export const removeProblemFromSheet = asyncHandler(async (req, res) => {});
 

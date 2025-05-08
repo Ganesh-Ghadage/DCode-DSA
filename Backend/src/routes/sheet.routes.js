@@ -13,6 +13,7 @@ import { checkAdmin } from "../middlewares/admin.middleware.js";
 import {
 	sheetFieldsValidator,
 	sheetIdParamsValidator,
+	sheetProblemsValidator,
 	updatedSheetValidator,
 } from "../validators/sheet.validators.js";
 import validator from "../middlewares/validate.middleware.js";
@@ -47,7 +48,14 @@ sheetRouter.patch(
 	updateSheet
 );
 
-sheetRouter.post("/:sheetId/add-problem", addProblemInSheet);
+sheetRouter.post(
+	"/:sheetId/add-problem",
+	authMiddleware,
+	checkAdmin,
+	sheetProblemsValidator(),
+	validator,
+	addProblemInSheet
+);
 
 sheetRouter.delete("/:sheetId/remove-problem", removeProblemFromSheet);
 

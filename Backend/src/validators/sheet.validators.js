@@ -29,3 +29,14 @@ export const updatedSheetValidator = () => {
     sheetIdParamsValidator()
   ]
 }
+
+export const sheetProblemsValidator = () => {
+  return [
+    sheetIdParamsValidator(),
+    body("problemIds")
+      .trim()
+      .notEmpty().withMessage("ProblemIds are required")
+      .isArray().withMessage("ProblemIds should be an array")
+      .isArray({min: 1}).withMessage("ProblemIds array should contain at least 1 value")
+  ]
+}
