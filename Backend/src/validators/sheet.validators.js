@@ -1,4 +1,4 @@
-import { body } from 'express-validator'
+import { body, param } from 'express-validator'
 
 export const sheetFieldsValidator = () => {
   return [
@@ -11,5 +11,14 @@ export const sheetFieldsValidator = () => {
     body("description")
       .trim()
       .isLength({max: 200}).withMessage("Description can not be more that 200 chars")
+  ]
+}
+
+export const sheetIdParamsValidator = () => {
+  return [
+    param("sheetId")
+      .trim()
+      .notEmpty().withMessage("Sheet id is required")
+      .isUUID().withMessage("Invalid sheet Id")
   ]
 }

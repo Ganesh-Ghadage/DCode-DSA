@@ -68,7 +68,42 @@ export const getAllSheets = asyncHandler(async (req, res) => {
 	}
 });
 
-export const getSheetById = asyncHandler(async (req, res) => {});
+export const getSheetById = asyncHandler(async (req, res) => {
+	const { sheetId } = req.params;
+
+	try {
+		// TODO: add payment integration
+
+		const sheet = await db.Sheet.findUnique({
+			where: {
+				id: sheetId,
+			},
+			include: {
+				problems: {
+					include: {
+						problem: true,
+					},
+				},
+			},
+		});
+
+		if (!sheet) {
+			throw new ApiError(404, "Sheet not found");
+		}
+
+		return res
+			.status(200)
+			.json(new ApiResponce(200, sheet, "Sheet fetched successfully"));
+	} catch (error) {
+		console.error("Error while fetching sheet", error);
+
+		throw new ApiError(
+			error.statusCode || 500,
+			error?.message || "Error while fetching sheet",
+			error
+		);
+	}
+});
 
 export const updateSheet = asyncHandler(async (req, res) => {});
 

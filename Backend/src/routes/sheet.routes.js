@@ -10,7 +10,10 @@ import {
 } from "../controllers/sheet.controllers.js";
 import { authMiddleware } from "../middlewares/auth.middleware.js";
 import { checkAdmin } from "../middlewares/admin.middleware.js";
-import { sheetFieldsValidator } from "../validators/sheet.validators.js";
+import {
+	sheetFieldsValidator,
+	sheetIdParamsValidator,
+} from "../validators/sheet.validators.js";
 import validator from "../middlewares/validate.middleware.js";
 
 const sheetRouter = express.Router();
@@ -26,7 +29,13 @@ sheetRouter.post(
 
 sheetRouter.get("/", authMiddleware, getAllSheets);
 
-sheetRouter.get("/:sheetId", getSheetById);
+sheetRouter.get(
+	"/:sheetId",
+	authMiddleware,
+	sheetIdParamsValidator(),
+	validator,
+	getSheetById
+);
 
 sheetRouter.patch("/update-sheet/:sheetId", updateSheet);
 
