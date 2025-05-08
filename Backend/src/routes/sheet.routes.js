@@ -7,11 +7,22 @@ import {
 	getSheetById,
 	removeProblemFromSheet,
 	updateSheet,
-} from "../controllers/sheet.controllers";
+} from "../controllers/sheet.controllers.js";
+import { authMiddleware } from "../middlewares/auth.middleware.js";
+import { checkAdmin } from "../middlewares/admin.middleware.js";
+import { sheetFieldsValidator } from "../validators/sheet.validators.js";
+import validator from "../middlewares/validate.middleware.js";
 
 const sheetRouter = express.Router();
 
-sheetRouter.post("/create-sheet", createSheet);
+sheetRouter.post(
+	"/create-sheet",
+	authMiddleware,
+	checkAdmin,
+	sheetFieldsValidator(),
+	validator,
+	createSheet
+);
 
 sheetRouter.get("/", getAllSheets);
 
