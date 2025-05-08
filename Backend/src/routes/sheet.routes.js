@@ -24,7 +24,7 @@ sheetRouter.post(
 	createSheet
 );
 
-sheetRouter.get("/", getAllSheets);
+sheetRouter.get("/", authMiddleware, getAllSheets);
 
 sheetRouter.get("/:sheetId", getSheetById);
 

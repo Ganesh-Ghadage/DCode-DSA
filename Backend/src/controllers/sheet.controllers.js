@@ -46,7 +46,27 @@ export const createSheet = asyncHandler(async (req, res) => {
 	}
 });
 
-export const getAllSheets = asyncHandler(async (req, res) => {});
+export const getAllSheets = asyncHandler(async (req, res) => {
+	try {
+		const sheets = await db.Sheet.findMany();
+
+		if (!sheets) {
+			throw new ApiError(404, "No sheets found");
+		}
+
+		return res
+			.status(200)
+			.json(new ApiResponce(200, sheets, "Sheets fetched successfully"));
+	} catch (error) {
+		console.error("Error while fetching sheets", error);
+
+		throw new ApiError(
+			error.statusCode || 500,
+			error?.message || "Error while fetching sheets",
+			error
+		);
+	}
+});
 
 export const getSheetById = asyncHandler(async (req, res) => {});
 
