@@ -22,3 +22,10 @@ export const sheetIdParamsValidator = () => {
       .isUUID().withMessage("Invalid sheet Id")
   ]
 }
+
+export const updatedSheetValidator = () => {
+  return [
+    sheetFieldsValidator(),
+    sheetIdParamsValidator()
+  ]
+}

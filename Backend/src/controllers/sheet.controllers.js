@@ -105,7 +105,45 @@ export const getSheetById = asyncHandler(async (req, res) => {
 	}
 });
 
-export const updateSheet = asyncHandler(async (req, res) => {});
+export const updateSheet = asyncHandler(async (req, res) => {
+	const { title, company, description } = req.body;
+	const { sheetId } = req.params;
+
+	try {
+		const sheet = await db.Sheet.findUnique({
+			where: {
+				id: sheetId,
+			},
+		});
+
+		if (!sheet) {
+			throw new ApiError(404, "sheet not found");
+		}
+
+		const updatedSheet = await db.Sheet.update({
+			where: {
+				id: sheetId,
+			},
+			data: {
+				title,
+				company,
+				description,
+			},
+		});
+
+		return res
+			.status(200)
+			.json(new ApiResponce(200, updatedSheet, "Sheet updated successfully"));
+	} catch (error) {
+		console.error("Error while updating sheet", error);
+
+		throw new ApiError(
+			error.statusCode || 500,
+			error?.message || "Error while updating sheet",
+			error
+		);
+	}
+});
 
 export const addProblemInSheet = asyncHandler(async (req, res) => {});
 
