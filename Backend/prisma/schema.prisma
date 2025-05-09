@@ -26,90 +26,90 @@ enum Difficulty {
 }
 
 model User {
-  id String @id @default(uuid())
-  name String?
-  email String @unique
-  image String?
-  role UserRole @default(USER)
-  password String
-  refreshToken String?
-  forgotPasswordToken String?
-  forgotPasswordExpiry DateTime? 
-  isEmailVerified Boolean @default(false)
-  emailVerificationToken String?
-  emailVerificationExpiry DateTime? 
+  id                      String    @id @default(uuid())
+  name                    String?
+  email                   String    @unique
+  image                   String?
+  role                    UserRole  @default(USER)
+  password                String
+  refreshToken            String?
+  forgotPasswordToken     String?
+  forgotPasswordExpiry    DateTime?
+  isEmailVerified         Boolean   @default(false)
+  emailVerificationToken  String?
+  emailVerificationExpiry DateTime?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  prblems Problem[]
-  submissions Submission[]
+  prblems       Problem[]
+  submissions   Submission[]
   problemSolved ProblemSolved[]
-  playlists Playlist[]
-  sheet Sheet[]
+  playlists     Playlist[]
+  sheet         Sheet[]
 }
 
 model Problem {
-  id String @id @default(uuid())
-  title String
-  description String
-  difficulty Difficulty
-  tags String[]
-  userId String
-  examples Json
-  constraints String
-  hints String?
-  editorial String?
-  testcases Json
-  codeSnippets Json
+  id                 String     @id @default(uuid())
+  title              String
+  description        String
+  difficulty         Difficulty
+  tags               String[]
+  userId             String
+  examples           Json
+  constraints        String
+  hints              String?
+  editorial          String?
+  testcases          Json
+  codeSnippets       Json
   referenceSolutions Json
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  submission Submission[]
-  solvedBy ProblemSolved[]
+  submission       Submission[]
+  solvedBy         ProblemSolved[]
   problemsPlaylist ProblemInPlaylist[]
-  problemsSheet ProblemInSheet[]
+  problemsSheet    ProblemInSheet[]
 
   User User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Submission {
-  id String @id @default(uuid())
-  userId String
-  problemId String
-  sourceCode Json
-  language String
-  stdin String?
-  stdout String?
-  stderr String?
+  id            String  @id @default(uuid())
+  userId        String
+  problemId     String
+  sourceCode    Json
+  language      String
+  stdin         String?
+  stdout        String?
+  stderr        String?
   compileOutput String?
-  status String
-  memory String?
-  time String?
+  status        String
+  memory        String?
+  time          String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
   problem Problem @relation(fields: [problemId], references: [id], onDelete: Cascade)
 
   testCases TestCaseResult[]
 }
 
 model TestCaseResult {
-  id String @id @default(uuid())
-  submissionId String
-  testCase Int
-  passed Boolean
-  stdout String?
-  expected String
-  stderr String?
+  id            String  @id @default(uuid())
+  submissionId  String
+  testCase      Int
+  passed        Boolean
+  stdout        String?
+  expected      String
+  stderr        String?
   compileOutput String?
-  status String
-  memory String?
-  time String?
+  status        String
+  memory        String?
+  time          String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -120,8 +120,8 @@ model TestCaseResult {
 }
 
 model ProblemSolved {
-  id String @id @default(uuid())
-  userId String
+  id        String   @id @default(uuid())
+  userId    String
   problemId String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -133,11 +133,11 @@ model ProblemSolved {
 }
 
 model Playlist {
-  id String @id @default(uuid())
-  name String
+  id          String              @id @default(uuid())
+  name        String
   description String?
-  userId String
-  problems ProblemInPlaylist[]
+  userId      String
+  problems    ProblemInPlaylist[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -148,26 +148,26 @@ model Playlist {
 }
 
 model ProblemInPlaylist {
-  id String @id @default(uuid())
-  problemId String
+  id         String @id @default(uuid())
+  problemId  String
   playlistId String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   playlist Playlist @relation(fields: [playlistId], references: [id], onDelete: Cascade)
-  problem Problem @relation(fields: [problemId], references: [id], onDelete: Cascade)
+  problem  Problem  @relation(fields: [problemId], references: [id], onDelete: Cascade)
 
   @@unique([playlistId, problemId])
 }
 
 model Sheet {
-  id String @id @default(uuid())
-  title String
-  company String
+  id          String           @id @default(uuid())
+  title       String
+  company     String
   description String?
-  userId String
-  problems ProblemInSheet[]
+  userId      String
+  problems    ProblemInSheet[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -178,14 +178,14 @@ model Sheet {
 }
 
 model ProblemInSheet {
-  id String @id @default(uuid())
+  id        String @id @default(uuid())
   problemId String
-  sheetId String
+  sheetId   String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  sheet Sheet @relation(fields: [sheetId], references: [id], onDelete: Cascade)
+  sheet   Sheet   @relation(fields: [sheetId], references: [id], onDelete: Cascade)
   problem Problem @relation(fields: [problemId], references: [id], onDelete: Cascade)
 
   @@unique([sheetId, problemId])
