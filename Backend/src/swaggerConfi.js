@@ -6,7 +6,8 @@ const options = {
 		openapi: "3.0.0",
 		info: {
 			title: "DCode DSA",
-			description: "Personalized DSA learning platform to help you master algorithms and ace technical interviews.",
+			description:
+				"Personalized DSA learning platform to help you master algorithms and ace technical interviews.",
 			version: "1.0.0",
 		},
 		servers: [
@@ -39,6 +40,10 @@ const options = {
 				name: "Submissions",
 				description: "API for handling code submissions",
 			},
+			{
+				name: "Sheets",
+				description: "Sheet management and problem association",
+			},
 		],
 		components: {
 			securitySchemes: {
@@ -62,6 +67,7 @@ const options = {
 		"./src/routes/playlist.routes.js",
 		"./src/routes/problem.routes.js",
 		"./src/routes/submission.routes.js",
+		"./src/routes/sheet.routes.js",
 	],
 };
 

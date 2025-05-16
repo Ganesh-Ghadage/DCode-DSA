@@ -67,7 +67,7 @@ export const getSubmissionAllForProblem = asyncHandler(async (req, res) => {
 		.json(
 			new ApiResponce(
 				200,
-				{count: submissions},
+				{ count: submissions },
 				"All submissions fetched successfully for problem"
 			)
 		);

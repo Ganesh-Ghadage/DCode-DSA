@@ -1,19 +1,17 @@
-import nodemailer from 'nodemailer'
+import nodemailer from "nodemailer";
 
 const transporter = nodemailer.createTransport({
-  host: process.env.MAILTRAP_HOST,
-  port: process.env.MAILTRAP_PORT,
-  secure: false, // true for port 465, false for other ports
-  auth: {
-    user: process.env.MAILTRAP_USER,
-    pass: process.env.MAILTRAP_PASSWORD,
-  },
+	host: process.env.MAILTRAP_HOST,
+	port: process.env.MAILTRAP_PORT,
+	secure: false, // true for port 465, false for other ports
+	auth: {
+		user: process.env.MAILTRAP_USER,
+		pass: process.env.MAILTRAP_PASSWORD,
+	},
 });
 
-
 async function sendVerifyMail(name, email, token) {
-
-  const htmlTemplate = `
+	const htmlTemplate = `
     <!DOCTYPE html>
     <html lang="en" style="margin: 0; padding: 0;">
       <head>
@@ -75,7 +73,9 @@ async function sendVerifyMail(name, email, token) {
           <div class="content">
             <p>Hello <strong>${name}</strong>,</p>
             <p>Thank you for signing up for <strong>LeetLab</strong>. Please use the link below to verify your email address:</p>
-            <div class="token-box"><a href="${process.env.BASE_URl}/api/v1/auth/verify/${token}">Verify Email</a></div>
+            <div class="token-box"><a href="${
+							process.env.BASE_URl
+						}/api/v1/auth/verify/${token}">Verify Email</a></div>
             <p>This token will expire in 20 minutes. If you did not request this, please ignore this email.</p>
             <p>Thanks,<br />The LeetLab Team</p>
           </div>
@@ -85,24 +85,23 @@ async function sendVerifyMail(name, email, token) {
         </div>
       </body>
     </html>
-  `
+  `;
 
-  const options = {
-    from: process.env.MAILTRAP_EMAIL,
-    to: email, // list of receivers
-    subject: "Verify your mail",
-    text: `Plase click on below like to verify your email: ${process.env.BASE_URl}/api/v1/auth/verify/${token}`, 
-    html: htmlTemplate
-  }
+	const options = {
+		from: process.env.MAILTRAP_EMAIL,
+		to: email, // list of receivers
+		subject: "Verify your mail",
+		text: `Plase click on below like to verify your email: ${process.env.BASE_URl}/api/v1/auth/verify/${token}`,
+		html: htmlTemplate,
+	};
 
-  const info = await transporter.sendMail(options)
+	const info = await transporter.sendMail(options);
 
-  return info
+	return info;
 }
 
 async function sendForgotPasswordMail(name, email, token) {
-
-  const htmlTemplate = `
+	const htmlTemplate = `
     <!DOCTYPE html>
     <html lang="en" style="margin: 0; padding: 0;">
       <head>
@@ -164,7 +163,9 @@ async function sendForgotPasswordMail(name, email, token) {
           <div class="content">
             <p>Hello <strong>${name}</strong>,</p>
             <p>Please use the link below to change your password for LeetLab:</p>
-            <div class="token-box"><a href="${process.env.BASE_URl}/api/v1/auth/change-password/${token}">Change Password</a></div>
+            <div class="token-box"><a href="${
+							process.env.BASE_URl
+						}/api/v1/auth/change-password/${token}">Change Password</a></div>
             <p>This token will expire in 20 minutes. If you did not request this, please ignore this email.</p>
             <p>Thanks,<br />The LeetLab Team</p>
           </div>
@@ -174,20 +175,19 @@ async function sendForgotPasswordMail(name, email, token) {
         </div>
       </body>
     </html>
-  `
+  `;
 
-  const options = {
-    from: process.env.MAILTRAP_EMAIL,
-    to: email, // list of receivers
-    subject: "Verify your mail",
-    text: `Plase click on below like to verify your email: ${process.env.BASE_URl}/api/v1/auth/change-password/${token}`, 
-    html: htmlTemplate
-  }
+	const options = {
+		from: process.env.MAILTRAP_EMAIL,
+		to: email, // list of receivers
+		subject: "Verify your mail",
+		text: `Plase click on below like to verify your email: ${process.env.BASE_URl}/api/v1/auth/change-password/${token}`,
+		html: htmlTemplate,
+	};
 
-  const info = await transporter.sendMail(options)
+	const info = await transporter.sendMail(options);
 
-  return info
+	return info;
 }
 
-
-export { sendVerifyMail, sendForgotPasswordMail }
+export { sendVerifyMail, sendForgotPasswordMail };
