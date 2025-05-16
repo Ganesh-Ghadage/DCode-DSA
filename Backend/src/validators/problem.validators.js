@@ -1,49 +1,49 @@
-import { body, param } from 'express-validator'
+import { body, param } from "express-validator";
 
 export const problemFieldsValidator = () => {
-  return [
-    body("title")
+	return [
+		body("title")
       .trim()
       .notEmpty().withMessage("title is required"),
-    body("description")
-      .trim()
-      .notEmpty().withMessage("description is required"),
-    body("difficulty")
-      .trim()
-      .notEmpty().withMessage("difficulty is required")
-      .isIn("EASY", "HARD", "MEDIUM").withMessage("difficulty not matched"),
-    body("tags")
+		body("description")
+			.trim()
+			.notEmpty().withMessage("description is required"),
+		body("difficulty")
+			.trim()
+			.notEmpty().withMessage("difficulty is required")
+			.isIn("EASY", "HARD", "MEDIUM").withMessage("difficulty not matched"),
+		body("tags")
       .isArray()
       .notEmpty().withMessage("tags are required"),
-    body("examples")
+		body("examples")
       .isArray()
       .notEmpty().withMessage("examples are required"),
-    body("constraints")
-      .trim()
-      .notEmpty().withMessage("constraints are required"),
-    body("testcases")
-      .isArray()
-      .notEmpty().withMessage("testcases are required"),
-    body("codeSnippets")
-      .isObject()
-      .notEmpty().withMessage("codeSnippets are required"),
-    body("referenceSolutions")
-      .isObject()
-      .notEmpty().withMessage("referenceSolutions are required"),
-  ]
-}
+		body("constraints")
+			.trim()
+			.notEmpty().withMessage("constraints are required"),
+		body("testcases")
+			.isArray()
+			.notEmpty().withMessage("testcases are required"),
+		body("codeSnippets")
+			.isObject()
+			.notEmpty().withMessage("codeSnippets are required"),
+		body("referenceSolutions")
+			.isObject()
+			.notEmpty().withMessage("referenceSolutions are required"),
+	];
+};
 
 export const problemIdValidator = () => {
-  return [
+	return [
     param("id")
       .trim()
       .notEmpty().withMessage("Problem id is required")
-  ]
-}
+    ];
+};
 
 export const problemIdAndFieldValidator = () => {
-  return [
-    problemIdValidator(),
+	return [
+    problemIdValidator(), 
     problemFieldsValidator()
-  ]
-}
+  ];
+};
