@@ -1,5 +1,6 @@
 import { Code, Terminal, FileCode, Braces } from "lucide-react"
 import { useEffect, useState } from "react"
+import Logo from "./Logo"
 
 interface CodeBackgroundProps {
   title: string,
@@ -121,9 +122,7 @@ const CodeBackground = ({ title, subtitle } : CodeBackgroundProps) => {
 
         {/* Logo */}
         <div className="flex items-center justify-center mb-6">
-          <div className="w-12 h-12 rounded-xl bg-primary/10  flex items-center justify-center">
-            <Code className="w-6 h-6 text-primary" />
-          </div>
+          <Logo />
         </div>
 
         {/* Text content */}
