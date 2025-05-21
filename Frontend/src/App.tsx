@@ -1,14 +1,14 @@
 import { Route, Routes, Navigate } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import { Loader } from "lucide-react";
+import { useEffect } from "react";
 
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
+import AddProblem from "./pages/AddProblem";
 import { useAuthStore } from "./store/useAuthStore";
-import { useEffect } from "react";
 import Layout from "./layout/Layout";
-import AddProblem from "./components/AddProblem";
 import AdminRoute from "./components/AdminRoute";
 
 function App() {
