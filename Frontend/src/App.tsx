@@ -13,7 +13,7 @@ function App() {
 
 	useEffect(() => {
 		checkAuth();
-	}, []);
+	}, [checkAuth]);
 
 	if (!authUser && isCheckingAuth) {
 		return (
