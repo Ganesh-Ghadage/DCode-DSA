@@ -12,7 +12,7 @@ export const sampledpData: z.infer<typeof problemSchema> = {
     "To reach the nth step, you can either come from the (n-1)th step or the (n-2)th step.",
   editorial:
     "This is a classic dynamic programming problem. The number of ways to reach the nth step is the sum of the number of ways to reach the (n-1)th step and the (n-2)th step, forming a Fibonacci-like sequence.",
-  testCases: [
+  testcases: [
     {
       input: "2",
       output: "2",
@@ -269,7 +269,7 @@ export const sampleStringProblem: z.infer<typeof problemSchema> = {
     "Consider using two pointers, one from the start and one from the end, moving towards the center.",
   editorial:
     "We can use two pointers approach to check if the string is a palindrome. One pointer starts from the beginning and the other from the end, moving towards each other.",
-  testCases: [
+  testcases: [
     {
       input: "A man, a plan, a canal: Panama",
       output: "true",
