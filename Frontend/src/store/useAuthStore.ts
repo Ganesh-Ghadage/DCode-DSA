@@ -41,6 +41,7 @@ export const useAuthStore = create<AuthState>()((set) => ({
     } catch (error) {
       set({ errorMessage: (error instanceof Error && error.message) ? error.message : "Something went wrong" })
       set({ authUser: null })
+      toast.error((error instanceof Error && error.message) ? error.message : "Something went wrong")
     } finally {
       set({ isCheckingAuth: false })
     }
@@ -54,6 +55,7 @@ export const useAuthStore = create<AuthState>()((set) => ({
       toast.success(res.data?.message || "Signup successfull")
     } catch (error) {
       set({ errorMessage: (error instanceof Error && error.message) ? error.message : "Something went wrong" })
+      toast.error((error instanceof Error && error.message) ? error.message : "Something went wrong")
       console.log(error)
     } finally {
       set({ isSigningUp: false })
@@ -68,6 +70,7 @@ export const useAuthStore = create<AuthState>()((set) => ({
       toast.success(res.data?.message || "login successfull")
     } catch (error) {
       set({ errorMessage: (error instanceof Error && error.message) ? error.message : "Something went wrong" })
+      toast.error((error instanceof Error && error.message) ? error.message : "Something went wrong")
       console.log(error)
     } finally {
       set({ isLoggingIn: false })
@@ -81,6 +84,7 @@ export const useAuthStore = create<AuthState>()((set) => ({
       toast.success("logout successfull")
     } catch (error) {
       set({ errorMessage: (error instanceof Error && error.message) ? error.message : "Something went wrong" })
+      toast.error((error instanceof Error && error.message) ? error.message : "Something went wrong")
       console.log(error)
     }
   }
