@@ -8,6 +8,8 @@ import SignupPage from "./pages/SignupPage";
 import { useAuthStore } from "./store/useAuthStore";
 import { useEffect } from "react";
 import Layout from "./layout/Layout";
+import AddProblem from "./components/AddProblem";
+import AdminRoute from "./components/AdminRoute";
 
 function App() {
 	const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
@@ -44,6 +46,13 @@ function App() {
 					path="/signup"
 					element={!authUser ? <SignupPage /> : <Navigate to={"/"} />}
 				/>
+
+				<Route element={<AdminRoute />}>
+					<Route
+						path="/add-problem"
+						element={authUser ? <AddProblem /> : <Navigate to={"/"} />}
+					/>
+				</Route>
 			</Routes>
 		</div>
 	);
