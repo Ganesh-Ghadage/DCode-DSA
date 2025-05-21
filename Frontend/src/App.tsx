@@ -7,6 +7,7 @@ import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
 import { useAuthStore } from "./store/useAuthStore";
 import { useEffect } from "react";
+import Layout from "./layout/Layout";
 
 function App() {
 	const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
@@ -27,10 +28,12 @@ function App() {
 		<div className="flex flex-col justify-start items-center">
 			<Toaster />
 			<Routes>
-				<Route
-					path="/"
-					element={authUser ? <HomePage /> : <Navigate to={"/login"} />}
-				/>
+				<Route path="/" element={<Layout />}>
+					<Route
+						index
+						element={authUser ? <HomePage /> : <Navigate to={"/login"} />}
+					/>
+				</Route>
 
 				<Route
 					path="/login"
