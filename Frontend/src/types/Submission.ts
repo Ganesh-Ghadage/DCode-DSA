@@ -16,7 +16,7 @@ export interface Submission {
   createdAt: string;
   updatedAt: string;
 
-  user?: User;
-  problem?: Problem;
-  testCases?: TestCaseResult[];
+  user: User;
+  problem: Problem;
+  testCases: TestCaseResult[];
 }
