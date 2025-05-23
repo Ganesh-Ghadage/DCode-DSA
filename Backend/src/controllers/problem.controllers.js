@@ -139,6 +139,13 @@ export const getProblemById = asyncHandler(async (req, res) => {
 			where: {
 				id,
 			},
+			include: {
+				submission: {
+					where: {
+						userId: req.user.id,
+					},
+				},
+			},
 		});
 
 		if (!problem) {
