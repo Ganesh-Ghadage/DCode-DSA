@@ -22,7 +22,7 @@ interface ProblemState {
   getSolvedProblems: () => void
 }
 
-export const useProblemStore = create<ProblemState>((set) => ({
+export const useProblemStore = create<ProblemState>()((set) => ({
   problems: [],
   problem: null,
   solvedPrblems: [],
