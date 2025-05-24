@@ -11,6 +11,7 @@ interface ExecutionState {
   errorMessage: string | null
 
   executeCode: (source_code: string, language_id: number, stdin: string[], expected_outputs: string[], problemId: string) => void
+  resetData: () => void
 }
 
 export const useExecutionStore = create<ExecutionState>()((set) => ({
@@ -21,6 +22,8 @@ export const useExecutionStore = create<ExecutionState>()((set) => ({
   executeCode: async (source_code, language_id, stdin, expected_outputs, problemId) => {
     try {
       set({ isExecuting: true });
+      set({ submission: null })
+      set({ errorMessage: null })
 
       const res = await axiosInstance.post("/execute-code", { source_code, language_id, stdin, expected_outputs, problemId });
 
@@ -39,6 +42,12 @@ export const useExecutionStore = create<ExecutionState>()((set) => ({
     finally {
       set({ isExecuting: false });
     }
+  },
+
+  resetData: () => {
+    set({ isExecuting: false });
+    set({ submission: null })
+    set({ errorMessage: null })
   }
 
 }))

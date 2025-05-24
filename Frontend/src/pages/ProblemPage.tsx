@@ -10,7 +10,6 @@ import {
 	Share2,
 	Clock,
 	ChevronRight,
-	BookOpen,
 	Terminal,
 	Code2,
 	Users,
@@ -28,7 +27,7 @@ import { useSubmissionStore } from "../store/useSubmissionStore";
 const ProblemPage = () => {
 	const { id } = useParams();
 	const { getProblemById, problem, isProblemLoading } = useProblemStore();
-	const { executeCode, submission, isExecuting } = useExecutionStore();
+	const { executeCode, submission, isExecuting, resetData } = useExecutionStore();
 	const {
 		problemSubmissions,
 		submissionData,
@@ -53,6 +52,7 @@ const ProblemPage = () => {
 		if (id) {
 			getProblemById(id);
 			getSubmissionCountForProblem(id);
+			resetData()
 		}
 	}, [id]);
 
@@ -125,7 +125,7 @@ const ProblemPage = () => {
 							<>
 								<h3 className="text-xl font-bold mb-4">Examples:</h3>
 								{Object.entries(problem.examples).map(
-									([lang, example], idx) => (
+									([lang, example]) => (
 										<div
 											key={lang}
 											className="bg-base-200 p-6 rounded-xl mb-6 font-mono"
