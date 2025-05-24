@@ -23,26 +23,36 @@ import SubmissionsList from "../components/SubmissionList";
 import { useExecutionStore } from "../store/useExecutionStore";
 import { getLanguageId } from "../lib/helper";
 import SubmissionResults from "../components/SubmissionResults";
+import { useSubmissionStore } from "../store/useSubmissionStore";
 
 const ProblemPage = () => {
 	const { id } = useParams();
 	const { getProblemById, problem, isProblemLoading } = useProblemStore();
 	const { executeCode, submission, isExecuting } = useExecutionStore();
+	const {
+		problemSubmissions,
+		submissionData,
+		getSubmissionForProblem,
+		getSubmissionCountForProblem,
+		isProblemSubmissionLodading,
+	} = useSubmissionStore();
 
 	const [code, setCode] = useState<string>("");
 	const [activeTab, setActiveTab] = useState<string>("description");
 	const [selectedLanguage, setSelectedLanguage] =
-		useState<string>("javascript");
+		useState<string>("JavaScript");
 	const [isBookmarked, setIsBookmarked] = useState<boolean>(false);
 	const [testCases, setTestCases] = useState<
 		{ input: string; output: string }[]
 	>([]);
 
-	let submissionCount = 10;
+	const {totalCount: submissionCount, acceptedCount} = submissionData
+	const successRate = Math.round((acceptedCount / submissionCount) * 100) || 0
 
 	useEffect(() => {
 		if (id) {
 			getProblemById(id);
+			getSubmissionCountForProblem(id);
 		}
 	}, [id]);
 
@@ -63,6 +73,12 @@ const ProblemPage = () => {
 			);
 		}
 	}, [problem, selectedLanguage]);
+
+	useEffect(() => {
+		if (activeTab === "submissions" && id) {
+			getSubmissionForProblem(id);
+		}
+	}, [activeTab, id]);
 
 	const handleLanguageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
 		const lang = e.target.value;
@@ -160,13 +176,10 @@ const ProblemPage = () => {
 				);
 			case "submissions":
 				return (
-					// <SubmissionsList
-					// 	submissions={submissions}
-					// 	isLoading={isSubmissionsLoading}
-					// />
-					<div className="p-4 text-center text-base-content/70">
-						No submission yet
-					</div>
+					<SubmissionsList
+						submissions={problemSubmissions}
+						isLoading={isProblemSubmissionLodading}
+					/>
 				);
 			case "discussion":
 				return (
@@ -217,10 +230,10 @@ const ProblemPage = () => {
 							</span>
 							<span className="text-base-content/30">•</span>
 							<Users className="w-4 h-4" />
-							<span>{submissionCount} Submissions</span>
+							<span>{submissionCount ?? 0} Submissions</span>
 							<span className="text-base-content/30">•</span>
 							<ThumbsUp className="w-4 h-4" />
-							<span>95% Success Rate</span>
+							<span>{successRate}% Success Rate</span>
 						</div>
 					</div>
 				</div>
@@ -293,7 +306,9 @@ const ProblemPage = () => {
 								</button>
 							</div>
 
-							<div className="p-6">{renderTabContent()}</div>
+							<div className="p-6 h-[800px] overflow-y-auto">
+								{renderTabContent()}
+							</div>
 						</div>
 					</div>
 
@@ -306,7 +321,7 @@ const ProblemPage = () => {
 								</button>
 							</div>
 
-							<div className="min-h-[700px] max-h-[100%] w-full">
+							<div className="h-[700px] w-full">
 								<Editor
 									height="100%"
 									language={selectedLanguage.toLowerCase()}
