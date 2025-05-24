@@ -58,16 +58,22 @@ export const getSubmissionAllForProblem = asyncHandler(async (req, res) => {
 		},
 	});
 
-	if (!submissions) {
-		throw new ApiError(400, "Submissions not found the problem");
-	}
+	const acceptedSubmissions = await db.Submission.count({
+		where: {
+			problemId,
+			status: "Accepted"
+		},
+	});
 
 	res
 		.status(200)
 		.json(
 			new ApiResponce(
 				200,
-				{ count: submissions },
+				{ 
+					totalCount: submissions ?? 0,
+					acceptedCount: acceptedSubmissions ?? 0
+				},
 				"All submissions fetched successfully for problem"
 			)
 		);
