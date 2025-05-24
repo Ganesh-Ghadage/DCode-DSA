@@ -24,13 +24,13 @@ export const problemSchema = z.object({
     })
   ).min(1, "At least one example is required"),
   codeSnippets: z.object({
-    JAVASCRIPT: z.string().min(1, "JavaScript code snippet is required"),
-    PYTHON: z.string().min(1, "Python code snippet is required"),
-    JAVA: z.string().min(1, "Java solution is required"),
+    JavaScript: z.string().min(1, "JavaScript code snippet is required"),
+    Python: z.string().min(1, "Python code snippet is required"),
+    Java: z.string().min(1, "Java solution is required"),
   }),
   referenceSolutions: z.object({
-    JAVASCRIPT: z.string().min(1, "JavaScript solution is required"),
-    PYTHON: z.string().min(1, "Python solution is required"),
-    JAVA: z.string().min(1, "Java solution is required"),
+    JavaScript: z.string().min(1, "JavaScript solution is required"),
+    Python: z.string().min(1, "Python solution is required"),
+    Java: z.string().min(1, "Java solution is required"),
   }),
 });

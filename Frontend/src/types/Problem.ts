@@ -21,14 +21,14 @@ export interface Problem {
     output: string;
   }[];
   codeSnippets: {
-    JAVASCRIPT: string,
-    JAVA: string,
-    PYTHON: string
+    JavaScript: string,
+    Java: string,
+    Python: string
   };
   referenceSolutions: {
-    JAVASCRIPT: string,
-    JAVA: string,
-    PYTHON: string
+    JavaScript: string,
+    Java: string,
+    Python: string
   };
   createdAt: string;
   updatedAt: string;

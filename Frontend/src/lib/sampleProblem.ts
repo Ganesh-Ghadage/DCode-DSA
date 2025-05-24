@@ -47,7 +47,7 @@ export const sampledpData: z.infer<typeof problemSchema> = {
     },
   ],
   codeSnippets: {
-    JAVASCRIPT:
+    JavaScript:
       `/**
       * @param {number} n
       * @return {number}
@@ -72,7 +72,7 @@ export const sampledpData: z.infer<typeof problemSchema> = {
         rl.close();
       });`,
 
-    PYTHON:
+    Python:
       `class Solution:
         def climbStairs(self, n: int) -> int:
           # Write your code here
@@ -92,7 +92,7 @@ export const sampledpData: z.infer<typeof problemSchema> = {
         # Print result
         print(result)`,
 
-    JAVA:
+    Java:
       `import java.util.Scanner;
 
       class Main {
@@ -115,7 +115,7 @@ export const sampledpData: z.infer<typeof problemSchema> = {
       }`,
   },
   referenceSolutions: {
-    JAVASCRIPT:
+    JavaScript:
       `/**
       * @param {number} n
       * @return {number}
@@ -167,7 +167,7 @@ export const sampledpData: z.infer<typeof problemSchema> = {
         rl.close();
       });`,
 
-    PYTHON:
+    Python:
       `class Solution:
         def climbStairs(self, n: int) -> int:
           # Base cases
@@ -206,7 +206,7 @@ export const sampledpData: z.infer<typeof problemSchema> = {
         # Print result
         print(result)`,
 
-    JAVA:
+    Java:
       `import java.util.Scanner;
 
       class Main {
@@ -301,7 +301,7 @@ export const sampleStringProblem: z.infer<typeof problemSchema> = {
     },
   ],
   codeSnippets: {
-    JAVASCRIPT:
+    JavaScript:
       `/**
       * @param {string} s
       * @return {boolean}
@@ -328,7 +328,7 @@ export const sampleStringProblem: z.infer<typeof problemSchema> = {
         rl.close();
       });`,
 
-    PYTHON:
+    Python:
       `class Solution:
         def isPalindrome(self, s: str) -> bool:
           # Write your code here
@@ -347,7 +347,7 @@ export const sampleStringProblem: z.infer<typeof problemSchema> = {
         # Output result
         print(str(result).lower())  # Convert True/False to lowercase true/false`,
 
-    JAVA:
+    Java:
       `import java.util.Scanner;
 
       public class Main {
@@ -369,7 +369,7 @@ export const sampleStringProblem: z.infer<typeof problemSchema> = {
       }`,
   },
   referenceSolutions: {
-    JAVASCRIPT:
+    JavaScript:
       `/**
       * @param {string} s
       * @return {boolean}
@@ -411,7 +411,7 @@ export const sampleStringProblem: z.infer<typeof problemSchema> = {
         rl.close();
       });`,
 
-    PYTHON:
+    Python:
       `class Solution:
         def isPalindrome(self, s: str) -> bool:
           # Convert to lowercase and keep only alphanumeric characters
@@ -433,7 +433,7 @@ export const sampleStringProblem: z.infer<typeof problemSchema> = {
         # Output result
         print(str(result).lower())  # Convert True/False to lowercase true/false`,
 
-    JAVA:
+    Java:
       `import java.util.Scanner;
 
       public class Main {

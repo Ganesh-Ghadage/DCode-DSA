@@ -41,14 +41,14 @@ function CreateProblemForm() {
 			tags: [""],
 			examples: [{ input: "", output: "", explanation: "" }],
 			codeSnippets: {
-				JAVASCRIPT: "function solution() {\n  // Write your code here\n}",
-				PYTHON: "def solution():\n    # Write your code here\n    pass",
-				JAVA: "public class Solution {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}",
+				JavaScript: "function solution() {\n  // Write your code here\n}",
+				Python: "def solution():\n    # Write your code here\n    pass",
+				Java: "public class Solution {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}",
 			},
 			referenceSolutions: {
-				JAVASCRIPT: "// Add your reference solution here",
-				PYTHON: "# Add your reference solution here",
-				JAVA: "// Add your reference solution here",
+				JavaScript: "// Add your reference solution here",
+				Python: "# Add your reference solution here",
+				Java: "// Add your reference solution here",
 			},
 		},
 	});
@@ -356,7 +356,7 @@ function CreateProblemForm() {
 
 						{/* Code Editor Sections */}
 						<div className="space-y-8">
-							{(["JAVASCRIPT", "PYTHON", "JAVA"] as const).map((language) => (
+							{(["JavaScript", "Python", "Java"] as const).map((language) => (
 								<div
 									key={language}
 									className="card bg-base-200 p-4 md:p-6 shadow-md"
@@ -377,9 +377,9 @@ function CreateProblemForm() {
 													<Controller
 														name={
 															`codeSnippets.${language}` as
-																| "codeSnippets.JAVASCRIPT"
-																| "codeSnippets.PYTHON"
-																| "codeSnippets.JAVA"
+																| "codeSnippets.JavaScript"
+																| "codeSnippets.Python"
+																| "codeSnippets.Java"
 														}
 														control={control}
 														render={({ field }) => (
@@ -422,9 +422,9 @@ function CreateProblemForm() {
 													<Controller
 														name={
 															`referenceSolutions.${language}` as
-																| "referenceSolutions.JAVASCRIPT"
-																| "referenceSolutions.PYTHON"
-																| "referenceSolutions.JAVA"
+																| "referenceSolutions.JavaScript"
+																| "referenceSolutions.Python"
+																| "referenceSolutions.Java"
 														}
 														control={control}
 														render={({ field }) => (
