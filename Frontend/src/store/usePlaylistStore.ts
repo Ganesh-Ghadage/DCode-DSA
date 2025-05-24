@@ -104,7 +104,6 @@ export const usePlaylistStore = create<PlaylistState>()((set, get) => ({
   },
 
   addProblemInPlaylist: async (id: string, problemIds: string[]) => {
-    console.log(problemIds)
     try {
       set({ isLoading: true })
       const res = await axiosInstance.post(`/playlist/${id}/add-problems`, { problemIds })

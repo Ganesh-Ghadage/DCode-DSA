@@ -22,7 +22,6 @@ const CreatePlaylistModal = ({ isOpen, onClose, onSubmit }: props) => {
 	});
 
 	const handleFormSubmit = async (data: z.infer<typeof playlistSchema>) => {
-		console.log("playlist submit");
 		await onSubmit(data);
 		reset();
 		onClose();
