@@ -9,11 +9,9 @@ export const executeCodeValidator = () => {
 			.trim()
 			.notEmpty().withMessage("Language Id is required"),
 		body("stdin")
-			.trim()
 			.notEmpty().withMessage("Standard Inputs are required")
 			.isArray({ min: 1 }).withMessage("Inputs should be in array or atleat contain any value"),
 		body("expected_outputs")
-			.trim()
 			.notEmpty().withMessage("Expected Outputs are required")
 			.isArray({ min: 1 }).withMessage("Outputs should be in array or atleat contain any value"),
 		body("problemId")
