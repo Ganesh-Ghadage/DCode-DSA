@@ -8,7 +8,10 @@ import type { Submission } from '../types'
 interface SubmissionState {
   allSubmissions: Submission[]
   problemSubmissions: Submission[]
-  submissionCount: number | null
+  submissionData: {
+    totalCount: number
+		acceptedCount: number
+  }
   isALLSubmissionLodading: boolean
   isProblemSubmissionLodading: boolean
   isCountLoading: boolean
@@ -22,7 +25,10 @@ interface SubmissionState {
 export const useSubmissionStore = create<SubmissionState>()((set) => ({
   allSubmissions: [],
   problemSubmissions: [],
-  submissionCount: null,
+  submissionData: {
+    totalCount: 0,
+    acceptedCount: 0
+  },
   isALLSubmissionLodading: false,
   isProblemSubmissionLodading: false,
   isCountLoading: false,
@@ -69,10 +75,10 @@ export const useSubmissionStore = create<SubmissionState>()((set) => ({
     try {
       set({ isCountLoading: true })
       const res = await axiosInstance.get(`/submissions/get-submissions-count/${problemId}`)
-      set({ submissionCount: res.data.data.count })
+      set({ submissionData: res.data.data })
     } catch (error) {
       set({ errorMessage: (error instanceof Error && error.message) ? error.message : "Something went wrong" })
-      set({ submissionCount: null })
+      // set({ submissionCount: null })
       // toast.error(
       //   error instanceof AxiosError && error?.response?.data.message
       //     ? error.response.data.message
