@@ -1,10 +1,15 @@
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { Bookmark, PencilIcon, TrashIcon, Plus, Loader } from "lucide-react";
+import type { z } from "zod";
 
 import { useAuthStore } from "../store/useAuthStore";
 import type { Problem } from "../types/Problem";
 import { useProblemStore } from "../store/useProblemStore";
+import AddToPlaylistModal from "./AddToPlaylist";
+import CreatePlaylistModal from "./CreatePlaylistModal";
+import { usePlaylistStore } from "../store/usePlaylistStore";
+import type { playlistSchema } from "../schemas/playlistSchema";
 
 type props = {
 	problems: Problem[];
@@ -15,9 +20,16 @@ const ProblemsTable = ({ problems }: props) => {
 	const [difficulty, setDifficulty] = useState<string>("ALL");
 	const [selectedTag, setSelectedTag] = useState<string>("ALL");
 	const [currentPage, setCurrentPage] = useState<number>(1);
+	const [isCreateModalOpen, setIsCreateModalOpen] = useState<boolean>(false);
+	const [isAddToPlaylistModalOpen, setIsAddToPlaylistModalOpen] =
+		useState<boolean>(false);
+	const [selectedProblemId, setSelectedProblemId] = useState<string | null>(
+		null
+	);
 
-  const { authUser } = useAuthStore();
-  const {deleteProblem, isProblemDeleting} = useProblemStore()
+	const { authUser } = useAuthStore();
+	const { deleteProblem, isProblemDeleting } = useProblemStore();
+	const { createPlaylist } = usePlaylistStore();
 
 	const difficulties = ["EASY", "MEDIUM", "HARD"];
 
@@ -53,16 +65,28 @@ const ProblemsTable = ({ problems }: props) => {
 		);
 	}, [filteredProblems, currentPage]);
 
-  const handleDelete = async (id: string) => {
-    await deleteProblem(id)
-  }
+	const handleDelete = async (id: string) => {
+		await deleteProblem(id);
+	};
+
+	const handleCreatePlaylist = async (data: z.infer<typeof playlistSchema>) => {
+		await createPlaylist(data);
+	};
+
+	const handleAddToPlaylist = (problemId: string) => {
+		setSelectedProblemId(problemId);
+		setIsAddToPlaylistModalOpen(true);
+	};
 
 	return (
 		<div className="w-full max-w-6xl mx-auto mt-10">
 			{/* Header with Create Playlist Button */}
 			<div className="flex justify-between items-center mb-6">
 				<h2 className="text-2xl font-bold">Problems</h2>
-				<button className="btn btn-primary gap-2" onClick={() => {}}>
+				<button
+					className="btn btn-primary gap-2"
+					onClick={() => setIsCreateModalOpen(true)}
+				>
 					<Plus className="w-4 h-4" />
 					Create Playlist
 				</button>
@@ -84,7 +108,10 @@ const ProblemsTable = ({ problems }: props) => {
 				>
 					<option value="ALL">All Difficulties</option>
 					{difficulties.map((diff) => (
-						<option key={diff} value={diff}>
+						<option
+							key={diff}
+							value={diff}
+						>
 							{diff.charAt(0).toUpperCase() + diff.slice(1).toLowerCase()}
 						</option>
 					))}
@@ -96,7 +123,10 @@ const ProblemsTable = ({ problems }: props) => {
 				>
 					<option value="ALL">All Tags</option>
 					{allTags.map((tag) => (
-						<option key={tag} value={tag}>
+						<option
+							key={tag}
+							value={tag}
+						>
 							{tag}
 						</option>
 					))}
@@ -171,18 +201,25 @@ const ProblemsTable = ({ problems }: props) => {
 														<button
 															onClick={() => handleDelete(problem.id)}
 															className="btn btn-sm btn-error"
-                              disabled={isProblemDeleting}
+															disabled={isProblemDeleting}
 														>
-															{ isProblemDeleting ? <Loader className="animate-spin" /> : <TrashIcon className="w-4 h-4 text-white" />}
+															{isProblemDeleting ? (
+																<Loader className="animate-spin" />
+															) : (
+																<TrashIcon className="w-4 h-4 text-white" />
+															)}
 														</button>
-														<button disabled className="btn btn-sm btn-warning">
+														<button
+															disabled
+															className="btn btn-sm btn-warning"
+														>
 															<PencilIcon className="w-4 h-4 text-white" />
 														</button>
 													</div>
 												)}
 												<button
 													className="btn btn-sm btn-outline flex gap-2 items-center"
-													onClick={() => {}}
+													onClick={() => handleAddToPlaylist(problem.id)}
 												>
 													<Bookmark className="w-4 h-4" />
 													<span className="hidden sm:inline">
@@ -196,7 +233,10 @@ const ProblemsTable = ({ problems }: props) => {
 							})
 						) : (
 							<tr>
-								<td colSpan={5} className="text-center py-6 text-gray-500">
+								<td
+									colSpan={5}
+									className="text-center py-6 text-gray-500"
+								>
 									No problems found.
 								</td>
 							</tr>
@@ -205,26 +245,39 @@ const ProblemsTable = ({ problems }: props) => {
 				</table>
 			</div>
 
-      {/* Pagination */}
-      <div className="flex justify-center mt-6 gap-2">
-        <button
-          className="btn btn-sm"
-          disabled={currentPage === 1}
-          onClick={() => setCurrentPage((prev) => prev - 1)}
-        >
-          Prev
-        </button>
-        <span className="btn btn-ghost btn-sm">
-          {currentPage} / {totalPages}
-        </span>
-        <button
-          className="btn btn-sm"
-          disabled={currentPage === totalPages}
-          onClick={() => setCurrentPage((prev) => prev + 1)}
-        >
-          Next
-        </button>
-      </div>
+			{/* Pagination */}
+			<div className="flex justify-center mt-6 gap-2">
+				<button
+					className="btn btn-sm"
+					disabled={currentPage === 1}
+					onClick={() => setCurrentPage((prev) => prev - 1)}
+				>
+					Prev
+				</button>
+				<span className="btn btn-ghost btn-sm">
+					{currentPage} / {totalPages}
+				</span>
+				<button
+					className="btn btn-sm"
+					disabled={currentPage === totalPages}
+					onClick={() => setCurrentPage((prev) => prev + 1)}
+				>
+					Next
+				</button>
+			</div>
+
+			{/* Modals */}
+			<CreatePlaylistModal
+				isOpen={isCreateModalOpen}
+				onClose={() => setIsCreateModalOpen(false)}
+				onSubmit={handleCreatePlaylist}
+			/>
+
+			<AddToPlaylistModal
+				isOpen={isAddToPlaylistModalOpen}
+				onClose={() => setIsAddToPlaylistModalOpen(false)}
+				problemId={selectedProblemId ?? ""}
+			/>
 		</div>
 	);
 };
