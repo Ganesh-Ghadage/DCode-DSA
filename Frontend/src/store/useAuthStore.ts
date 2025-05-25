@@ -43,11 +43,11 @@ export const useAuthStore = create<AuthState>()((set) => ({
     } catch (error) {
       set({ errorMessage: (error instanceof Error && error.message) ? error.message : "Something went wrong" })
       set({ authUser: null })
-      toast.error(
-        error instanceof AxiosError && error?.response?.data.message
-          ? error.response.data.message
-          : "Something went wrong"
-      );
+      // toast.error(
+      //   error instanceof AxiosError && error?.response?.data.message
+      //     ? error.response.data.message
+      //     : "Something went wrong"
+      // );
     } finally {
       set({ isCheckingAuth: false })
     }
