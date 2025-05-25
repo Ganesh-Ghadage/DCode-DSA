@@ -56,7 +56,7 @@ const ProblemsTable = ({ problems }: props) => {
 			);
 	}, [problems, search, difficulty, selectedTag]);
 
-	const itemsPerPage = 5;
+	const itemsPerPage = 10;
 	const totalPages = Math.ceil(filteredProblems.length / itemsPerPage);
 	const paginatedProblems = useMemo(() => {
 		return filteredProblems.slice(
@@ -79,7 +79,7 @@ const ProblemsTable = ({ problems }: props) => {
 	};
 
 	return (
-		<div className="w-full max-w-6xl mx-auto mt-10">
+		<div className="w-full max-w-6xl mx-auto">
 			{/* Header with Create Playlist Button */}
 			<div className="flex justify-between items-center mb-6">
 				<h2 className="text-2xl font-bold">Problems</h2>
