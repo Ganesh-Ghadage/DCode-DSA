@@ -1,5 +1,3 @@
-import { useEffect } from "react";
-import { useProblemStore } from "../store/useProblemStore";
 import { Link } from "react-router-dom";
 import {
 	Tag,
@@ -8,13 +6,14 @@ import {
 	CheckCircle,
 	Circle,
 } from "lucide-react";
+import type { Problem } from "../types";
 
-const ProblemSolvedByUser = () => {
-	const { getSolvedProblems, solvedPrblems } = useProblemStore();
+interface props {
+	solvedProblems: Problem[]
+}
 
-	useEffect(() => {
-		getSolvedProblems();
-	}, [getSolvedProblems]);
+const ProblemSolvedByUser = ({solvedProblems}: props) => {
+	
 
 	// Function to get difficulty badge styling
 	const getDifficultyBadge = (difficulty: string) => {
@@ -52,7 +51,7 @@ const ProblemSolvedByUser = () => {
 					Problems Solved
 				</h2>
 
-				{solvedPrblems.length === 0 ? (
+				{solvedProblems.length === 0 ? (
 					<div className="card bg-base-100 shadow-xl">
 						<div className="card-body">
 							<h3 className="text-lg font-medium">No problems solved yet</h3>
@@ -82,7 +81,7 @@ const ProblemSolvedByUser = () => {
 									</tr>
 								</thead>
 								<tbody>
-									{solvedPrblems.map((problem) => (
+									{solvedProblems.map((problem) => (
 										<tr
 											key={problem.id}
 											className="hover"
@@ -130,7 +129,7 @@ const ProblemSolvedByUser = () => {
 							<div className="flex justify-between items-center">
 								<span className="text-sm">
 									Total problems solved:{" "}
-									<span className="font-bold">{solvedPrblems.length}</span>
+									<span className="font-bold">{solvedProblems.length}</span>
 								</span>
 								<Link
 									to="/"
@@ -144,24 +143,24 @@ const ProblemSolvedByUser = () => {
 				)}
 
 				{/* Stats Cards */}
-				{solvedPrblems.length > 0 && (
+				{solvedProblems.length > 0 && (
 					<div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
 						<div className="stat bg-base-100 shadow rounded-box">
 							<div className="stat-title">Easy</div>
 							<div className="stat-value text-success">
-								{solvedPrblems.filter((p) => p.difficulty === "EASY").length}
+								{solvedProblems.filter((p) => p.difficulty === "EASY").length}
 							</div>
 						</div>
 						<div className="stat bg-base-100 shadow rounded-box">
 							<div className="stat-title">Medium</div>
 							<div className="stat-value text-warning">
-								{solvedPrblems.filter((p) => p.difficulty === "MEDIUM").length}
+								{solvedProblems.filter((p) => p.difficulty === "MEDIUM").length}
 							</div>
 						</div>
 						<div className="stat bg-base-100 shadow rounded-box">
 							<div className="stat-title">Hard</div>
 							<div className="stat-value text-error">
-								{solvedPrblems.filter((p) => p.difficulty === "HARD").length}
+								{solvedProblems.filter((p) => p.difficulty === "HARD").length}
 							</div>
 						</div>
 					</div>

@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react";
-import { usePlaylistStore } from "../store/usePlaylistStore";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import {
 	BookOpen,
@@ -10,14 +9,18 @@ import {
 	Tag,
 	ExternalLink,
 } from "lucide-react";
+import type { Playlist } from "../types";
 
-const UserPlaylists = () => {
-	const { getPlaylists, allPlaylists, deletePlaylist } = usePlaylistStore();
+interface props {
+	allPlaylists: Playlist[]
+	deletePlaylist: (id: string) => void
+}
+
+const UserPlaylists = ({allPlaylists, deletePlaylist}: props) => {
+	
 	const [expandedPlaylist, setExpandedPlaylist] = useState<string | null>(null);
 
-	useEffect(() => {
-		getPlaylists();
-	}, [getPlaylists]);
+	
 
 	const togglePlaylist = (id: string) => {
 		if (expandedPlaylist === id) {

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import {
 	ArrowLeft,
@@ -15,19 +15,37 @@ import { useAuthStore } from "../store/useAuthStore";
 import UserSubmissions from "../components/UserSubmissions";
 import ProblemSolvedByUser from "../components/ProblemSolvedByUser";
 import UserPlaylists from "../components/UserPlaylists";
+import { useSubmissionStore } from "../store/useSubmissionStore";
+import { useProblemStore } from "../store/useProblemStore";
+import { usePlaylistStore } from "../store/usePlaylistStore";
 
 const ProfilePage = () => {
 	const [activeTab, setActiveTab] = useState<string>("submissions");
 	const { authUser } = useAuthStore();
+	const { allSubmissions, getAllSubmissions } = useSubmissionStore();
+	const { getSolvedProblems, solvedProblems } = useProblemStore();
+	const { getPlaylists, allPlaylists, deletePlaylist } = usePlaylistStore();
+
+	useEffect(() => {
+		getSolvedProblems();
+	}, [getSolvedProblems]);
+
+	useEffect(() => {
+		getAllSubmissions();
+	}, [getAllSubmissions]);
+
+	useEffect(() => {
+		getPlaylists();
+	}, [getPlaylists]);
 
 	const renderTabContent = () => {
 		switch (activeTab) {
 			case "submissions":
-				return <UserSubmissions />;
+				return <UserSubmissions allSubmissions={allSubmissions} />;
 			case "problems":
-				return <ProblemSolvedByUser />;
+				return <ProblemSolvedByUser solvedProblems={solvedProblems} />;
 			case "playlist":
-				return <UserPlaylists />;
+				return <UserPlaylists allPlaylists={allPlaylists} deletePlaylist={deletePlaylist} />;
 			default:
 				return null;
 		}

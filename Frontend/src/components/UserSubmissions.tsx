@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react";
-import { useSubmissionStore } from "../store/useSubmissionStore";
+import { useState } from "react";
 import {
 	Code,
 	Terminal,
@@ -11,17 +10,18 @@ import {
 	Filter,
 } from "lucide-react";
 import { Editor } from "@monaco-editor/react";
+import type { Submission } from "../types";
 
-const UserSubmissions = () => {
-	const { allSubmissions, getAllSubmissions } = useSubmissionStore();
+interface props {
+	allSubmissions: Submission[]
+}
+
+const UserSubmissions = ({allSubmissions}: props) => {
+	
 	const [expandedSubmission, setExpandedSubmission] = useState<string | null>(
 		null
 	);
 	const [filter, setFilter] = useState("all");
-
-	useEffect(() => {
-		getAllSubmissions();
-	}, [getAllSubmissions]);
 
 	const getStatusClass = (status: string) => {
 		switch (status) {
