@@ -13,11 +13,10 @@ import { Editor } from "@monaco-editor/react";
 import type { Submission } from "../types";
 
 interface props {
-	allSubmissions: Submission[]
+	allSubmissions: Submission[];
 }
 
-const UserSubmissions = ({allSubmissions}: props) => {
-	
+const UserSubmissions = ({ allSubmissions }: props) => {
 	const [expandedSubmission, setExpandedSubmission] = useState<string | null>(
 		null
 	);
@@ -223,9 +222,14 @@ const UserSubmissions = ({allSubmissions}: props) => {
 													</h3>
 													<div className="mockup-code bg-neutral text-neutral-content">
 														<pre className="p-4">
-															<code>
-																{submission.stdin || "No input provided"}
-															</code>
+															{submission.stdin?.split("\n").map((inp, idx) => (
+																<code
+																	key={`${submission.id}-stdin-${idx}`}
+																	className="block"
+																>
+																	{idx + 1}. {inp}
+																</code>
+															))}
 														</pre>
 													</div>
 												</div>
@@ -241,8 +245,15 @@ const UserSubmissions = ({allSubmissions}: props) => {
 																{Array.isArray(
 																	JSON.parse(submission.stdout || "")
 																)
-																	? JSON.parse(submission.stdout || "").join(
-																			"\n"
+																	? JSON.parse(submission.stdout || "").map(
+																			(out: string, idx: number) => (
+																				<code
+																					key={`${submission.id}-stdin-${idx}`}
+																					className="block"
+																				>
+																					{idx + 1}. {out}
+																				</code>
+																			)
 																	  )
 																	: submission.stdout || "No output"}
 															</code>
