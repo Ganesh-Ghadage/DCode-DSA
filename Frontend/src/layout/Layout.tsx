@@ -3,7 +3,7 @@ import Navbar from "../components/Navbar";
 
 function Layout() {
 	return (
-		<div>
+		<div className="w-full max-w-7xl">
 			<Navbar />
 			<Outlet />
 		</div>
