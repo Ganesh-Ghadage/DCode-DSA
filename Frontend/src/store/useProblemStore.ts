@@ -8,7 +8,7 @@ import { AxiosError } from 'axios'
 interface ProblemState {
   problems: Problem[]
   problem: Problem | null
-  solvedPrblems: Problem[]
+  solvedProblems: Problem[]
   isProblemsLoading: boolean
   isProblemLoading: boolean
   isProblemUpdating: boolean
@@ -25,7 +25,7 @@ interface ProblemState {
 export const useProblemStore = create<ProblemState>()((set) => ({
   problems: [],
   problem: null,
-  solvedPrblems: [],
+  solvedProblems: [],
   isProblemsLoading: false,
   isProblemLoading: false,
   isProblemUpdating: false,
@@ -110,10 +110,10 @@ export const useProblemStore = create<ProblemState>()((set) => ({
   getSolvedProblems: async () => {
     try {
       const res = await axiosInstance.get("/problems/get-solved-problems")
-      set({ solvedPrblems: res.data.data })
+      set({ solvedProblems: res.data.data })
     } catch (error) {
       set({ errorMessage: (error instanceof Error && error.message) ? error.message : "Something went wrong" })
-      set({ solvedPrblems: [] })
+      set({ solvedProblems: [] })
       toast.error(
         error instanceof AxiosError && error?.response?.data.message
           ? error.response.data.message
