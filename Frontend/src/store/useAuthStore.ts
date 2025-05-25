@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { axiosInstance } from "../lib/axios";
 import toast from "react-hot-toast";
 import type { User } from "../types";
+import { AxiosError } from "axios";
 
 interface signupData {
   name: string,
@@ -42,7 +43,11 @@ export const useAuthStore = create<AuthState>()((set) => ({
     } catch (error) {
       set({ errorMessage: (error instanceof Error && error.message) ? error.message : "Something went wrong" })
       set({ authUser: null })
-      toast.error((error instanceof Error && error.message) ? error.message : "Something went wrong")
+      toast.error(
+        error instanceof AxiosError && error?.response?.data.message
+          ? error.response.data.message
+          : "Something went wrong"
+      );
     } finally {
       set({ isCheckingAuth: false })
     }
@@ -56,8 +61,11 @@ export const useAuthStore = create<AuthState>()((set) => ({
       toast.success(res.data?.message || "Signup successfull")
     } catch (error) {
       set({ errorMessage: (error instanceof Error && error.message) ? error.message : "Something went wrong" })
-      toast.error((error instanceof Error && error.message) ? error.message : "Something went wrong")
-      console.log(error)
+      toast.error(
+        error instanceof AxiosError && error?.response?.data.message
+          ? error.response.data.message
+          : "Something went wrong"
+      );
     } finally {
       set({ isSigningUp: false })
     }
@@ -71,8 +79,11 @@ export const useAuthStore = create<AuthState>()((set) => ({
       toast.success(res.data?.message || "login successfull")
     } catch (error) {
       set({ errorMessage: (error instanceof Error && error.message) ? error.message : "Something went wrong" })
-      toast.error((error instanceof Error && error.message) ? error.message : "Something went wrong")
-      console.log(error)
+      toast.error(
+        error instanceof AxiosError && error?.response?.data.message
+          ? error.response.data.message
+          : "Something went wrong"
+      );
     } finally {
       set({ isLoggingIn: false })
     }
@@ -85,8 +96,11 @@ export const useAuthStore = create<AuthState>()((set) => ({
       toast.success("logout successfull")
     } catch (error) {
       set({ errorMessage: (error instanceof Error && error.message) ? error.message : "Something went wrong" })
-      toast.error((error instanceof Error && error.message) ? error.message : "Something went wrong")
-      console.log(error)
+      toast.error(
+        error instanceof AxiosError && error?.response?.data.message
+          ? error.response.data.message
+          : "Something went wrong"
+      );
     }
   }
 
