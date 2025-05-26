@@ -74,7 +74,7 @@ authRouter.post(
  *       200:
  *         description: Login successful
  */
-authRouter.post("/login", authLimit, userLoginValidator(), validate, loginUser);
+authRouter.post("/login", authLimit, upload.none(), userLoginValidator(), validate, loginUser);
 
 /**
  * @swagger
@@ -94,6 +94,7 @@ authRouter.post("/login", authLimit, userLoginValidator(), validate, loginUser);
  */
 authRouter.get(
 	"/verify/:token",
+	upload.none(),
 	userVerificationValidator(),
 	validate,
 	verifyUser
@@ -109,7 +110,7 @@ authRouter.get(
  *       200:
  *         description: Logout successful
  */
-authRouter.post("/logout", authMiddleware, logoutUser);
+authRouter.post("/logout", upload.none(), authMiddleware, logoutUser);
 
 /**
  * @swagger
@@ -121,7 +122,7 @@ authRouter.post("/logout", authMiddleware, logoutUser);
  *       200:
  *         description: Profile data returned
  */
-authRouter.get("/profile", authMiddleware, getUserProfile);
+authRouter.get("/profile", upload.none(), authMiddleware, getUserProfile);
 
 /**
  * @swagger
@@ -133,7 +134,7 @@ authRouter.get("/profile", authMiddleware, getUserProfile);
  *       200:
  *         description: Verification email sent
  */
-authRouter.post("/resend-verify-email", authMiddleware, resendVerificationMail);
+authRouter.post("/resend-verify-email", upload.none(), authMiddleware, resendVerificationMail);
 
 /**
  * @swagger
@@ -147,6 +148,7 @@ authRouter.post("/resend-verify-email", authMiddleware, resendVerificationMail);
  */
 authRouter.post(
 	"/refresh-tokens",
+	upload.none(),
 	refreshAccessTokenValidator(),
 	validate,
 	authMiddleware,
@@ -165,6 +167,7 @@ authRouter.post(
  */
 authRouter.post(
 	"/forgot-password",
+	upload.none(),
 	forgotPasswordValidator(),
 	validate,
 	forgotPassword
@@ -188,6 +191,7 @@ authRouter.post(
  */
 authRouter.put(
 	"/change-password/:token",
+	upload.none(),
 	changePasswordViaTokenValidator(),
 	validate,
 	changePasswordViaToken
@@ -205,6 +209,7 @@ authRouter.put(
  */
 authRouter.put(
 	"/update-password",
+	upload.none(),
 	updatePasswordValidator(),
 	validate,
 	updatePassword

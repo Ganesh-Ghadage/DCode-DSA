@@ -7,7 +7,7 @@ import { apiRateLimiter } from "../utils/rateLimiter.js";
 
 const executeCodeRouter = express.Router();
 
-const executionLimit = apiRateLimiter(1, 1);
+const executionLimit = apiRateLimiter(1, 4);
 
 /**
  * @swagger

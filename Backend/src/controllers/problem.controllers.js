@@ -103,7 +103,15 @@ export const createProblem = asyncHandler(async (req, res) => {
 
 export const getALLProblems = asyncHandler(async (req, res) => {
 	try {
-		const problems = await db.problem.findMany();
+		const problems = await db.problem.findMany({
+			include: {
+				solvedBy: {
+					where: {
+						userId: req.user.id,
+					},
+				},
+			},
+		});
 
 		if (!problems) {
 			throw new ApiError(404, "Problems not found");
@@ -130,6 +138,13 @@ export const getProblemById = asyncHandler(async (req, res) => {
 		const problem = await db.problem.findUnique({
 			where: {
 				id,
+			},
+			include: {
+				submission: {
+					where: {
+						userId: req.user.id,
+					},
+				},
 			},
 		});
 
