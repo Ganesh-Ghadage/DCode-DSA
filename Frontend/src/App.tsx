@@ -14,6 +14,7 @@ import ProblemPage from "./pages/ProblemPage";
 import ProfilePage from "./pages/ProfilePage";
 import ProblemsListPage from "./pages/ProblemsListPage";
 import SheetPage from "./pages/SheetPage";
+import ThemeToggle from "./components/ThemeToggleButton";
 
 function App() {
 	const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
@@ -33,19 +34,29 @@ function App() {
 	return (
 		<div className="flex flex-col justify-start items-center">
 			<Toaster position="bottom-right" />
+
+			<div className="fixed right-4 top-4 z-99999">
+				<ThemeToggle />
+			</div>
+
 			<Routes>
-				<Route path="/" element={<Layout />}>
+				<Route
+					path="/"
+					element={<Layout />}
+				>
 					<Route
 						index
 						element={<HomePage />}
 					/>
 
-					<Route 
+					<Route
 						path="/problem"
-						element={authUser ? <ProblemsListPage /> : <Navigate to={"/login"} />}
+						element={
+							authUser ? <ProblemsListPage /> : <Navigate to={"/login"} />
+						}
 					/>
 
-					<Route 
+					<Route
 						path="/sheets"
 						element={authUser ? <SheetPage /> : <Navigate to={"/login"} />}
 					/>
@@ -62,11 +73,11 @@ function App() {
 				/>
 
 				<Route
-					path="/problem/:id" 
+					path="/problem/:id"
 					element={authUser ? <ProblemPage /> : <Navigate to={"/login"} />}
 				/>
 
-				<Route 
+				<Route
 					path="/profile"
 					element={authUser ? <ProfilePage /> : <Navigate to={"/login"} />}
 				/>
