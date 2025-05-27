@@ -22,7 +22,7 @@ interface ProblemState {
   getSolvedProblems: () => void
 }
 
-export const useProblemStore = create<ProblemState>()((set) => ({
+export const useProblemStore = create<ProblemState>()((set, get) => ({
   problems: [],
   problem: null,
   solvedProblems: [],
@@ -76,6 +76,11 @@ export const useProblemStore = create<ProblemState>()((set) => ({
       set({ isProblemUpdating: true })
 
       const res = await axiosInstance.put(`/problems/update-problem/${id}`, data)
+
+      if (get().problem?.id === id) {
+        await get().getAllProblems()
+      }
+      
       toast.success(res.data?.message || "Problem updated successfully")
     } catch (error) {
       set({ errorMessage: (error instanceof Error && error.message) ? error.message : "Something went wrong" })
@@ -94,6 +99,10 @@ export const useProblemStore = create<ProblemState>()((set) => ({
       set({ isProblemDeleting: true })
 
       const res = await axiosInstance.delete(`/problems/delete-problem/${id}`)
+
+      if (get().problem?.id === id) {
+        await get().getAllProblems()
+      }
       toast.success(res.data?.message || "Problem deleted successfully")
     } catch (error) {
       set({ errorMessage: (error instanceof Error && error.message) ? error.message : "Something went wrong" })
