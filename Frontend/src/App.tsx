@@ -15,6 +15,7 @@ import ProfilePage from "./pages/ProfilePage";
 import ProblemsListPage from "./pages/ProblemsListPage";
 import SheetListPage from "./pages/SheetListPage";
 import SheetPage from "./pages/SheetPage";
+import EditProblemPage from "./pages/EditProblemPage";
 
 function App() {
 	const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
@@ -87,6 +88,11 @@ function App() {
 					<Route
 						path="/add-problem"
 						element={authUser ? <AddProblem /> : <Navigate to={"/"} />}
+					/>
+
+					<Route
+						path="/problem/edit/:id"
+						element={authUser ? <EditProblemPage /> : <Navigate to={"/"} />}
 					/>
 				</Route>
 			</Routes>

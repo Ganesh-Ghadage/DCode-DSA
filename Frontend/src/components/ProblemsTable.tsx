@@ -36,8 +36,8 @@ const ProblemsTable = ({ problems }: props) => {
 	const { deleteProblem, isProblemDeleting } = useProblemStore();
 	const { createPlaylist } = usePlaylistStore();
 
-	const navigate = useNavigate()
- 
+	const navigate = useNavigate();
+
 	const difficulties = ["EASY", "MEDIUM", "HARD"];
 
 	const allTags: string[] = useMemo(() => {
@@ -88,7 +88,7 @@ const ProblemsTable = ({ problems }: props) => {
 
 	const handleConfirmProblemDelete = async () => {
 		await deleteProblem(selectedDeleteProblemId);
-		navigate("/problem")
+		navigate("/problem");
 	};
 
 	return (
@@ -222,12 +222,14 @@ const ProblemsTable = ({ problems }: props) => {
 																<TrashIcon className="w-4 h-4 text-white" />
 															)}
 														</button>
-														<button
-															disabled
-															className="btn btn-sm btn-warning"
-														>
-															<PencilIcon className="w-4 h-4 text-white" />
-														</button>
+														<Link to={`/problem/edit/${problem.id}`}>
+															<button
+																disabled
+																className="btn btn-sm btn-warning"
+															>
+																<PencilIcon className="w-4 h-4 text-white" />
+															</button>
+														</Link>
 													</div>
 												)}
 												<button

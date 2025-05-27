@@ -4,6 +4,8 @@ import { toast } from 'react-hot-toast'
 import { axiosInstance } from '../lib/axios'
 import { type Problem } from '../types/Problem'
 import { AxiosError } from 'axios'
+import type { z } from 'zod'
+import type { problemSchema } from '@/schemas/problemSchema'
 
 interface ProblemState {
   problems: Problem[]
@@ -17,7 +19,7 @@ interface ProblemState {
 
   getAllProblems: () => void
   getProblemById: (id: string) => void
-  updateProblem: (id: string, data: Problem) => void
+  updateProblem: (id: string, data: z.infer<typeof problemSchema>) => void
   deleteProblem: (id: string) => void
   getSolvedProblems: () => void
 }
@@ -71,7 +73,7 @@ export const useProblemStore = create<ProblemState>()((set, get) => ({
     }
   },
 
-  updateProblem: async (id: string, data: Problem) => {
+  updateProblem: async (id: string, data: z.infer<typeof problemSchema>) => {
     try {
       set({ isProblemUpdating: true })
 
