@@ -24,8 +24,6 @@ export function TopBar({ items, className, open, setOpen }: NavBarProps) {
     }
   }
 
-  console.log(activeTab)
-
   return (
     <div
       className={cn(
