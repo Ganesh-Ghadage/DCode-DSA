@@ -1,13 +1,17 @@
+import CreateSheetModal from "@/components/CreateSheetModal";
 import { cn } from "@/lib/utils";
+import type { sheetSchema } from "@/schemas/sheetsSchema";
 import { useAuthStore } from "@/store/useAuthStore";
 import { useSheetStore } from "@/store/useSheetsStore";
 import { Plus } from "lucide-react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import type { z } from "zod";
 
 const SheetListPage = () => {
-	const { allSheets, getSheets } = useSheetStore();
+	const { allSheets, getSheets, createSheet } = useSheetStore();
 	const { authUser } = useAuthStore();
+	const [isCreateSheetModalOpen, setIsCreateSheetModalOpen] = useState<boolean>(false)
 
 	useEffect(() => {
 		getSheets();
@@ -25,6 +29,10 @@ const SheetListPage = () => {
 		"bg-cyan-800/40",
 	];
 
+	const handleCreateSheet = async (data: z.infer<typeof sheetSchema>) => {
+		await createSheet(data)
+	}
+
 	return (
 		<section className="min-h-screen w-full  max-w-7xl mx-auto flex flex-col items-center mt-10 px-4 mb-6">
 			<div className="w-full flex justify-between items-center mb-6">
@@ -32,7 +40,7 @@ const SheetListPage = () => {
 
 				{authUser?.role === "ADMIN" && (
 					<button
-						onClick={() => {}}
+						onClick={() => setIsCreateSheetModalOpen(true)}
 						className="btn btn-primary gap-2"
 					>
 						<Plus className="w-4 h-4 text-white" />
@@ -74,6 +82,12 @@ const SheetListPage = () => {
 			<p className="fixed bottom-2 left-4">
 				**Soon the Sheets will be on payment basis
 			</p>
+
+			<CreateSheetModal
+				isOpen={isCreateSheetModalOpen}
+				onClose={() => setIsCreateSheetModalOpen(false)}
+				onSubmit={handleCreateSheet}
+			/>
 		</section>
 	);
 };
