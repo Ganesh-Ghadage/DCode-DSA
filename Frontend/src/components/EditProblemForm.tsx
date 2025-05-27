@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useForm, useFieldArray, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Editor } from "@monaco-editor/react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
 	Plus,
 	Trash2,
@@ -11,6 +11,8 @@ import {
 	Lightbulb,
 	BookOpen,
 	CheckCircle2,
+	LucideLibraryBig,
+	ChevronLeft,
 } from "lucide-react";
 import type { z } from "zod";
 
@@ -85,8 +87,8 @@ function EditProblemForm({ problem }: props) {
 	});
 
 	const onSubmit = async (data: z.infer<typeof problemSchema>) => {
-		await updateProblem(problem.id, data)
-    navigte("/problem")
+		await updateProblem(problem.id, data);
+		navigte("/problem");
 	};
 
 	const loadProblemData = () => {
@@ -110,6 +112,13 @@ function EditProblemForm({ problem }: props) {
 			<div className="card bg-base-100 shadow-xl">
 				<div className="card-body p-6 md:p-8">
 					<div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 md:mb-8 pb-4 border-b">
+						<Link
+							to={"/problem"}
+							className="flex gap-2 btn btn-ghost text-primary"
+						>
+							<ChevronLeft className="w-4 h-4" />
+							<LucideLibraryBig className="w-6 h-6" />
+						</Link>
 						<h2 className="card-title text-2xl md:text-3xl flex items-center gap-3">
 							<FileText className="w-6 h-6 md:w-8 md:h-8 text-primary" />
 							Edit Problem
@@ -599,7 +608,7 @@ function EditProblemForm({ problem }: props) {
 								) : (
 									<>
 										<CheckCircle2 className="w-5 h-5" />
-										Create Problem
+										Edit Problem
 									</>
 								)}
 							</button>
