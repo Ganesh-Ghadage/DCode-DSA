@@ -13,6 +13,7 @@ import AdminRoute from "./components/AdminRoute";
 import ProblemPage from "./pages/ProblemPage";
 import ProfilePage from "./pages/ProfilePage";
 import ProblemsListPage from "./pages/ProblemsListPage";
+import SheetListPage from "./pages/SheetListPage";
 import SheetPage from "./pages/SheetPage";
 
 function App() {
@@ -53,7 +54,7 @@ function App() {
 
 					<Route
 						path="/sheets"
-						element={authUser ? <SheetPage /> : <Navigate to={"/login"} />}
+						element={authUser ? <SheetListPage /> : <Navigate to={"/login"} />}
 					/>
 				</Route>
 
@@ -70,6 +71,11 @@ function App() {
 				<Route
 					path="/problem/:id"
 					element={authUser ? <ProblemPage /> : <Navigate to={"/login"} />}
+				/>
+
+				<Route 
+					path="/sheet/:id"
+					element={authUser ? <SheetPage /> : <Navigate to={"/login"} />}
 				/>
 
 				<Route
