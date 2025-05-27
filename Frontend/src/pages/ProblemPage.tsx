@@ -14,7 +14,7 @@ import {
 	Code2,
 	Users,
 	ThumbsUp,
-	Home,
+	LucideLibraryBig,
 } from "lucide-react";
 
 import { useProblemStore } from "../store/useProblemStore";
@@ -212,8 +212,8 @@ const ProblemPage = () => {
 		<div className="min-h-screen w-full max-w-7xl bg-gradient-to-br from-base-300 to-base-200">
 			<nav className="navbar bg-base-100 shadow-lg px-4">
 				<div className="flex-1 gap-2">
-					<Link to={"/"} className="flex items-center gap-2 text-primary">
-						<Home className="w-6 h-6" />
+					<Link to={"/problems"} className="flex items-center gap-2 text-primary">
+						<LucideLibraryBig className="w-6 h-6" />
 						<ChevronRight className="w-4 h-4" />
 					</Link>
 					<div className="mt-2">
