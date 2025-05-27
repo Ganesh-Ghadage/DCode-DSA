@@ -14,7 +14,6 @@ import ProblemPage from "./pages/ProblemPage";
 import ProfilePage from "./pages/ProfilePage";
 import ProblemsListPage from "./pages/ProblemsListPage";
 import SheetPage from "./pages/SheetPage";
-import ThemeToggle from "./components/ThemeToggleButton";
 
 function App() {
 	const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
@@ -34,10 +33,6 @@ function App() {
 	return (
 		<div className="flex flex-col justify-start items-center">
 			<Toaster position="bottom-right" />
-
-			<div className="fixed right-4 top-4 z-99999">
-				<ThemeToggle />
-			</div>
 
 			<Routes>
 				<Route
