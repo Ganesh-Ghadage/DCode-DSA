@@ -18,7 +18,7 @@ interface SheetState {
   createSheet: (data: z.infer<typeof sheetSchema>) => void
   updateSheet: (id: string, data: z.infer<typeof sheetSchema>) => void
   addProblemInSheet: (id: string, problemIds: string[]) => void
-  removeProblemFromSheet: (id: string, problemIds: []) => void
+  removeProblemFromSheet: (id: string, problemIds: string[]) => void
   deleteSheet: (id: string) => void
 }
 
@@ -125,10 +125,10 @@ export const useSheetStore = create<SheetState>()((set, get) => ({
     }
   },
 
-  removeProblemFromSheet: async (id: string, problemIds: []) => {
+  removeProblemFromSheet: async (id: string, problemIds: string[]) => {
     try {
       set({ isLoading: true })
-      const res = await axiosInstance.delete(`/sheet/${id}/remove-problem`, { data: problemIds })
+      const res = await axiosInstance.delete(`/sheet/${id}/remove-problem`, { data: {problemIds} })
 
       if (get().sheet?.id === id) {
         await get().getSheetById(id)
