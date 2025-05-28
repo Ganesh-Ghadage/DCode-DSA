@@ -19,6 +19,20 @@ const AddToPlaylistModal = ({ isOpen, onClose, problemId }: props) => {
 		}
 	}, [isOpen]);
 
+	useEffect(() => {
+		const handleKeyDown = (e: KeyboardEvent) => {
+			if (e.key === "Escape") onClose();
+		};
+
+		if (isOpen) {
+			document.addEventListener("keydown", handleKeyDown);
+		} else {
+			document.removeEventListener("keydown", handleKeyDown);
+		}
+
+		return () => document.removeEventListener("keydown", handleKeyDown);
+	}, [isOpen]);
+
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		if (!selectedPlaylist) return;
@@ -30,8 +44,12 @@ const AddToPlaylistModal = ({ isOpen, onClose, problemId }: props) => {
 	if (!isOpen) return null;
 
 	return (
-		<div className="fixed inset-0 bg-black/80 bg-opacity-50 flex items-center justify-center z-50">
-			<div className="bg-base-100 rounded-lg shadow-xl w-full max-w-md">
+		<div className="fixed inset-0 bg-black/80 bg-opacity-50 flex items-center justify-center">
+			<div
+				className="absolute inset-0"
+				onClick={onClose}
+			/>
+			<div className="bg-base-100 rounded-lg shadow-xl w-full max-w-md z-50">
 				<div className="flex justify-between items-center p-4 border-b border-base-300">
 					<h3 className="text-xl font-bold">Add to Playlist</h3>
 					<button
