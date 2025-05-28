@@ -89,7 +89,7 @@ export const useSheetStore = create<SheetState>()((set, get) => ({
   updateSheet: async (id: string, data: z.infer<typeof sheetSchema>) => {
     try {
       set({ isLoading: true })
-      const res = await axiosInstance.patch(`/sheet/${id}/update`, data)
+      const res = await axiosInstance.patch(`/sheet/update-sheet/${id}`, data)
       toast.success(res.data.message)
     } catch (error) {
       set({ errorMessage: (error instanceof Error && error.message) ? error.message : "Something went wrong" })
@@ -98,6 +98,7 @@ export const useSheetStore = create<SheetState>()((set, get) => ({
           ? error.response.data.message
           : "Something went wrong"
       );
+      console.log(error)
     } finally {
       set({ isLoading: false })
     }

@@ -1,5 +1,7 @@
 import AddProblemToSheet from "@/components/AddProblemToSheet";
 import ConfirmDeleteModal from "@/components/ConfirmDeleteModal";
+import UpdateSheetModal from "@/components/UpdateSheetModal";
+import type { sheetSchema } from "@/schemas/sheetsSchema";
 import { useAuthStore } from "@/store/useAuthStore";
 import { useSheetStore } from "@/store/useSheetsStore";
 import {
@@ -15,7 +17,8 @@ import {
 	TrashIcon,
 } from "lucide-react";
 import { useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { data, Link, useNavigate, useParams } from "react-router-dom";
+import type { z } from "zod";
 
 const SheetPage = () => {
 	const { id } = useParams();
@@ -23,6 +26,8 @@ const SheetPage = () => {
 	const [isRemoveProblemModalOpen, setIsRemoveProblemModalOpen] =
 		useState<boolean>(false);
 	const [isDeleteSheetModalOpen, setIsDeleteSheetModalOpen] =
+		useState<boolean>(false);
+	const [isUpdateSheetModalOpen, setIsUpdateSheetModalOpen] =
 		useState<boolean>(false);
 	const [isAddProblemModalOpen, setIsAddProblemModalOpen] =
 		useState<boolean>(false);
@@ -34,6 +39,7 @@ const SheetPage = () => {
 		isLoading,
 		removeProblemFromSheet,
 		deleteSheet,
+		updateSheet
 	} = useSheetStore();
 	const { authUser } = useAuthStore();
 
@@ -89,6 +95,12 @@ const SheetPage = () => {
 		}
 	};
 
+	const handleUpdateSheet = async (data: z.infer<typeof sheetSchema>) => {
+		if(id) {
+			await updateSheet(id, data)
+		}
+	}
+
 	if (isLoading || !sheet) {
 		return (
 			<div className="flex items-center justify-center h-screen w-full bg-base-200">
@@ -117,7 +129,7 @@ const SheetPage = () => {
 
 					{authUser?.role === "ADMIN" && (
 						<button
-							onClick={() => {}}
+							onClick={() => setIsUpdateSheetModalOpen(true)}
 							className="btn btn-primary btn-sm"
 						>
 							<Pencil className="w-4 h-4 text-white" />
@@ -287,6 +299,13 @@ const SheetPage = () => {
 				onClose={() => setIsAddProblemModalOpen(false)}
 				sheetId={id || ""}
 				sheet={sheet}
+			/>
+
+			<UpdateSheetModal 
+				isOpen={isUpdateSheetModalOpen}
+				sheet={sheet}
+				onClose={() => setIsUpdateSheetModalOpen(false)}
+				onSubmit={handleUpdateSheet}
 			/>
 		</div>
 	);
