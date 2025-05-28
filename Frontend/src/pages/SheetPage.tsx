@@ -17,7 +17,7 @@ import {
 	TrashIcon,
 } from "lucide-react";
 import { useEffect, useState } from "react";
-import { data, Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import type { z } from "zod";
 
 const SheetPage = () => {
