@@ -81,7 +81,7 @@ const ProfilePage = () => {
 										alt={authUser?.name}
 									/>
 								) : (
-									<span className="text-3xl">
+									<span className="text-7xl font-bold w-full ml-5 h-fit">
 										{authUser?.name ? authUser.name.charAt(0) : "U"}
 									</span>
 								)}
