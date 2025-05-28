@@ -1,3 +1,4 @@
+import AddProblemToSheet from "@/components/AddProblemToSheet";
 import ConfirmDeleteModal from "@/components/ConfirmDeleteModal";
 import { useAuthStore } from "@/store/useAuthStore";
 import { useSheetStore } from "@/store/useSheetsStore";
@@ -8,6 +9,7 @@ import {
 	ExternalLink,
 	List,
 	Pencil,
+	Plus,
 	Sheet,
 	Tag,
 	TrashIcon,
@@ -21,6 +23,8 @@ const SheetPage = () => {
 	const [isRemoveProblemModalOpen, setIsRemoveProblemModalOpen] =
 		useState<boolean>(false);
 	const [isDeleteSheetModalOpen, setIsDeleteSheetModalOpen] =
+		useState<boolean>(false);
+	const [isAddProblemModalOpen, setIsAddProblemModalOpen] =
 		useState<boolean>(false);
 	const [selectedProblemId, setSelectedProblemId] = useState<string>("");
 
@@ -150,6 +154,12 @@ const SheetPage = () => {
 										</div>
 									</div>
 								</div>
+								<button 
+									onClick={() => setIsAddProblemModalOpen(true)}
+									className="btn btn-info flex">
+									<Plus className="w-4 h-4" />
+									Add Problems
+								</button>
 							</div>
 
 							{/* Description */}
@@ -270,6 +280,13 @@ const SheetPage = () => {
 				isLoading={isLoading}
 				onClose={() => setIsDeleteSheetModalOpen(false)}
 				onConfirm={handleConfirmSheetDelete}
+			/>
+
+			<AddProblemToSheet 
+				isOpen={isAddProblemModalOpen}
+				onClose={() => setIsAddProblemModalOpen(false)}
+				sheetId={id || ""}
+				sheet={sheet}
 			/>
 		</div>
 	);
