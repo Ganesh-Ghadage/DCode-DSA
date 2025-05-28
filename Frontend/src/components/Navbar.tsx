@@ -54,7 +54,7 @@ function Navbar() {
 											tabIndex={0}
 											className="btn btn-ghost btn-circle avatar flex flex-row "
 										>
-											<div className="w-10 rounded-full ">
+											<div className="w-10 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
 												<img
 													src={
 														authUser?.image ||
