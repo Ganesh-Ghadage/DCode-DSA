@@ -14,17 +14,20 @@ import { usePlaylistStore } from "@/store/usePlaylistStore";
 import type { playlistSchema } from "@/schemas/playlistSchema";
 import type { z } from "zod";
 import CreatePlaylistModal from "./CreatePlaylistModal";
+import ConfirmDeleteModal from "./ConfirmDeleteModal";
 
 interface props {
 	allPlaylists: Playlist[];
-	deletePlaylist: (id: string) => void;
 }
 
-const UserPlaylists = ({ allPlaylists, deletePlaylist }: props) => {
+const UserPlaylists = ({ allPlaylists }: props) => {
 	const [expandedPlaylist, setExpandedPlaylist] = useState<string | null>(null);
 	const [isCreateModalOpen, setIsCreateModalOpen] = useState<boolean>(false);
+	const [isDeletePlaylistModalOpen, setIsDeletePlaylistModalOpen] =
+		useState<boolean>(false);
+	const [selectedPlaylist, setSelectedPlaylist] = useState<string | null>(null);
 
-	const { createPlaylist } = usePlaylistStore();
+	const { createPlaylist, deletePlaylist, isLoading } = usePlaylistStore();
 
 	const togglePlaylist = (id: string) => {
 		if (expandedPlaylist === id) {
@@ -34,8 +37,15 @@ const UserPlaylists = ({ allPlaylists, deletePlaylist }: props) => {
 		}
 	};
 
-	const handleDelete = async (id: string) => {
-		await deletePlaylist(id);
+	const handleDelete = (id: string) => {
+		setIsDeletePlaylistModalOpen(true);
+		setSelectedPlaylist(id);
+	};
+
+	const handleConfirmDelete = async () => {
+		if (selectedPlaylist) {
+			await deletePlaylist(selectedPlaylist);
+		}
 	};
 
 	const handleCreatePlaylist = async (data: z.infer<typeof playlistSchema>) => {
@@ -236,6 +246,13 @@ const UserPlaylists = ({ allPlaylists, deletePlaylist }: props) => {
 				isOpen={isCreateModalOpen}
 				onClose={() => setIsCreateModalOpen(false)}
 				onSubmit={handleCreatePlaylist}
+			/>
+
+			<ConfirmDeleteModal
+				isOpen={isDeletePlaylistModalOpen}
+				isLoading={isLoading}
+				onClose={() => setIsDeletePlaylistModalOpen(false)}
+				onConfirm={handleConfirmDelete}
 			/>
 		</div>
 	);
