@@ -45,7 +45,7 @@ const ProfilePage = () => {
 			case "problems":
 				return <ProblemSolvedByUser solvedProblems={solvedProblems} />;
 			case "playlist":
-				return <UserPlaylists allPlaylists={allPlaylists} deletePlaylist={deletePlaylist} />;
+				return <UserPlaylists allPlaylists={allPlaylists} />;
 			default:
 				return null;
 		}
