@@ -1,5 +1,5 @@
-import { useState } from "react"
-import { Link } from "react-router-dom"
+import { useEffect, useState } from "react"
+import { Link, useLocation } from "react-router-dom"
 import { cn } from "@/lib/utils"
 
 interface NavItem {
@@ -15,10 +15,15 @@ interface NavBarProps {
 }
 
 export function TopBar({ items, className, open, setOpen }: NavBarProps) {
-  const [activeTab, setActiveTab] = useState('Home')
+  const [activeTab, setActiveTab] = useState('/')
+  const path = useLocation().pathname
 
-  const handleClick = (name: string) => {
-    setActiveTab(name)
+  useEffect(() => {
+    setActiveTab(path)
+  }, [path])
+
+  const handleClick = (url: string) => {
+    setActiveTab(url)
     if(open && setOpen) {
       setOpen(false)
     }
@@ -35,13 +40,13 @@ export function TopBar({ items, className, open, setOpen }: NavBarProps) {
         open && "flex flex-col items-start gap-5 bg-base-300 mt-5"
       )}>
         {items.map((item) => {
-          const isActive = activeTab === item.name
+          const isActive = activeTab === item.url
 
           return (
             <Link
               key={item.name}
               to={item.url}
-              onClick={() => handleClick(item.name)}
+              onClick={() => handleClick(item.url)}
               className={cn(
                 "relative cursor-pointer text-sm font-semibold px-6 py-2 rounded-full transition-colors",
                 "text-md md:text-xl font-bold hover:text-primary",

@@ -14,9 +14,9 @@ function Navbar() {
 	const isMobile = useMobileView();
 
 	const navItems = [
-		{ name: "Home", url: "" },
-		{ name: "Problems", url: "problem" },
-		{ name: "Sheets", url: "sheets" },
+		{ name: "Home", url: "/" },
+		{ name: "Problems", url: "/problem" },
+		{ name: "Sheets", url: "/sheets" },
 	];
 
 	return (
