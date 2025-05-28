@@ -49,7 +49,7 @@ const SheetListPage = () => {
 				)}
 			</div>
 
-			<div className="w-full flex flex-wrap gap-10">
+			<div className="w-full flex flex-wrap items-center justify-center gap-10">
 				{allSheets.map((sheet, index) => (
 					<div
 						key={sheet.id}
