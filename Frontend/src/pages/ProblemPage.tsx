@@ -27,8 +27,14 @@ import { useSubmissionStore } from "../store/useSubmissionStore";
 const ProblemPage = () => {
 	const { id } = useParams();
 	const { getProblemById, problem, isProblemLoading } = useProblemStore();
-	const { executeCode, submission, isExecuting, resetData } =
-		useExecutionStore();
+	const {
+		executeCode,
+		submission,
+		isExecuting,
+		runCode,
+		isRunning,
+		resetData,
+	} = useExecutionStore();
 	const {
 		problemSubmissions,
 		submissionData,
@@ -93,6 +99,18 @@ const ProblemPage = () => {
 	};
 
 	const handleCodeRun = (e: React.MouseEvent<HTMLButtonElement>) => {
+		e.preventDefault();
+		try {
+			const languageId = getLanguageId(selectedLanguage);
+			const stdin = problem?.testcases.map((tc) => tc.input) || [];
+			const expectedOutput = problem?.testcases.map((tc) => tc.output) || [];
+			runCode(code, languageId, stdin, expectedOutput, id ?? "");
+		} catch (error) {
+			console.log("Error executing code", error);
+		}
+	};
+
+	const handleCodeSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
 		e.preventDefault();
 		try {
 			const languageId = getLanguageId(selectedLanguage);
@@ -351,15 +369,22 @@ const ProblemPage = () => {
 								<div className="flex justify-between items-center">
 									<button
 										className={`btn btn-primary gap-2 ${
-											isExecuting ? "loading" : ""
+											isRunning ? "loading" : ""
 										}`}
 										onClick={handleCodeRun}
-										disabled={isExecuting}
+										disabled={isRunning || isExecuting}
 									>
-										{!isExecuting && <Play className="w-4 h-4" />}
+										{!isRunning && <Play className="w-4 h-4" />}
 										Run Code
 									</button>
-									<button className="btn btn-success gap-2">
+									<button
+										className={`btn btn-success gap-2 ${
+											isExecuting ? "loading" : ""
+										}`}
+										onClick={handleCodeSubmit}
+										disabled={isExecuting || isRunning}
+									>
+										{!isExecuting && <Play className="w-4 h-4" />}
 										Submit Solution
 									</button>
 								</div>
