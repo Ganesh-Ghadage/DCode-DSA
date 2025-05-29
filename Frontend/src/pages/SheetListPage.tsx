@@ -3,15 +3,16 @@ import { cn } from "@/lib/utils";
 import type { sheetSchema } from "@/schemas/sheetsSchema";
 import { useAuthStore } from "@/store/useAuthStore";
 import { useSheetStore } from "@/store/useSheetsStore";
-import { Plus } from "lucide-react";
+import { Loader, Plus } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import type { z } from "zod";
 
 const SheetListPage = () => {
-	const { allSheets, getSheets, createSheet } = useSheetStore();
+	const { allSheets, getSheets, createSheet, isLoading } = useSheetStore();
 	const { authUser } = useAuthStore();
-	const [isCreateSheetModalOpen, setIsCreateSheetModalOpen] = useState<boolean>(false)
+	const [isCreateSheetModalOpen, setIsCreateSheetModalOpen] =
+		useState<boolean>(false);
 
 	useEffect(() => {
 		getSheets();
@@ -30,7 +31,15 @@ const SheetListPage = () => {
 	];
 
 	const handleCreateSheet = async (data: z.infer<typeof sheetSchema>) => {
-		await createSheet(data)
+		await createSheet(data);
+	};
+
+	if (isLoading) {
+		return (
+			<div className="flex items-center justify-center h-[80dvh] w-full">
+				<Loader className="size-10 animate-spin" />
+			</div>
+		);
 	}
 
 	return (
@@ -50,34 +59,40 @@ const SheetListPage = () => {
 			</div>
 
 			<div className="w-full flex flex-wrap items-center justify-center gap-10">
-				{allSheets.map((sheet, index) => (
-					<div
-						key={sheet.id}
-						className={cn(
-							`card text-primary-content w-96`,
-							bgClasses[index % bgClasses.length]
-						)}
-					>
-						<div className="card-body">
-							<div className="badge badge-accent font-semibold">
-								{sheet.company}
-							</div>
-							<h2 className="card-title text-black dark:text-white text-xl md:text-2xl font-bold">
-								{sheet.title}
-							</h2>
-							<p className="text-lg font-semibold text-black dark:text-white">
-								{sheet.description}
-							</p>
-							<div className="card-actions justify-end">
-								<Link to={`/sheet/${sheet.id}`}>
-									<button className="btn btn-soft btn-warning">
-										Solve Now
-									</button>
-								</Link>
+				{allSheets.length > 0 ? (
+					allSheets.map((sheet, index) => (
+						<div
+							key={sheet.id}
+							className={cn(
+								`card text-primary-content w-96`,
+								bgClasses[index % bgClasses.length]
+							)}
+						>
+							<div className="card-body">
+								<div className="badge badge-accent font-semibold">
+									{sheet.company}
+								</div>
+								<h2 className="card-title text-black dark:text-white text-xl md:text-2xl font-bold">
+									{sheet.title}
+								</h2>
+								<p className="text-lg font-semibold text-black dark:text-white">
+									{sheet.description}
+								</p>
+								<div className="card-actions justify-end">
+									<Link to={`/sheet/${sheet.id}`}>
+										<button className="btn btn-soft btn-warning">
+											Solve Now
+										</button>
+									</Link>
+								</div>
 							</div>
 						</div>
-					</div>
-				))}
+					))
+				) : (
+					<p className="mt-10 text-center text-lg font-semibold text-gray-500 dark:text-gray-400 z-10 border border-primary px-4 py-2 rounded-md border-dashed">
+						No Sheets found!
+					</p>
+				)}
 			</div>
 			<p className="fixed bottom-2 left-4">
 				**Soon the Sheets will be on payment basis
