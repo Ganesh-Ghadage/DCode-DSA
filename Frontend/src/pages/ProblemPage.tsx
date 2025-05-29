@@ -9,12 +9,12 @@ import {
 	Bookmark,
 	Share2,
 	Clock,
-	ChevronRight,
 	Terminal,
 	Code2,
 	Users,
 	ThumbsUp,
 	LucideLibraryBig,
+	ChevronLeft,
 } from "lucide-react";
 
 import { useProblemStore } from "../store/useProblemStore";
@@ -27,7 +27,8 @@ import { useSubmissionStore } from "../store/useSubmissionStore";
 const ProblemPage = () => {
 	const { id } = useParams();
 	const { getProblemById, problem, isProblemLoading } = useProblemStore();
-	const { executeCode, submission, isExecuting, resetData } = useExecutionStore();
+	const { executeCode, submission, isExecuting, resetData } =
+		useExecutionStore();
 	const {
 		problemSubmissions,
 		submissionData,
@@ -45,14 +46,14 @@ const ProblemPage = () => {
 		{ input: string; output: string }[]
 	>([]);
 
-	const {totalCount: submissionCount, acceptedCount} = submissionData
-	const successRate = Math.round((acceptedCount / submissionCount) * 100) || 0
+	const { totalCount: submissionCount, acceptedCount } = submissionData;
+	const successRate = Math.round((acceptedCount / submissionCount) * 100) || 0;
 
 	useEffect(() => {
 		if (id) {
 			getProblemById(id);
 			getSubmissionCountForProblem(id);
-			resetData()
+			resetData();
 		}
 	}, [id]);
 
@@ -105,8 +106,8 @@ const ProblemPage = () => {
 
 	if (isProblemLoading || !problem) {
 		return (
-			<div className="flex items-center justify-center h-screen bg-base-200">
-				<div className="card bg-base-100 p-8 shadow-xl">
+			<div className="flex items-center justify-center h-screen w-full bg-base-200">
+				<div className="flex flex-col items-center card bg-base-100 p-8 shadow-xl">
 					<span className="loading loading-spinner loading-lg text-primary"></span>
 					<p className="mt-4 text-base-content/70">Loading problem...</p>
 				</div>
@@ -124,41 +125,39 @@ const ProblemPage = () => {
 						{problem.examples && (
 							<>
 								<h3 className="text-xl font-bold mb-4">Examples:</h3>
-								{Object.entries(problem.examples).map(
-									([lang, example]) => (
-										<div
-											key={lang}
-											className="bg-base-200 p-6 rounded-xl mb-6 font-mono"
-										>
-											<div className="mb-4">
-												<div className="text-indigo-300 mb-2 text-base font-semibold">
-													Input:
-												</div>
-												<span className="bg-black/90 px-4 py-1 rounded-lg font-semibold text-white">
-													{example.input}
-												</span>
+								{Object.entries(problem.examples).map(([lang, example]) => (
+									<div
+										key={lang}
+										className="bg-base-200 p-6 rounded-xl mb-6 font-mono"
+									>
+										<div className="mb-4">
+											<div className="text-indigo-300 mb-2 text-base font-semibold">
+												Input:
 											</div>
-											<div className="mb-4">
-												<div className="text-indigo-300 mb-2 text-base font-semibold">
-													Output:
-												</div>
-												<span className="bg-black/90 px-4 py-1 rounded-lg font-semibold text-white">
-													{example.output}
-												</span>
-											</div>
-											{example.explanation && (
-												<div>
-													<div className="text-emerald-300 mb-2 text-base font-semibold">
-														Explanation:
-													</div>
-													<p className="text-base-content/70 text-lg font-sem">
-														{example.explanation}
-													</p>
-												</div>
-											)}
+											<span className="bg-black/90 px-4 py-1 rounded-lg font-semibold text-white">
+												{example.input}
+											</span>
 										</div>
-									)
-								)}
+										<div className="mb-4">
+											<div className="text-indigo-300 mb-2 text-base font-semibold">
+												Output:
+											</div>
+											<span className="bg-black/90 px-4 py-1 rounded-lg font-semibold text-white">
+												{example.output}
+											</span>
+										</div>
+										{example.explanation && (
+											<div>
+												<div className="text-emerald-300 mb-2 text-base font-semibold">
+													Explanation:
+												</div>
+												<p className="text-base-content/70 text-lg font-sem">
+													{example.explanation}
+												</p>
+											</div>
+										)}
+									</div>
+								))}
 							</>
 						)}
 
@@ -212,9 +211,14 @@ const ProblemPage = () => {
 		<div className="min-h-screen w-full max-w-7xl bg-gradient-to-br from-base-300 to-base-200">
 			<nav className="navbar bg-base-100 shadow-lg px-4">
 				<div className="flex-1 gap-2">
-					<Link to={"/problem"} className="flex items-center gap-2 text-primary">
-						<LucideLibraryBig className="w-6 h-6" />
-						<ChevronRight className="w-4 h-4" />
+					<Link
+						to={"/problem"}
+						className="btn btn-ghost text-primary"
+					>
+						<div className="flex items-center gap-2">
+							<ChevronLeft className="w-4 h-4" />
+							<LucideLibraryBig className="w-6 h-6" />
+						</div>
 					</Link>
 					<div className="mt-2">
 						<h1 className="text-xl font-bold">{problem.title}</h1>
@@ -255,7 +259,10 @@ const ProblemPage = () => {
 						onChange={handleLanguageChange}
 					>
 						{Object.keys(problem.codeSnippets || {}).map((lang) => (
-							<option key={lang} value={lang}>
+							<option
+								key={lang}
+								value={lang}
+							>
 								{lang.charAt(0).toUpperCase() + lang.slice(1)}
 							</option>
 						))}
