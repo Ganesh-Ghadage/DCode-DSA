@@ -16,6 +16,7 @@ import ProblemsListPage from "./pages/ProblemsListPage";
 import SheetListPage from "./pages/SheetListPage";
 import SheetPage from "./pages/SheetPage";
 import EditProblemPage from "./pages/EditProblemPage";
+import DashboardPage from "./pages/DashboardPage";
 
 function App() {
 	const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
@@ -82,6 +83,11 @@ function App() {
 				<Route
 					path="/profile"
 					element={authUser ? <ProfilePage /> : <Navigate to={"/login"} />}
+				/>
+				
+				<Route
+					path="/dashboard"
+					element={authUser ? <DashboardPage /> : <Navigate to={"/login"} />}
 				/>
 
 				<Route element={<AdminRoute />}>
