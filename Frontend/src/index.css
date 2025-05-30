@@ -1,5 +1,33 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+
+.color-empty {
+  fill: #dcd4fe; 
+}
+.color-scale-1 {
+  fill: #bbf7d0; 
+}
+.color-scale-2 {
+  fill: #4ade80;
+}
+.color-scale-3 {
+  fill: #16a34a;
+}
+
+.react-calendar-heatmap rect {
+  rx: 2px;
+  ry: 2px;
+  stroke: var(--heatmap-gap-color, #fff);
+  stroke-width: 1px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --heatmap-gap-color: #1f2937;
+  }
+}
+
+
 @plugin "daisyui" {
   themes: light --default, dark --prefersdark;
 }
@@ -191,3 +219,4 @@
     @apply bg-background text-foreground;
   }
 } */
+
