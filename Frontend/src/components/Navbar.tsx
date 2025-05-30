@@ -1,4 +1,4 @@
-import { User, Code, LogOut } from "lucide-react";
+import { User, Code, LogOut, LayoutDashboard } from "lucide-react";
 import { Link } from "react-router-dom";
 
 import { useAuthStore } from "../store/useAuthStore";
@@ -82,6 +82,15 @@ function Navbar() {
 												>
 													<User className="w-4 h-4 mr-2" />
 													My Profile
+												</Link>
+											</li>
+											<li>
+												<Link
+													to="/dashboard"
+													className="hover:bg-primary hover:text-white text-base font-semibold"
+												>
+													<LayoutDashboard className="w-4 h-4 mr-2" />
+													My DashBoard
 												</Link>
 											</li>
 											{authUser?.role === "ADMIN" && (
