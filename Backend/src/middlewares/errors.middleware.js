@@ -9,7 +9,10 @@ const errorHandler = (err, req, res, next) => {
 			error.statusCode || error instanceof Prisma.PrismaClientKnownRequestError
 				? 400
 				: 500;
-		const errorMessage = error?.message || "Something Went Wrong";
+		const errorMessage =
+			error instanceof Prisma.PrismaClientInitializationError
+				? "Something Went Wrong"
+				: error?.message || "Something Went Wrong";
 
 		error = new ApiError(
 			statusCode,
