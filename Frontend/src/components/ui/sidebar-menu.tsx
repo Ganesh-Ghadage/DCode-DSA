@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Drawer, DrawerContent } from "@/components/ui/drawer";
-import { X, Menu, LogOut, Code, User } from "lucide-react";
+import { X, Menu, LogOut, Code, User, LayoutDashboard } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { TopBar } from "./topbar-menu";
 import ThemeToggle from "../ThemeToggleButton";
@@ -45,7 +45,7 @@ function SideBarMenu({ items, className }: NavBarProps) {
 						<div className="w-full flex flex-col items-start gap-5 bg-base-300 h-screen p-4">
 							<div className="flex gap-2 w-full items-center justify-between">
 								<ThemeToggle />
-                <button
+								<button
 									role="button"
 									className="p-2 bg-border rounded-full"
 									onClick={() => {
@@ -54,7 +54,6 @@ function SideBarMenu({ items, className }: NavBarProps) {
 								>
 									<X className="text-primary-content hover:scale-105" />
 								</button>
-								
 							</div>
 
 							<div className="self-end">
@@ -93,6 +92,15 @@ function SideBarMenu({ items, className }: NavBarProps) {
 													>
 														<User className="w-4 h-4 mr-2" />
 														My Profile
+													</Link>
+												</li>
+												<li>
+													<Link
+														to="/dashboard"
+														className="hover:bg-primary hover:text-white text-base font-semibold"
+													>
+														<LayoutDashboard className="w-4 h-4 mr-2" />
+														My DashBoard
 													</Link>
 												</li>
 												{authUser?.role === "ADMIN" && (
