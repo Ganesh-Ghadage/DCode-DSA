@@ -11,7 +11,7 @@ export const problemFieldsValidator = () => {
 		body("difficulty")
 			.trim()
 			.notEmpty().withMessage("difficulty is required")
-			.isIn("EASY", "HARD", "MEDIUM").withMessage("difficulty not matched"),
+			.isIn(["EASY", "HARD", "MEDIUM"]).withMessage("difficulty not matched"),
 		body("tags")
       .isArray()
       .notEmpty().withMessage("tags are required"),
