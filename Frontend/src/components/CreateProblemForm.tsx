@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useForm, useFieldArray, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Editor } from "@monaco-editor/react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
 	Plus,
 	Trash2,
@@ -12,6 +12,7 @@ import {
 	BookOpen,
 	CheckCircle2,
 	Download,
+	ArrowLeft,
 } from "lucide-react";
 import toast from "react-hot-toast";
 import type { z } from "zod";
@@ -120,10 +121,18 @@ function CreateProblemForm() {
 			<div className="card bg-base-100 shadow-xl">
 				<div className="card-body p-6 md:p-8">
 					<div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 md:mb-8 pb-4 border-b">
-						<h2 className="card-title text-2xl md:text-3xl flex items-center gap-3">
-							<FileText className="w-6 h-6 md:w-8 md:h-8 text-primary" />
-							Create Problem
-						</h2>
+						<div className="flex gap-2">
+							<Link
+								to={"/"}
+								className="btn btn-circle btn-ghost"
+							>
+								<ArrowLeft className="w-5 h-5" />
+							</Link>
+							<h2 className="card-title text-2xl md:text-3xl flex items-center gap-3">
+								<FileText className="w-6 h-6 md:w-8 md:h-8 text-primary" />
+								Create Problem
+							</h2>
+						</div>
 
 						<div className="flex flex-col md:flex-row gap-3 mt-4 md:mt-0">
 							<div className="join">
@@ -157,7 +166,10 @@ function CreateProblemForm() {
 						</div>
 					</div>
 
-					<form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
+					<form
+						onSubmit={handleSubmit(onSubmit)}
+						className="space-y-8"
+					>
 						{/* Basic Information */}
 						<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 							<div className="form-control md:col-span-2">
@@ -242,7 +254,10 @@ function CreateProblemForm() {
 							</div>
 							<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
 								{tagFields.map((field, index) => (
-									<div key={field.id} className="flex gap-2 items-center">
+									<div
+										key={field.id}
+										className="flex gap-2 items-center"
+									>
 										<input
 											type="text"
 											className="input input-bordered flex-1"
@@ -286,7 +301,10 @@ function CreateProblemForm() {
 							</div>
 							<div className="space-y-6">
 								{testCaseFields.map((field, index) => (
-									<div key={field.id} className="card bg-base-100 shadow-md">
+									<div
+										key={field.id}
+										className="card bg-base-100 shadow-md"
+									>
 										<div className="card-body p-4 md:p-6">
 											<div className="flex justify-between items-center mb-4">
 												<h4 className="text-base md:text-lg font-semibold">
@@ -479,7 +497,10 @@ function CreateProblemForm() {
 							</div>
 							<div className="space-y-6">
 								{exampleFileds.map((field, index) => (
-									<div key={field.id} className="card bg-base-100 shadow-md">
+									<div
+										key={field.id}
+										className="card bg-base-100 shadow-md"
+									>
 										<div className="card-body p-4 md:p-6">
 											<div className="flex justify-between items-center mb-4">
 												<h4 className="text-base md:text-lg font-semibold">
@@ -618,7 +639,10 @@ function CreateProblemForm() {
 						</div>
 
 						<div className="card-actions justify-end pt-4 border-t">
-							<button type="submit" className="btn btn-primary btn-lg gap-2">
+							<button
+								type="submit"
+								className="btn btn-primary btn-lg gap-2"
+							>
 								{isLoading ? (
 									<span className="loading loading-spinner text-white"></span>
 								) : (
