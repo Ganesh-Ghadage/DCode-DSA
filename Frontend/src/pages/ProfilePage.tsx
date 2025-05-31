@@ -24,7 +24,7 @@ const ProfilePage = () => {
 	const { authUser } = useAuthStore();
 	const { allSubmissions, getAllSubmissions } = useSubmissionStore();
 	const { getSolvedProblems, solvedProblems } = useProblemStore();
-	const { getPlaylists, allPlaylists, deletePlaylist } = usePlaylistStore();
+	const { getPlaylists, allPlaylists } = usePlaylistStore();
 
 	useEffect(() => {
 		getSolvedProblems();
@@ -45,7 +45,7 @@ const ProfilePage = () => {
 			case "problems":
 				return <ProblemSolvedByUser solvedProblems={solvedProblems} />;
 			case "playlist":
-				return <UserPlaylists allPlaylists={allPlaylists} deletePlaylist={deletePlaylist} />;
+				return <UserPlaylists allPlaylists={allPlaylists} />;
 			default:
 				return null;
 		}
@@ -81,7 +81,7 @@ const ProfilePage = () => {
 										alt={authUser?.name}
 									/>
 								) : (
-									<span className="text-3xl">
+									<span className="text-7xl font-bold w-full ml-5 h-fit">
 										{authUser?.name ? authUser.name.charAt(0) : "U"}
 									</span>
 								)}
@@ -165,7 +165,9 @@ const ProfilePage = () => {
 					<div className="tabs tabs-bordered mx-auto">
 						<button
 							className={`tab gap-2 text-md font-semibold ${
-								activeTab === "submissions" ? "tab-active text-primary bg-base-300 rounded-xl" : ""
+								activeTab === "submissions"
+									? "tab-active text-primary bg-base-300 rounded-xl"
+									: ""
 							}`}
 							onClick={() => setActiveTab("submissions")}
 						>
@@ -174,7 +176,9 @@ const ProfilePage = () => {
 						</button>
 						<button
 							className={`tab gap-2 text-md font-semibold ${
-								activeTab === "problems" ? "tab-active text-primary bg-base-300 rounded-xl" : ""
+								activeTab === "problems"
+									? "tab-active text-primary bg-base-300 rounded-xl"
+									: ""
 							}`}
 							onClick={() => setActiveTab("problems")}
 						>
@@ -183,7 +187,9 @@ const ProfilePage = () => {
 						</button>
 						<button
 							className={`tab gap-2 text-md font-semibold ${
-								activeTab === "playlist" ? "tab-active text-primary bg-base-300 rounded-xl" : ""
+								activeTab === "playlist"
+									? "tab-active text-primary bg-base-300 rounded-xl"
+									: ""
 							}`}
 							onClick={() => setActiveTab("playlist")}
 						>

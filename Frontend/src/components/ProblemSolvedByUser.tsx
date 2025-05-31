@@ -132,7 +132,7 @@ const ProblemSolvedByUser = ({solvedProblems}: props) => {
 									<span className="font-bold">{solvedProblems.length}</span>
 								</span>
 								<Link
-									to="/"
+									to="/problem"
 									className="btn btn-sm btn-primary"
 								>
 									Solve more problems

@@ -87,7 +87,7 @@ export default function FAQ() {
 
   return (
     <section className="py-16" id='faq'>
-      <div className="container mx-auto px-24">
+      <div className="container mx-auto md:px-24">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">FAQ</h2>
           <p className="text-lg text-gray-200 max-w-2xl mx-auto">
@@ -100,7 +100,7 @@ export default function FAQ() {
             {faqItems.map((item) => (
               <div key={item.id} className="bg-white text-black rounded-lg border border-gray-200 overflow-hidden">
                 <button
-                  className="faq-toggle w-full flex justify-between items-center p-6 focus:outline-none"
+                  className="faq-toggle w-full flex justify-between items-center cursor-pointer p-6 focus:outline-none"
                   aria-expanded={openId === item.id}
                   aria-controls={item.id}
                   onClick={() => toggleFAQ(item.id)}
@@ -149,7 +149,7 @@ export default function FAQ() {
         <div className="mt-16 text-center">
           <p className="text-lg text-gray-200 mb-6">Still have questions? We're here to help!</p>
           <button
-            className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-8 rounded-lg transition-all duration-300"
+            className="btn btn-primary"
             onClick={openModal}
           >
             Contact Us

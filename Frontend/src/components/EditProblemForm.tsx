@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect } from "react";
 import { useForm, useFieldArray, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Editor } from "@monaco-editor/react";
@@ -11,22 +11,23 @@ import {
 	Lightbulb,
 	BookOpen,
 	CheckCircle2,
-	Download,
-	ArrowLeft,
+	LucideLibraryBig,
+	ChevronLeft,
 } from "lucide-react";
-import toast from "react-hot-toast";
 import type { z } from "zod";
-import { AxiosError } from "axios";
 
-import { axiosInstance } from "../lib/axios";
 import { problemSchema } from "../schemas/problemSchema";
-import { sampleStringProblem, sampledpData } from "../lib/sampleProblem";
 import { usePrimitiveFieldArray } from "../customHooks/usePrimitiveArrayField";
+import type { Problem } from "@/types";
+import { useProblemStore } from "@/store/useProblemStore";
 
-function CreateProblemForm() {
-	const [sampleProblem, setSampleProblem] = useState("DP");
-	const [isLoading, setIsLoading] = useState(false);
+interface props {
+	problem: Problem;
+}
+
+function EditProblemForm({ problem }: props) {
 	const navigte = useNavigate();
+	const { updateProblem, isProblemUpdating } = useProblemStore();
 
 	const {
 		register,
@@ -86,84 +87,42 @@ function CreateProblemForm() {
 	});
 
 	const onSubmit = async (data: z.infer<typeof problemSchema>) => {
-		try {
-			setIsLoading(true);
-			const res = await axiosInstance.post("/problems/create-problem", data);
-			toast.success(res.data.message || "Problem created successfully");
-			navigte("/");
-		} catch (error) {
-			console.log(error);
-			toast.error(
-				error instanceof AxiosError && error?.response?.data.message
-					? error.response.data.message
-					: "Something went wrong"
-			);
-		} finally {
-			setIsLoading(false);
-		}
+		await updateProblem(problem.id, data);
+		navigte("/problem");
 	};
 
-	const loadSampleData = () => {
-		const sampleData =
-			sampleProblem === "DP" ? sampledpData : sampleStringProblem;
-
+	const loadProblemData = () => {
 		// Replace the tags and test cases arrays
-		replaceTags(sampleData.tags.map((tag) => tag));
-		replaceTestCases(sampleData.testcases.map((tc) => tc));
-		replaceExample(sampleData.examples.map((eg) => eg));
+		replaceTags(problem.tags.map((tag) => tag));
+		replaceTestCases(problem.testcases.map((tc) => tc));
+		replaceExample(problem.examples.map((eg) => eg));
 
 		// Reset the form with sample data
-		reset(sampleData);
+		reset(problem);
 	};
+
+	useEffect(() => {
+		if (problem) {
+			loadProblemData();
+		}
+	}, [problem]);
 
 	return (
 		<div className="container mx-auto py-8 px-4 max-w-7xl">
 			<div className="card bg-base-100 shadow-xl">
 				<div className="card-body p-6 md:p-8">
 					<div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 md:mb-8 pb-4 border-b">
-						<div className="flex gap-2">
-							<Link
-								to={"/"}
-								className="btn btn-circle btn-ghost"
-							>
-								<ArrowLeft className="w-5 h-5" />
-							</Link>
-							<h2 className="card-title text-2xl md:text-3xl flex items-center gap-3">
-								<FileText className="w-6 h-6 md:w-8 md:h-8 text-primary" />
-								Create Problem
-							</h2>
-						</div>
-
-						<div className="flex flex-col md:flex-row gap-3 mt-4 md:mt-0">
-							<div className="join">
-								<button
-									type="button"
-									className={`btn join-item ${
-										sampleProblem === "DP" ? "btn-active" : ""
-									}`}
-									onClick={() => setSampleProblem("DP")}
-								>
-									DP Problem
-								</button>
-								<button
-									type="button"
-									className={`btn join-item ${
-										sampleProblem === "string" ? "btn-active" : ""
-									}`}
-									onClick={() => setSampleProblem("string")}
-								>
-									String Problem
-								</button>
-							</div>
-							<button
-								type="button"
-								className="btn btn-secondary gap-2"
-								onClick={loadSampleData}
-							>
-								<Download className="w-4 h-4" />
-								Load Sample
-							</button>
-						</div>
+						<Link
+							to={"/problem"}
+							className="flex gap-2 btn btn-ghost text-primary"
+						>
+							<ChevronLeft className="w-4 h-4" />
+							<LucideLibraryBig className="w-6 h-6" />
+						</Link>
+						<h2 className="card-title text-2xl md:text-3xl flex items-center gap-3">
+							<FileText className="w-6 h-6 md:w-8 md:h-8 text-primary" />
+							Edit Problem
+						</h2>
 					</div>
 
 					<form
@@ -642,13 +601,14 @@ function CreateProblemForm() {
 							<button
 								type="submit"
 								className="btn btn-primary btn-lg gap-2"
+								disabled={isProblemUpdating}
 							>
-								{isLoading ? (
+								{isProblemUpdating ? (
 									<span className="loading loading-spinner text-white"></span>
 								) : (
 									<>
 										<CheckCircle2 className="w-5 h-5" />
-										Create Problem
+										Edit Problem
 									</>
 								)}
 							</button>
@@ -660,4 +620,4 @@ function CreateProblemForm() {
 	);
 }
 
-export default CreateProblemForm;
+export default EditProblemForm;

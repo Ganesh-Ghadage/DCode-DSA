@@ -2,27 +2,26 @@ import { useForm } from "react-hook-form";
 import { X } from "lucide-react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-
-import { playlistSchema } from "../schemas/playlistSchema";
+import { sheetSchema } from "@/schemas/sheetsSchema";
 import { useEffect } from "react";
 
 interface props {
 	isOpen: boolean;
 	onClose: () => void;
-	onSubmit: (data: z.infer<typeof playlistSchema>) => void;
+	onSubmit: (data: z.infer<typeof sheetSchema>) => void;
 }
 
-const CreatePlaylistModal = ({ isOpen, onClose, onSubmit }: props) => {
+const CreateSheetModal = ({ isOpen, onClose, onSubmit }: props) => {
 	const {
 		register,
 		handleSubmit,
 		formState: { errors },
 		reset,
 	} = useForm({
-		resolver: zodResolver(playlistSchema),
+		resolver: zodResolver(sheetSchema),
 	});
 
-	const handleFormSubmit = async (data: z.infer<typeof playlistSchema>) => {
+	const handleFormSubmit = async (data: z.infer<typeof sheetSchema>) => {
 		await onSubmit(data);
 		reset();
 		onClose();
@@ -50,9 +49,9 @@ const CreatePlaylistModal = ({ isOpen, onClose, onSubmit }: props) => {
 				className="absolute inset-0"
 				onClick={onClose}
 			/>
-			<div className="bg-base-100 rounded-lg shadow-xl w-full max-w-md z-50">
+			<div className="bg-base-100 rounded-lg shadow-xl w-full max-w-md  z-50">
 				<div className="flex justify-between items-center p-4 border-b border-base-300">
-					<h3 className="text-xl font-bold">Create New Playlist</h3>
+					<h3 className="text-xl font-bold">Create New Sheet</h3>
 					<button
 						onClick={onClose}
 						className="btn btn-ghost btn-sm btn-circle"
@@ -67,18 +66,37 @@ const CreatePlaylistModal = ({ isOpen, onClose, onSubmit }: props) => {
 				>
 					<div className="form-control">
 						<label className="label">
-							<span className="label-text font-medium">Playlist Name</span>
+							<span className="label-text font-medium">Sheet Title</span>
 						</label>
 						<input
 							type="text"
 							className="input input-bordered w-full"
-							placeholder="Enter playlist name"
-							{...register("name", { required: "Playlist name is required" })}
+							placeholder="Enter title name"
+							{...register("title", { required: "Sheet title is required" })}
 						/>
-						{errors.name && (
+						{errors.title && (
 							<label className="label">
 								<span className="label-text-alt text-error">
-									{errors.name.message}
+									{errors.title.message}
+								</span>
+							</label>
+						)}
+					</div>
+
+					<div className="form-control">
+						<label className="label">
+							<span className="label-text font-medium">Company Name</span>
+						</label>
+						<input
+							type="text"
+							className="input input-bordered w-full"
+							placeholder="Enter company name"
+							{...register("company", { required: "company is required" })}
+						/>
+						{errors.company && (
+							<label className="label">
+								<span className="label-text-alt text-error">
+									{errors.company.message}
 								</span>
 							</label>
 						)}
@@ -90,7 +108,7 @@ const CreatePlaylistModal = ({ isOpen, onClose, onSubmit }: props) => {
 						</label>
 						<textarea
 							className="textarea textarea-bordered h-24 w-full"
-							placeholder="Enter playlist description"
+							placeholder="Enter sheet description"
 							{...register("description")}
 						/>
 					</div>
@@ -107,7 +125,7 @@ const CreatePlaylistModal = ({ isOpen, onClose, onSubmit }: props) => {
 							type="submit"
 							className="btn btn-primary"
 						>
-							Create Playlist
+							Create Sheet
 						</button>
 					</div>
 				</form>
@@ -116,4 +134,4 @@ const CreatePlaylistModal = ({ isOpen, onClose, onSubmit }: props) => {
 	);
 };
 
-export default CreatePlaylistModal;
+export default CreateSheetModal;

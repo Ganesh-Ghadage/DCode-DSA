@@ -13,7 +13,10 @@ import AdminRoute from "./components/AdminRoute";
 import ProblemPage from "./pages/ProblemPage";
 import ProfilePage from "./pages/ProfilePage";
 import ProblemsListPage from "./pages/ProblemsListPage";
+import SheetListPage from "./pages/SheetListPage";
 import SheetPage from "./pages/SheetPage";
+import EditProblemPage from "./pages/EditProblemPage";
+import DashboardPage from "./pages/DashboardPage";
 
 function App() {
 	const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
@@ -33,21 +36,27 @@ function App() {
 	return (
 		<div className="flex flex-col justify-start items-center">
 			<Toaster position="bottom-right" />
+
 			<Routes>
-				<Route path="/" element={<Layout />}>
+				<Route
+					path="/"
+					element={<Layout />}
+				>
 					<Route
 						index
 						element={<HomePage />}
 					/>
 
-					<Route 
+					<Route
 						path="/problem"
-						element={authUser ? <ProblemsListPage /> : <Navigate to={"/login"} />}
+						element={
+							authUser ? <ProblemsListPage /> : <Navigate to={"/login"} />
+						}
 					/>
 
-					<Route 
+					<Route
 						path="/sheets"
-						element={authUser ? <SheetPage /> : <Navigate to={"/login"} />}
+						element={authUser ? <SheetListPage /> : <Navigate to={"/login"} />}
 					/>
 				</Route>
 
@@ -62,19 +71,34 @@ function App() {
 				/>
 
 				<Route
-					path="/problem/:id" 
+					path="/problem/:id"
 					element={authUser ? <ProblemPage /> : <Navigate to={"/login"} />}
 				/>
 
 				<Route 
+					path="/sheet/:id"
+					element={authUser ? <SheetPage /> : <Navigate to={"/login"} />}
+				/>
+
+				<Route
 					path="/profile"
 					element={authUser ? <ProfilePage /> : <Navigate to={"/login"} />}
+				/>
+				
+				<Route
+					path="/dashboard"
+					element={authUser ? <DashboardPage /> : <Navigate to={"/login"} />}
 				/>
 
 				<Route element={<AdminRoute />}>
 					<Route
 						path="/add-problem"
 						element={authUser ? <AddProblem /> : <Navigate to={"/"} />}
+					/>
+
+					<Route
+						path="/problem/edit/:id"
+						element={authUser ? <EditProblemPage /> : <Navigate to={"/"} />}
 					/>
 				</Route>
 			</Routes>

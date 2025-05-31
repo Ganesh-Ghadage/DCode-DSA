@@ -84,7 +84,7 @@ const Features: React.FC = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 px-20">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:px-20">
           {features.map((feature) => (
             <div
               key={feature.id}
@@ -103,7 +103,7 @@ const Features: React.FC = () => {
                 <p className="text-gray-600 mb-4">{feature.description}</p>
                 <button
                   onClick={() => handleOpen(feature.id)}
-                  className="text-blue-600 w-fit align-bottom font-medium flex items-center hover:bg-primary p-2 hover:text-white rounded-xl"
+                  className="btn btn-link w-fit align-bottom font-medium flex items-center hover:bg-primary p-2 hover:text-white rounded-xl"
                 >
                   Learn more
                   <svg
@@ -130,7 +130,7 @@ const Features: React.FC = () => {
               className="absolute inset-0 bg-black opacity-70 backdrop-blur-sm"
               onClick={handleClose}
             ></div>
-            <div className="bg-white rounded-lg p-8 max-w-2xl w-full mx-4 relative z-10">
+            <div className="bg-white max-h-[80%] md:max-h-[90%] overflow-scroll rounded-lg p-8 max-w-2xl w-full mx-4 relative z-10">
               <button
                 onClick={handleClose}
                 className="absolute top-4 right-4 text-gray-400 hover:text-gray-600"
@@ -160,7 +160,7 @@ const Features: React.FC = () => {
               </ul>
               <div className="flex justify-end">
                 <button 
-                  className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition-all duration-300"
+                  className="btn btn-soft btn-primary "
                   onClick={handleClose}
                 >
                   <Link to={"/problem"}>

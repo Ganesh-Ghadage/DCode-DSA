@@ -12,7 +12,7 @@ const ProblemsListPage = () => {
 
 	if (isProblemsLoading) {
 		return (
-			<div className="flex items-center justify-center h-screen w-4xl">
+			<div className="flex items-center justify-center h-[80dvh] w-full">
 				<Loader className="size-10 animate-spin" />
 			</div>
 		);

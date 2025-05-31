@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Bookmark, PencilIcon, TrashIcon, Plus, Loader } from "lucide-react";
 import type { z } from "zod";
 
@@ -10,6 +10,7 @@ import AddToPlaylistModal from "./AddToPlaylist";
 import CreatePlaylistModal from "./CreatePlaylistModal";
 import { usePlaylistStore } from "../store/usePlaylistStore";
 import type { playlistSchema } from "../schemas/playlistSchema";
+import ConfirmDeleteModal from "./ConfirmDeleteModal";
 
 type props = {
 	problems: Problem[];
@@ -23,13 +24,19 @@ const ProblemsTable = ({ problems }: props) => {
 	const [isCreateModalOpen, setIsCreateModalOpen] = useState<boolean>(false);
 	const [isAddToPlaylistModalOpen, setIsAddToPlaylistModalOpen] =
 		useState<boolean>(false);
+	const [isDeleteProblemModalOpen, setIsDeleteProblemModalOpen] =
+		useState<boolean>(false);
 	const [selectedProblemId, setSelectedProblemId] = useState<string | null>(
 		null
 	);
+	const [selectedDeleteProblemId, setSelectedDeleteProblemId] =
+		useState<string>("");
 
 	const { authUser } = useAuthStore();
 	const { deleteProblem, isProblemDeleting } = useProblemStore();
 	const { createPlaylist } = usePlaylistStore();
+
+	const navigate = useNavigate();
 
 	const difficulties = ["EASY", "MEDIUM", "HARD"];
 
@@ -65,8 +72,9 @@ const ProblemsTable = ({ problems }: props) => {
 		);
 	}, [filteredProblems, currentPage]);
 
-	const handleDelete = async (id: string) => {
-		await deleteProblem(id);
+	const handleProblemDelete = (id: string) => {
+		setIsDeleteProblemModalOpen(true);
+		setSelectedDeleteProblemId(id);
 	};
 
 	const handleCreatePlaylist = async (data: z.infer<typeof playlistSchema>) => {
@@ -76,6 +84,11 @@ const ProblemsTable = ({ problems }: props) => {
 	const handleAddToPlaylist = (problemId: string) => {
 		setSelectedProblemId(problemId);
 		setIsAddToPlaylistModalOpen(true);
+	};
+
+	const handleConfirmProblemDelete = async () => {
+		await deleteProblem(selectedDeleteProblemId);
+		navigate("/problem");
 	};
 
 	return (
@@ -199,7 +212,7 @@ const ProblemsTable = ({ problems }: props) => {
 												{authUser?.role === "ADMIN" && (
 													<div className="flex gap-2">
 														<button
-															onClick={() => handleDelete(problem.id)}
+															onClick={() => handleProblemDelete(problem.id)}
 															className="btn btn-sm btn-error"
 															disabled={isProblemDeleting}
 														>
@@ -209,12 +222,14 @@ const ProblemsTable = ({ problems }: props) => {
 																<TrashIcon className="w-4 h-4 text-white" />
 															)}
 														</button>
-														<button
-															disabled
-															className="btn btn-sm btn-warning"
-														>
-															<PencilIcon className="w-4 h-4 text-white" />
-														</button>
+														<Link to={`/problem/edit/${problem.id}`}>
+															<button
+																disabled
+																className="btn btn-sm btn-warning"
+															>
+																<PencilIcon className="w-4 h-4 text-white" />
+															</button>
+														</Link>
 													</div>
 												)}
 												<button
@@ -277,6 +292,13 @@ const ProblemsTable = ({ problems }: props) => {
 				isOpen={isAddToPlaylistModalOpen}
 				onClose={() => setIsAddToPlaylistModalOpen(false)}
 				problemId={selectedProblemId ?? ""}
+			/>
+
+			<ConfirmDeleteModal
+				isOpen={isDeleteProblemModalOpen}
+				isLoading={isProblemDeleting}
+				onClose={() => setIsDeleteProblemModalOpen(false)}
+				onConfirm={handleConfirmProblemDelete}
 			/>
 		</div>
 	);
