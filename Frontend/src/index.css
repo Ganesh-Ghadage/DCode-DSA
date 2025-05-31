@@ -18,12 +18,12 @@
   rx: 2px;
   ry: 2px;
   stroke: var(--heatmap-gap-color, #fff);
-  stroke-width: 1px;
+  stroke-width: 0.5px;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --heatmap-gap-color: #1f2937;
+    --heatmap-gap-color: #000000;
   }
 }
 
