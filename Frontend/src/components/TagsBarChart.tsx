@@ -24,8 +24,8 @@ const COLORS = [
 const TagsBarChart: React.FC<Props> = ({ data }) => {
 
 	return (
-		<div className="bg-base-200 p-4 rounded-xl shadow">
-			<h2 className="text-lg font-semibold mb-4">Solved Problems by Tag</h2>
+		<div className="bg-base-200 p-4 rounded-xl shadow-xl border border-base-300">
+			<h2 className="text-lg font-semibold mb-4 text-primary">Solved Problems by Tag</h2>
 
 			<div className="space-y-2">
 				{data.map((tag, index) => {

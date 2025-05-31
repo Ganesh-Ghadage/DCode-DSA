@@ -19,9 +19,9 @@ interface Props {
 
 const WeeklyChart = ({ data }: Props) => {
 	return (
-		<div className="card bg-base-200 shadow">
+		<div className="card bg-base-200 shadow-xl border border-base-300">
 			<div className="card-body">
-				<h2 className="card-title">📈 Weekly Submission Trends</h2>
+				<h2 className="card-title text-primary">📈 Weekly Submission Trends</h2>
 				<div className="w-full h-64">
 					<ResponsiveContainer
 						width="100%"

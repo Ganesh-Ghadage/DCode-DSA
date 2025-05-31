@@ -6,7 +6,7 @@ interface Props {
   size?: number;
 }
 
-const ProblemProgressCircle: React.FC<Props> = ({ solved, total, size = 170 }) => {
+const ProblemProgressCircle: React.FC<Props> = ({ solved, total, size = 140 }) => {
   const radius = size / 2 - 10; 
   const circumference = 2 * Math.PI * radius;
   const progress = total === 0 ? 0 : Math.min((solved / total) * 100, 100);
@@ -14,7 +14,7 @@ const ProblemProgressCircle: React.FC<Props> = ({ solved, total, size = 170 }) =
 
   return (
     <div className="bg-base-200 flex flex-col items-center justify-center m-5">
-      <h2 className="text-lg font-semibold mb-4">Total Problem Solved</h2>
+      <h2 className="text-lg font-semibold mb-4 text-primary">Total Problem Solved</h2>
       <svg width={size} height={size} className="transform -rotate-90">
         <circle
           cx={size / 2}
