@@ -6,10 +6,12 @@ export interface ContributionEntry {
 export interface RecentActivityItem {
   id: string;
   createdAt: string;
+  status: string;
   problem: {
     id: string;
     title: string;
     tags: string[];
+    difficulty: string;
   };
 }
 
