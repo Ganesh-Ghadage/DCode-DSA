@@ -97,7 +97,7 @@ export const userDashboard = asyncHandler(async (req, res) => {
 
 		const byDifficulty = {
 			EASY: { difficulty: "EASY", total: 0, solved: 0 },
-			MEDUIM: { difficulty: "MEDUIM", total: 0, solved: 0 },
+			MEDIUM: { difficulty: "MEDIUM", total: 0, solved: 0 },
 			HARD: { difficulty: "HARD", total: 0, solved: 0 },
 		};
 
