@@ -11,6 +11,7 @@ interface Props {
 }
 
 const DifficultyRadialChart: React.FC<Props> = ({ data }) => {
+	console.log(data)
 	return (
 		<div className="card bg-base-200 flex flex-col gap-2 items-start justify-start p-5 shadow-xl border border-base-300">
 			<h2 className="card-title text-lg font-semibold text-primary mb-2">
