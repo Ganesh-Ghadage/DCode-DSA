@@ -20,7 +20,7 @@ const ProblemsListPage = () => {
 
 
   return (
-    <section className="min-h-screen w-full flex flex-col items-center mt-14 px-4">
+    <section className="min-h-screen w-full flex flex-col items-center mt-14 px-4 mb-6">
       {problems.length > 0 ? (
 				<ProblemsTable problems={problems} />
 			) : (
