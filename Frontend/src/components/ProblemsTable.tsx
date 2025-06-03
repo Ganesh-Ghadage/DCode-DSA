@@ -1,16 +1,13 @@
 import { useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Bookmark, PencilIcon, TrashIcon, Plus, Loader } from "lucide-react";
-import type { z } from "zod";
+import { Bookmark, PencilIcon, TrashIcon, Loader } from "lucide-react";
 
 import { useAuthStore } from "../store/useAuthStore";
 import type { Problem } from "../types/Problem";
 import { useProblemStore } from "../store/useProblemStore";
 import AddToPlaylistModal from "./AddToPlaylist";
-import CreatePlaylistModal from "./CreatePlaylistModal";
-import { usePlaylistStore } from "../store/usePlaylistStore";
-import type { playlistSchema } from "../schemas/playlistSchema";
 import ConfirmDeleteModal from "./ConfirmDeleteModal";
+import CreatePlaylistBtn from "./CreatePlaylistBtn";
 
 type props = {
 	problems: Problem[];
@@ -21,7 +18,6 @@ const ProblemsTable = ({ problems }: props) => {
 	const [difficulty, setDifficulty] = useState<string>("ALL");
 	const [selectedTag, setSelectedTag] = useState<string>("ALL");
 	const [currentPage, setCurrentPage] = useState<number>(1);
-	const [isCreateModalOpen, setIsCreateModalOpen] = useState<boolean>(false);
 	const [isAddToPlaylistModalOpen, setIsAddToPlaylistModalOpen] =
 		useState<boolean>(false);
 	const [isDeleteProblemModalOpen, setIsDeleteProblemModalOpen] =
@@ -34,7 +30,6 @@ const ProblemsTable = ({ problems }: props) => {
 
 	const { authUser } = useAuthStore();
 	const { deleteProblem, isProblemDeleting } = useProblemStore();
-	const { createPlaylist } = usePlaylistStore();
 
 	const navigate = useNavigate();
 
@@ -77,10 +72,6 @@ const ProblemsTable = ({ problems }: props) => {
 		setSelectedDeleteProblemId(id);
 	};
 
-	const handleCreatePlaylist = async (data: z.infer<typeof playlistSchema>) => {
-		await createPlaylist(data);
-	};
-
 	const handleAddToPlaylist = (problemId: string) => {
 		setSelectedProblemId(problemId);
 		setIsAddToPlaylistModalOpen(true);
@@ -96,13 +87,7 @@ const ProblemsTable = ({ problems }: props) => {
 			{/* Header with Create Playlist Button */}
 			<div className="flex justify-between items-center mb-6">
 				<h2 className="text-2xl font-bold">Problems</h2>
-				<button
-					className="btn btn-primary gap-2"
-					onClick={() => setIsCreateModalOpen(true)}
-				>
-					<Plus className="w-4 h-4" />
-					Create Playlist
-				</button>
+				<CreatePlaylistBtn />
 			</div>
 
 			{/* Filters */}
@@ -282,11 +267,6 @@ const ProblemsTable = ({ problems }: props) => {
 			</div>
 
 			{/* Modals */}
-			<CreatePlaylistModal
-				isOpen={isCreateModalOpen}
-				onClose={() => setIsCreateModalOpen(false)}
-				onSubmit={handleCreatePlaylist}
-			/>
 
 			<AddToPlaylistModal
 				isOpen={isAddToPlaylistModalOpen}
