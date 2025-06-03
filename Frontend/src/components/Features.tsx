@@ -78,8 +78,8 @@ const Features: React.FC = () => {
     <section id="features" className="py-16">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">Features</h2>
-          <p className="text-lg text-gray-200 max-w-2xl mx-auto">
+          <h2 className="text-3xl md:text-3xl font-bold mb-4">Features</h2>
+          <p className="text-lg text-gray-200 max-w-xl mx-auto">
             Powerful tools designed to accelerate your DSA learning journey and prepare you for technical interviews.
           </p>
         </div>
@@ -88,7 +88,7 @@ const Features: React.FC = () => {
           {features.map((feature) => (
             <div
               key={feature.id}
-              className="bg-white h-fit rounded-lg border border-gray-200 overflow-hidden transition-all duration-300 hover:shadow-lg group"
+              className="card bg-base-300/80 h-fit rounded-lg border-2 border-base-300 overflow-hidden transition-all duration-300 hover:shadow-lg group"
             >
               <div className="h-48 overflow-hidden">
                 <img
@@ -100,7 +100,7 @@ const Features: React.FC = () => {
               </div>
               <div className="p-6 flex flex-col">
                 <h3 className="text-xl text-primary font-bold mb-2">{feature.title}</h3>
-                <p className="text-gray-600 mb-4">{feature.description}</p>
+                <p className="text-primary-content mb-4">{feature.description}</p>
                 <button
                   onClick={() => handleOpen(feature.id)}
                   className="btn btn-link w-fit align-bottom font-medium flex items-center hover:bg-primary p-2 hover:text-white rounded-xl"
@@ -130,10 +130,10 @@ const Features: React.FC = () => {
               className="absolute inset-0 bg-black opacity-70 backdrop-blur-sm"
               onClick={handleClose}
             ></div>
-            <div className="bg-white max-h-[80%] md:max-h-[90%] overflow-scroll rounded-lg p-8 max-w-2xl w-full mx-4 relative z-10">
+            <div className="bg-base-300 max-h-[80%] md:max-h-[90%] overflow-y-auto rounded-lg p-8 max-w-2xl w-full mx-4 relative z-10">
               <button
                 onClick={handleClose}
-                className="absolute top-4 right-4 text-gray-400 hover:text-gray-600"
+                className="absolute top-4 right-4 text-primary-content cursor-pointer btn btn-circle"
                 aria-label="Close modal"
               >
                 <svg
@@ -152,8 +152,8 @@ const Features: React.FC = () => {
                 alt={selectedFeature.title}
                 className="w-full h-64 object-cover rounded-lg mb-4"
               />
-              <p className="text-gray-600 mb-4">{selectedFeature.description}</p>
-              <ul className="list-disc pl-5 mb-6 text-gray-600 space-y-2">
+              <p className="mb-4">{selectedFeature.description}</p>
+              <ul className="list-disc pl-5 mb-6 space-y-2">
                 {selectedFeature.details.map((point, index) => (
                   <li key={index}>{point}</li>
                 ))}
