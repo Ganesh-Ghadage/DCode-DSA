@@ -1,10 +1,12 @@
-import { useEffect } from 'react'
-import { useProblemStore } from '../store/useProblemStore';
-import { Loader } from 'lucide-react';
-import ProblemsTable from '../components/ProblemsTable';
+import { useEffect } from "react";
+import { useProblemStore } from "../store/useProblemStore";
+import { Loader } from "lucide-react";
+import ProblemsTable from "../components/ProblemsTable";
+import { useNavigate } from "react-router-dom";
 
 const ProblemsListPage = () => {
-  const { getAllProblems, problems, isProblemsLoading } = useProblemStore();
+	const { getAllProblems, problems, isProblemsLoading } = useProblemStore();
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		getAllProblems();
@@ -18,18 +20,32 @@ const ProblemsListPage = () => {
 		);
 	}
 
-
-  return (
-    <section className="min-h-screen w-full flex flex-col items-center mt-14 px-4 mb-6">
-      {problems.length > 0 ? (
+	return (
+		<section className="min-h-screen w-full flex flex-col items-center mt-5 px-4">
+			<div
+				role="alert"
+				className="alert alert-info alert-soft"
+			>
+				<span>
+					Check out{" "}
+					<span
+						onClick={() => navigate("/sheets")}
+						className="text-blue-800 cursor-pointer hover:underline"
+					>
+						Sheets
+					</span>{" "}
+					to get problems based on your target company
+				</span>
+			</div>
+			{problems.length > 0 ? (
 				<ProblemsTable problems={problems} />
 			) : (
 				<p className="mt-10 text-center text-lg font-semibold text-gray-500 dark:text-gray-400 z-10 border border-primary px-4 py-2 rounded-md border-dashed">
 					No Problems found!
 				</p>
 			)}
-    </section>
-  )
-}
+		</section>
+	);
+};
 
-export default ProblemsListPage
+export default ProblemsListPage;
