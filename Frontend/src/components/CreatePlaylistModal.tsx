@@ -45,7 +45,7 @@ const CreatePlaylistModal = ({ isOpen, onClose, onSubmit }: props) => {
 	if (!isOpen) return null;
 
 	return (
-		<div className="fixed inset-0 bg-black/80 bg-opacity-50 flex items-center justify-center">
+		<div className="fixed inset-0 bg-black/80 bg-opacity-50 flex items-center justify-center z-10">
 			<div
 				className="absolute inset-0"
 				onClick={onClose}
