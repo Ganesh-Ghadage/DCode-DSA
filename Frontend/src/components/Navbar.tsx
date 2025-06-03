@@ -39,7 +39,7 @@ function Navbar() {
 							className="flex items-center gap-3 cursor-pointer"
 						>
 							<Logo />
-							<span className="absolute left-18 text-lg md:text-2xl font-bold tracking-tight hidden lg:block">
+							<span className="absolute left-18 text-lg md:text-xl font-bold tracking-tight hidden lg:block">
 								DCode DSA
 							</span>
 						</Link>
