@@ -150,8 +150,12 @@ const ProblemsTable = ({ problems }: props) => {
 									const isSolved = problem?.solvedBy.some(
 										(user) => user?.userId === authUser?.id
 									);
+									const isDemo = problem.tags.some((tag) => tag === "Demo");
 									return (
-										<tr key={problem.id}>
+										<tr
+											key={problem.id}
+											className="relative"
+										>
 											<td>
 												<input
 													type="checkbox"
@@ -159,6 +163,11 @@ const ProblemsTable = ({ problems }: props) => {
 													readOnly
 													className="checkbox checkbox-sm"
 												/>
+												{isDemo && (
+													<span className="badge badge-info badge-sm absolute left-2 top-2">
+														Demo
+													</span>
+												)}
 											</td>
 											<td>
 												<Link
@@ -170,14 +179,17 @@ const ProblemsTable = ({ problems }: props) => {
 											</td>
 											<td>
 												<div className="flex flex-wrap gap-1">
-													{(problem.tags || []).map((tag, idx) => (
-														<span
-															key={idx}
-															className="badge badge-outline badge-warning text-xs font-bold"
-														>
-															{tag}
-														</span>
-													))}
+													{(problem.tags || []).map(
+														(tag, idx) =>
+															tag !== "Demo" && (
+																<span
+																	key={idx}
+																	className="badge badge-outline badge-warning text-xs font-bold"
+																>
+																	{tag}
+																</span>
+															)
+													)}
 												</div>
 											</td>
 											<td>
