@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 
 interface Props {
 	data: [
@@ -11,24 +11,30 @@ interface Props {
 }
 
 const COLORS = [
-  'bg-green-400',
-  'bg-blue-400',
-  'bg-yellow-400',
-  'bg-pink-400',
-  'bg-purple-400',
-  'bg-red-400',
-  'bg-emerald-500',
-  'bg-orange-400',
+	"bg-green-400",
+	"bg-blue-400",
+	"bg-yellow-400",
+	"bg-pink-400",
+	"bg-purple-400",
+	"bg-red-400",
+	"bg-emerald-500",
+	"bg-orange-400",
 ];
 
 const TagsBarChart: React.FC<Props> = ({ data }) => {
+	const solvedTags = useMemo(
+		() => data.filter((tag) => tag.solved > 0),
+		[data]
+	);
 
 	return (
 		<div className="bg-base-200 p-4 rounded-xl shadow-xl border border-base-300">
-			<h2 className="text-lg font-semibold mb-4 text-primary">Solved Problems by Tag</h2>
+			<h2 className="text-lg font-semibold mb-4 text-primary">
+				Solved Problems by Tag
+			</h2>
 
-			<div className="space-y-2">
-				{data.map((tag, index) => {
+			<div className="space-y-2 px-6 max-h-80 h-full overflow-y-auto">
+				{solvedTags.map((tag, index) => {
 					const percent = tag.total ? (tag.solved / tag.total) * 100 : 0;
 					return (
 						<div
@@ -43,7 +49,7 @@ const TagsBarChart: React.FC<Props> = ({ data }) => {
 							</div>
 							<div className="w-full h-4 bg-base-200 rounded">
 								<div
-                className={`h-full rounded ${COLORS[index % COLORS.length]}`}
+									className={`h-full rounded ${COLORS[index % COLORS.length]}`}
 									style={{ width: `${percent}%` }}
 								/>
 							</div>

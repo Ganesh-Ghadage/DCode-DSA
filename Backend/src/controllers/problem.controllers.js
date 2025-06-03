@@ -20,6 +20,8 @@ export const createProblem = asyncHandler(async (req, res) => {
 		testcases,
 		codeSnippets,
 		referenceSolutions,
+		hints,
+		editorial,
 	} = req.body;
 
 	// check user role once again
@@ -83,6 +85,8 @@ export const createProblem = asyncHandler(async (req, res) => {
 				testcases,
 				codeSnippets,
 				referenceSolutions,
+				hints,
+				editorial,
 				userId: req.user.id,
 			},
 		});
@@ -91,7 +95,7 @@ export const createProblem = asyncHandler(async (req, res) => {
 			.status(201)
 			.json(new ApiResponce(201, problem, "Problem created successfully"));
 	} catch (error) {
-		console.error("Error while creating problem: ", error);
+		// console.error("Error while creating problem: ", error);
 
 		throw new ApiError(
 			error.statusCode || 500,

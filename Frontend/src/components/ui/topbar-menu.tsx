@@ -49,7 +49,7 @@ export function TopBar({ items, className, open, setOpen }: NavBarProps) {
               onClick={() => handleClick(item.url)}
               className={cn(
                 "relative cursor-pointer text-sm font-semibold px-6 py-2 rounded-full transition-colors",
-                "text-md md:text-xl font-bold hover:text-primary",
+                "text-md md:text-lg font-bold hover:text-primary",
                 open && "border border-border backdrop-blur-lg py-2 px-4 shadow-lg",
                 isActive && "bg-base-300 text-primary",
                 isActive && open && "rounded-bl-none rounded-tl-none"

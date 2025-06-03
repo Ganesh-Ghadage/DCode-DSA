@@ -80,7 +80,7 @@ export default function FAQ() {
     e.preventDefault();
     await submitForm(e)
     if (state.succeeded) {
-      toast("Thanks for query, We will get back to you soon!")
+      toast.success("Thanks for query, We will get back to you soon!")
     }
     closeModal();
   };
@@ -89,8 +89,8 @@ export default function FAQ() {
     <section className="py-16" id='faq'>
       <div className="container mx-auto md:px-24">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">FAQ</h2>
-          <p className="text-lg text-gray-200 max-w-2xl mx-auto">
+          <h2 className="text-3xl md:text-3xl font-bold mb-4">FAQ</h2>
+          <p className="text-lg text-gray-200 max-w-xl mx-auto">
             Common questions about Dcode DSA and how it can help you master algorithms.
           </p>
         </div>
@@ -98,7 +98,7 @@ export default function FAQ() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <div className="space-y-6">
             {faqItems.map((item) => (
-              <div key={item.id} className="bg-white text-black rounded-lg border border-gray-200 overflow-hidden">
+              <div key={item.id} className="bg-base-200 rounded-lg border border-base-300 overflow-hidden">
                 <button
                   className="faq-toggle w-full flex justify-between items-center cursor-pointer p-6 focus:outline-none"
                   aria-expanded={openId === item.id}
@@ -118,8 +118,8 @@ export default function FAQ() {
                   </svg>
                 </button>
                 {openId === item.id && (
-                  <div id={item.id} className="faq-content px-6 pb-6">
-                    <p className="text-gray-600">{item.answer}</p>
+                  <div id={item.id} className="faq-content px-6 py-3 bg-base-300">
+                    <p className="text-primary-content">{item.answer}</p>
                   </div>
                 )}
               </div>
@@ -168,10 +168,10 @@ export default function FAQ() {
               onClick={closeModal}
             />
             <div
-              className="bg-white rounded-lg p-8 max-w-md w-full mx-4 relative z-10 animate-scale-fade-in"
+              className="bg-base-300 rounded-lg p-8 max-w-md w-full mx-4 relative z-10 animate-scale-fade-in"
             >
               <button
-                className="absolute top-4 right-4 text-gray-400 hover:text-gray-600"
+                className="absolute top-4 right-4 btn btn-circle"
                 onClick={closeModal}
               >
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -180,36 +180,39 @@ export default function FAQ() {
               </button>
 
               <h2 className="text-2xl font-bold mb-4">Contact Us</h2>
-              <p className="text-gray-600 mb-6">Have a question or need assistance? Send us a message and we'll get back to you as soon as possible.</p>
+              <p className="text-primary-content mb-6">Have a question or need assistance? Send us a message and we'll get back to you as soon as possible.</p>
 
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
-                  <label htmlFor="contact-name" className="block text-sm font-medium text-gray-700 mb-1">Name</label>
+                  <label htmlFor="contact-name" className="block text-sm font-medium text-primary-content mb-1">Name</label>
                   <input
                     type="text"
                     id="contact-name"
                     name="name"
-                    className="w-full px-4 py-2 text-gray-900 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    placeholder='Enter your name...'
+                    className="w-full px-4 py-2 text-primary-content border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     required
                   />
                 </div>
                 <div>
-                  <label htmlFor="contact-email" className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                  <label htmlFor="contact-email" className="block text-sm font-medium text-primary-content mb-1">Email</label>
                   <input
                     type="email"
                     id="contact-email"
                     name="email"
-                    className="w-full px-4 py-2 text-gray-900 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    placeholder='Enter your email...'
+                    className="w-full px-4 py-2 text-primary-content border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     required
                   />
                 </div>
                 <div>
-                  <label htmlFor="contact-message" className="block text-sm font-medium text-gray-700 mb-1">Message</label>
+                  <label htmlFor="contact-message" className="block text-sm font-medium text-primary-content mb-1">Message</label>
                   <textarea
                     id="contact-message"
                     name="message"
                     rows={4}
-                    className="w-full px-4 py-2 text-gray-900 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    placeholder='Type your message here...'
+                    className="w-full px-4 py-2 text-primary-content border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     required
                   ></textarea>
                 </div>

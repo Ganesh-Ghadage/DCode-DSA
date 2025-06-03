@@ -6,11 +6,11 @@ const Hero: React.FC = () => {
   const {authUser} = useAuthStore()
 
   return (
-    <section className="relative overflow-hidden mt-10">
+    <section className="relative overflow-hidden mt-10 w-full">
       <div className="container mx-auto py-10 md:px-20 relative z-10">
         <div className="flex flex-col md:flex-row items-center justify-around">
           <div className="md:w-1/2 mb-10 md:mb-0">
-            <h1 className="text-2xl md:text-4xl font-bold leading-tight mb-4">
+            <h1 className="text-2xl md:text-3xl font-bold leading-tight mb-4">
               Master DSA. Smarter. Faster. With DCode.
             </h1>
             <p className="text-lg md:text-xl mb-8 text-gray-500 dark:text-gray-400 max-w-lg">
@@ -30,7 +30,7 @@ const Hero: React.FC = () => {
               </button>
             </div>
           </div>
-          <div className="md:w-[500px] relative">
+          <div className="md:w-[400px] relative">
             <div className="relative rounded-lg overflow-hidden border border-gray-700 shadow-lg">
               <img
                 src="https://images.unsplash.com/photo-1515879218367-8466d910aaa4?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"

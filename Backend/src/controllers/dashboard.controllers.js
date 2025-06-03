@@ -53,30 +53,47 @@ export const userDashboard = asyncHandler(async (req, res) => {
 			dateCountMap[date] = (dateCountMap[date] || 0) + 1;
 		});
 
-		const contributions = Object.entries(dateCountMap).map(
-			([date, count]) => ({ date, count })
-		);
+		const contributions = Object.entries(dateCountMap).map(([date, count]) => ({
+			date,
+			count,
+		}));
 
 		// Calculate streaks
-		const allDates = Object.keys(dateCountMap).sort();
+		function formatDate(date) {
+			return date.toISOString().split("T")[0];
+		}
+
+		const allDateStrings = Object.keys(dateCountMap).sort();
+		const dateSet = new Set(allDateStrings);
+
+		// Calculate current streak from today backwards
 		let currentStreak = 0;
+		let today = new Date();
+		while (true) {
+			const dateStr = formatDate(today);
+			if (dateSet.has(dateStr)) {
+				currentStreak++;
+				today.setDate(today.getDate() - 1);
+			} else {
+				break;
+			}
+		}
+
+		// Calculate longest streak
 		let longestStreak = 0;
+		let streak = 0;
 		let prevDate = null;
 
-		for (const dateStr of allDates) {
+		for (const dateStr of allDateStrings) {
 			const currDate = new Date(dateStr);
 			if (prevDate) {
 				const diff =
 					(currDate.getTime() - prevDate.getTime()) / (1000 * 60 * 60 * 24);
-				if (diff === 1) {
-					currentStreak++;
-				} else {
-					currentStreak = 1;
-				}
+				streak = diff === 1 ? streak + 1 : 1;
 			} else {
-				currentStreak = 1;
+				streak = 1;
 			}
-			longestStreak = Math.max(longestStreak, currentStreak);
+			longestStreak = Math.max(longestStreak, streak);
 			prevDate = currDate;
 		}
 

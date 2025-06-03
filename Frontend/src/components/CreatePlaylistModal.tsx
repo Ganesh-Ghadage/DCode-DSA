@@ -45,7 +45,7 @@ const CreatePlaylistModal = ({ isOpen, onClose, onSubmit }: props) => {
 	if (!isOpen) return null;
 
 	return (
-		<div className="fixed inset-0 bg-black/80 bg-opacity-50 flex items-center justify-center">
+		<div className="fixed inset-0 bg-black/80 bg-opacity-50 flex items-center justify-center z-10">
 			<div
 				className="absolute inset-0"
 				onClick={onClose}
@@ -65,7 +65,7 @@ const CreatePlaylistModal = ({ isOpen, onClose, onSubmit }: props) => {
 					onSubmit={handleSubmit(handleFormSubmit)}
 					className="p-6 space-y-4"
 				>
-					<div className="form-control">
+					<div className="form-control text-start">
 						<label className="label">
 							<span className="label-text font-medium">Playlist Name</span>
 						</label>
@@ -84,7 +84,7 @@ const CreatePlaylistModal = ({ isOpen, onClose, onSubmit }: props) => {
 						)}
 					</div>
 
-					<div className="form-control">
+					<div className="form-control text-start">
 						<label className="label">
 							<span className="label-text font-medium">Description</span>
 						</label>

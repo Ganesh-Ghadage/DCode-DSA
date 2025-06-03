@@ -11,10 +11,8 @@ import {
 } from "lucide-react";
 import type { Playlist } from "../types";
 import { usePlaylistStore } from "@/store/usePlaylistStore";
-import type { playlistSchema } from "@/schemas/playlistSchema";
-import type { z } from "zod";
-import CreatePlaylistModal from "./CreatePlaylistModal";
 import ConfirmDeleteModal from "./ConfirmDeleteModal";
+import CreatePlaylistBtn from "./CreatePlaylistBtn";
 
 interface props {
 	allPlaylists: Playlist[];
@@ -22,12 +20,11 @@ interface props {
 
 const UserPlaylists = ({ allPlaylists }: props) => {
 	const [expandedPlaylist, setExpandedPlaylist] = useState<string | null>(null);
-	const [isCreateModalOpen, setIsCreateModalOpen] = useState<boolean>(false);
 	const [isDeletePlaylistModalOpen, setIsDeletePlaylistModalOpen] =
 		useState<boolean>(false);
 	const [selectedPlaylist, setSelectedPlaylist] = useState<string | null>(null);
 
-	const { createPlaylist, deletePlaylist, isLoading } = usePlaylistStore();
+	const { deletePlaylist, isLoading } = usePlaylistStore();
 
 	const togglePlaylist = (id: string) => {
 		if (expandedPlaylist === id) {
@@ -46,10 +43,6 @@ const UserPlaylists = ({ allPlaylists }: props) => {
 		if (selectedPlaylist) {
 			await deletePlaylist(selectedPlaylist);
 		}
-	};
-
-	const handleCreatePlaylist = async (data: z.infer<typeof playlistSchema>) => {
-		await createPlaylist(data);
 	};
 
 	const getDifficultyBadge = (difficulty: string) => {
@@ -79,12 +72,7 @@ const UserPlaylists = ({ allPlaylists }: props) => {
 			<div className="max-w-4xl mx-auto">
 				<div className="flex justify-between items-center mb-6">
 					<h2 className="text-2xl font-bold text-primary">My Playlists</h2>
-					<button
-						onClick={() => setIsCreateModalOpen(true)}
-						className="btn btn-primary btn-sm"
-					>
-						Create Playlist
-					</button>
+					<CreatePlaylistBtn />
 				</div>
 
 				{allPlaylists.length === 0 ? (
@@ -95,12 +83,7 @@ const UserPlaylists = ({ allPlaylists }: props) => {
 								Create your first playlist to organize problems!
 							</p>
 							<div className="card-actions justify-center mt-4">
-								<button
-									onClick={() => setIsCreateModalOpen(true)}
-									className="btn btn-primary"
-								>
-									Create Playlist
-								</button>
+								<CreatePlaylistBtn />
 							</div>
 						</div>
 					</div>
@@ -241,12 +224,6 @@ const UserPlaylists = ({ allPlaylists }: props) => {
 					</div>
 				)}
 			</div>
-
-			<CreatePlaylistModal
-				isOpen={isCreateModalOpen}
-				onClose={() => setIsCreateModalOpen(false)}
-				onSubmit={handleCreatePlaylist}
-			/>
 
 			<ConfirmDeleteModal
 				isOpen={isDeletePlaylistModalOpen}

@@ -28,7 +28,7 @@ const Footer: React.FC = () => {
     await submitForm(e)
     setEmailValue('')
     if (state.succeeded) {
-      toast("Thanks for subscribing!")
+      toast.success("Thanks for subscribing!")
     }
   };
 
