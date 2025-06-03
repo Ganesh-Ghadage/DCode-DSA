@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { X, Plus, Loader } from "lucide-react";
 import { usePlaylistStore } from "../store/usePlaylistStore";
+import CreatePlaylistBtn from "./CreatePlaylistBtn";
 
 interface props {
 	isOpen: boolean;
@@ -49,6 +50,7 @@ const AddToPlaylistModal = ({ isOpen, onClose, problemId }: props) => {
 				className="absolute inset-0"
 				onClick={onClose}
 			/>
+
 			<div className="bg-base-100 rounded-lg shadow-xl w-full max-w-md z-50">
 				<div className="flex justify-between items-center p-4 border-b border-base-300">
 					<h3 className="text-xl font-bold">Add to Playlist</h3>
@@ -60,54 +62,61 @@ const AddToPlaylistModal = ({ isOpen, onClose, problemId }: props) => {
 					</button>
 				</div>
 
-				<form
-					onSubmit={handleSubmit}
-					className="p-6 space-y-4"
-				>
-					<div className="form-control">
-						<label className="label">
-							<span className="label-text font-medium">Select Playlist</span>
-						</label>
-						<select
-							className="select select-bordered w-full"
-							value={selectedPlaylist}
-							onChange={(e) => setSelectedPlaylist(e.target.value)}
-							disabled={isLoading}
-						>
-							<option value="">Select a playlist</option>
-							{allPlaylists.map((playlist) => (
-								<option
-									key={playlist.id}
-									value={playlist.id}
-								>
-									{playlist.name}
-								</option>
-							))}
-						</select>
-					</div>
+				{allPlaylists.length > 0 ? (
+					<form
+						onSubmit={handleSubmit}
+						className="p-6 space-y-4"
+					>
+						<div className="form-control">
+							<label className="label">
+								<span className="label-text font-medium">Select Playlist</span>
+							</label>
+							<select
+								className="select select-bordered w-full"
+								value={selectedPlaylist}
+								onChange={(e) => setSelectedPlaylist(e.target.value)}
+								disabled={isLoading}
+							>
+								<option value="">Select a playlist</option>
+								{allPlaylists.map((playlist) => (
+									<option
+										key={playlist.id}
+										value={playlist.id}
+									>
+										{playlist.name}
+									</option>
+								))}
+							</select>
+						</div>
 
-					<div className="flex justify-end gap-2 mt-6">
-						<button
-							type="button"
-							onClick={onClose}
-							className="btn btn-ghost"
-						>
-							Cancel
-						</button>
-						<button
-							type="submit"
-							className="btn btn-primary"
-							disabled={!selectedPlaylist || isLoading}
-						>
-							{isLoading ? (
-								<Loader className="w-4 h-4 animate-spin" />
-							) : (
-								<Plus className="w-4 h-4" />
-							)}
-							Add to Playlist
-						</button>
+						<div className="flex justify-end gap-2 mt-6">
+							<button
+								type="button"
+								onClick={onClose}
+								className="btn btn-ghost"
+							>
+								Cancel
+							</button>
+							<button
+								type="submit"
+								className="btn btn-primary"
+								disabled={!selectedPlaylist || isLoading}
+							>
+								{isLoading ? (
+									<Loader className="w-4 h-4 animate-spin" />
+								) : (
+									<Plus className="w-4 h-4" />
+								)}
+								Add to Playlist
+							</button>
+						</div>
+					</form>
+				) : (
+					<div className="flex flex-col justify-center items-center gap-4 p-4">
+						<p className="text-lg">You don't have any playlist</p>
+						<CreatePlaylistBtn />
 					</div>
-				</form>
+				)}
 			</div>
 		</div>
 	);
