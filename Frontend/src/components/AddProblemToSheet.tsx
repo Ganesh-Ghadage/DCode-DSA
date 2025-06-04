@@ -71,10 +71,16 @@ const AddProblemToSheet = ({ isOpen, onClose, sheetId, sheet }: props) => {
 
 	if (isProblemsLoading || !problems) {
 		return (
-			<div className="flex items-center justify-center h-screen w-full bg-base-200">
-				<div className="card bg-base-100 p-8 shadow-xl">
-					<span className="loading loading-spinner loading-lg text-primary"></span>
-					<p className="mt-4 text-base-content/70">Loading problems...</p>
+			<div className="fixed -inset-20 bg-black/80 bg-opacity-50 flex items-center justify-center">
+				<div
+					className="absolute inset-0"
+					onClick={onClose}
+				/>
+				<div className="flex items-center justify-center h-screen w-full bg-base-200">
+					<div className="card bg-base-100 p-8 shadow-xl">
+						<span className="loading loading-spinner loading-lg text-primary"></span>
+						<p className="mt-4 text-base-content/70">Loading problems...</p>
+					</div>
 				</div>
 			</div>
 		);
