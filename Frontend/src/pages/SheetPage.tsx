@@ -39,7 +39,7 @@ const SheetPage = () => {
 		isLoading,
 		removeProblemFromSheet,
 		deleteSheet,
-		updateSheet
+		updateSheet,
 	} = useSheetStore();
 	const { authUser } = useAuthStore();
 
@@ -96,10 +96,10 @@ const SheetPage = () => {
 	};
 
 	const handleUpdateSheet = async (data: z.infer<typeof sheetSchema>) => {
-		if(id) {
-			await updateSheet(id, data)
+		if (id) {
+			await updateSheet(id, data);
 		}
-	}
+	};
 
 	if (isLoading || !sheet) {
 		return (
@@ -166,12 +166,15 @@ const SheetPage = () => {
 										</div>
 									</div>
 								</div>
-								<button 
-									onClick={() => setIsAddProblemModalOpen(true)}
-									className="btn btn-info flex">
-									<Plus className="w-4 h-4" />
-									Add Problems
-								</button>
+								{authUser?.role === "ADMIN" && (
+									<button
+										onClick={() => setIsAddProblemModalOpen(true)}
+										className="btn btn-info flex"
+									>
+										<Plus className="w-4 h-4" />
+										Add Problems
+									</button>
+								)}
 							</div>
 
 							{/* Description */}
@@ -294,14 +297,14 @@ const SheetPage = () => {
 				onConfirm={handleConfirmSheetDelete}
 			/>
 
-			<AddProblemToSheet 
+			<AddProblemToSheet
 				isOpen={isAddProblemModalOpen}
 				onClose={() => setIsAddProblemModalOpen(false)}
 				sheetId={id || ""}
 				sheet={sheet}
 			/>
 
-			<UpdateSheetModal 
+			<UpdateSheetModal
 				isOpen={isUpdateSheetModalOpen}
 				sheet={sheet}
 				onClose={() => setIsUpdateSheetModalOpen(false)}
