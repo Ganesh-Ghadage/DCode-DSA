@@ -15,7 +15,7 @@ const AddProblemToSheet = ({ isOpen, onClose, sheetId, sheet }: props) => {
 	const [selectedProblems, setSelectedProblems] = useState<string[]>([]);
 	const [avaliableProblems, setAvaliableProblems] = useState<Problem[]>([]);
 
-	const { getAllProblems, problems } = useProblemStore();
+	const { getAllProblems, problems, isProblemsLoading } = useProblemStore();
 	const { addProblemInSheet, isLoading } = useSheetStore();
 
 	useEffect(() => {
@@ -68,6 +68,17 @@ const AddProblemToSheet = ({ isOpen, onClose, sheetId, sheet }: props) => {
 	};
 
 	if (!isOpen) return null;
+
+	if (isProblemsLoading || !problems) {
+		return (
+			<div className="flex items-center justify-center h-screen w-full bg-base-200">
+				<div className="card bg-base-100 p-8 shadow-xl">
+					<span className="loading loading-spinner loading-lg text-primary"></span>
+					<p className="mt-4 text-base-content/70">Loading problems...</p>
+				</div>
+			</div>
+		);
+	}
 
 	return (
 		<div className="fixed -inset-20 bg-black/80 bg-opacity-50 flex items-center justify-center">
