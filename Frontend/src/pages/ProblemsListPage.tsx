@@ -1,10 +1,11 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useProblemStore } from "../store/useProblemStore";
-import { Loader } from "lucide-react";
+import { Loader, X } from "lucide-react";
 import ProblemsTable from "../components/ProblemsTable";
 import { useNavigate } from "react-router-dom";
 
 const ProblemsListPage = () => {
+	const [showAlert, setShowAlert] = useState<boolean>(true)
 	const { getAllProblems, problems, isProblemsLoading } = useProblemStore();
 	const navigate = useNavigate();
 
@@ -22,7 +23,7 @@ const ProblemsListPage = () => {
 
 	return (
 		<section className="min-h-screen w-full flex flex-col items-center mt-5 px-4">
-			<div
+			{showAlert && (<div
 				role="alert"
 				className="alert alert-info alert-soft"
 			>
@@ -36,7 +37,13 @@ const ProblemsListPage = () => {
 					</span>{" "}
 					to get problems based on your target company
 				</span>
-			</div>
+				<button
+					onClick={() => setShowAlert(false)}
+					className="btn btn-xs btn-circle btn-outline btn-info"
+				>
+					<X className="w-5 h-5" />
+				</button>
+			</div>)}
 			{problems.length > 0 ? (
 				<ProblemsTable problems={problems} />
 			) : (
