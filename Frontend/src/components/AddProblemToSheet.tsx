@@ -70,12 +70,12 @@ const AddProblemToSheet = ({ isOpen, onClose, sheetId, sheet }: props) => {
 	if (!isOpen) return null;
 
 	return (
-		<div className="fixed inset-0 bg-black/80 bg-opacity-50 flex items-center justify-center">
+		<div className="fixed -inset-20 bg-black/80 bg-opacity-50 flex items-center justify-center">
 			<div
 				className="absolute inset-0"
 				onClick={onClose}
 			/>
-			<div className="bg-base-100 rounded-lg shadow-xl w-full max-w-md z-50">
+			<div className="bg-base-100 rounded-lg shadow-xl w-full max-w-md max-h-2/3 z-50 ">
 				<div className="flex justify-between items-center p-4 border-b border-base-300">
 					<h3 className="text-xl font-bold">Add to Sheet</h3>
 					<button
@@ -94,7 +94,7 @@ const AddProblemToSheet = ({ isOpen, onClose, sheetId, sheet }: props) => {
 						<label className="label">
 							<span className="label-text font-medium">Select Problems</span>
 						</label>
-						<div className="mt-4">
+						<div className="mt-4 max-h-96 overflow-auto">
 							<table className="table table-md bg-base-200 text-base-content rounded-xl">
 								<thead className="bg-base-300 rounded-xl">
 									<tr>
