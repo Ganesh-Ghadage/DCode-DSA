@@ -69,13 +69,13 @@ const SheetListPage = () => {
 							)}
 						>
 							<div className="card-body">
-								<div className="badge badge-accent font-semibold">
+								<div className="badge badge-primary badge-soft font-semibold">
 									{sheet.company}
 								</div>
-								<h2 className="card-title text-black dark:text-white text-xl md:text-2xl font-bold">
+								<h2 className="card-title text-primary-content text-md md:text-xl font-semibold">
 									{sheet.title}
 								</h2>
-								<p className="text-lg font-semibold text-black dark:text-white">
+								<p className="text-primary-content">
 									{sheet.description}
 								</p>
 								<div className="card-actions justify-end">
