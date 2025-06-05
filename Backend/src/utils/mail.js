@@ -1,14 +1,8 @@
-import nodemailer from "nodemailer";
+import { Resend } from "resend";
+import { ApiError } from "./ApiError.js";
 
-const transporter = nodemailer.createTransport({
-	host: process.env.MAILTRAP_HOST,
-	port: process.env.MAILTRAP_PORT,
-	secure: false, // true for port 465, false for other ports
-	auth: {
-		user: process.env.MAILTRAP_USER,
-		pass: process.env.MAILTRAP_PASSWORD,
-	},
-});
+const resend = new Resend(process.env.RESEND_KEY);
+
 
 async function sendVerifyMail(name, email, token) {
 	const htmlTemplate = `
@@ -88,16 +82,20 @@ async function sendVerifyMail(name, email, token) {
   `;
 
 	const options = {
-		from: process.env.MAILTRAP_EMAIL,
+		from: process.env.RESEND_EMAIL,
 		to: email, // list of receivers
 		subject: "Verify your mail",
 		text: `Plase click on below like to verify your email: ${process.env.BASE_URl}/api/v1/auth/verify/${token}`,
 		html: htmlTemplate,
 	};
 
-	const info = await transporter.sendMail(options);
+	const { data, error } = await resend.emails.send(options);
 
-	return info;
+	if (error) {
+		throw new ApiError(400, error.message, error);
+	}
+
+	return data;
 }
 
 async function sendForgotPasswordMail(name, email, token) {
@@ -178,16 +176,20 @@ async function sendForgotPasswordMail(name, email, token) {
   `;
 
 	const options = {
-		from: process.env.MAILTRAP_EMAIL,
+		from: process.env.RESEND_EMAIL,
 		to: email, // list of receivers
 		subject: "Verify your mail",
 		text: `Plase click on below like to verify your email: ${process.env.BASE_URl}/api/v1/auth/change-password/${token}`,
 		html: htmlTemplate,
 	};
 
-	const info = await transporter.sendMail(options);
+	const { data, error } = await resend.emails.send(options);
 
-	return info;
+	if (error) {
+		throw new ApiError(400, error.message, error);
+	}
+
+	return data;
 }
 
 export { sendVerifyMail, sendForgotPasswordMail };
