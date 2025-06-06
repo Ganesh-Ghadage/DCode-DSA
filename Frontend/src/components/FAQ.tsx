@@ -90,7 +90,7 @@ export default function FAQ() {
       <div className="container mx-auto md:px-24">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-3xl font-bold mb-4">FAQ</h2>
-          <p className="text-lg text-gray-200 max-w-xl mx-auto">
+          <p className="text-lg max-w-xl mx-auto">
             Common questions about Dcode DSA and how it can help you master algorithms.
           </p>
         </div>
@@ -119,7 +119,7 @@ export default function FAQ() {
                 </button>
                 {openId === item.id && (
                   <div id={item.id} className="faq-content px-6 py-3 bg-base-300">
-                    <p className="text-primary-content">{item.answer}</p>
+                    <p className="text-accent-content">{item.answer}</p>
                   </div>
                 )}
               </div>
@@ -147,7 +147,7 @@ export default function FAQ() {
         </div>
 
         <div className="mt-16 text-center">
-          <p className="text-lg text-gray-200 mb-6">Still have questions? We're here to help!</p>
+          <p className="text-lg mb-6">Still have questions? We're here to help!</p>
           <button
             className="btn btn-primary"
             onClick={openModal}
@@ -180,39 +180,39 @@ export default function FAQ() {
               </button>
 
               <h2 className="text-2xl font-bold mb-4">Contact Us</h2>
-              <p className="text-primary-content mb-6">Have a question or need assistance? Send us a message and we'll get back to you as soon as possible.</p>
+              <p className="text-accent-content mb-6">Have a question or need assistance? Send us a message and we'll get back to you as soon as possible.</p>
 
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
-                  <label htmlFor="contact-name" className="block text-sm font-medium text-primary-content mb-1">Name</label>
+                  <label htmlFor="contact-name" className="block text-sm font-medium text-accent-content mb-1">Name</label>
                   <input
                     type="text"
                     id="contact-name"
                     name="name"
                     placeholder='Enter your name...'
-                    className="w-full px-4 py-2 text-primary-content border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-2 text-accent-content border border-base-content rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     required
                   />
                 </div>
                 <div>
-                  <label htmlFor="contact-email" className="block text-sm font-medium text-primary-content mb-1">Email</label>
+                  <label htmlFor="contact-email" className="block text-sm font-medium text-accent-content mb-1">Email</label>
                   <input
                     type="email"
                     id="contact-email"
                     name="email"
                     placeholder='Enter your email...'
-                    className="w-full px-4 py-2 text-primary-content border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-2 text-accent-content border border-base-content rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     required
                   />
                 </div>
                 <div>
-                  <label htmlFor="contact-message" className="block text-sm font-medium text-primary-content mb-1">Message</label>
+                  <label htmlFor="contact-message" className="block text-sm font-medium text-accent-content mb-1">Message</label>
                   <textarea
                     id="contact-message"
                     name="message"
                     rows={4}
                     placeholder='Type your message here...'
-                    className="w-full px-4 py-2 text-primary-content border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-2 text-accent-content border border-base-content rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     required
                   ></textarea>
                 </div>

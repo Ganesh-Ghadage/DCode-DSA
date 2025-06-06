@@ -213,10 +213,12 @@ const SignupPage = () => {
 
 						<div className="divider">OR</div>
 
-						<GoogleLogin
-							onSuccess={handleLogin}
-							onError={() => toast.error("Login Failed")}
-						/>
+						<div className="w-full justify-center items-center">
+							<GoogleLogin
+								onSuccess={handleLogin}
+								onError={() => toast.error("Login Failed")}
+							/>
+						</div>
 
 						{/* Footer */}
 						<div className="text-center">

@@ -48,9 +48,9 @@ const DashboardPage: React.FC = () => {
 		);
 
 	return (
-		<div className="p-6 max-w-7xl w-full mx-auto space-y-8">
+		<div className="p-4 max-w-7xl w-full mx-auto space-y-8">
 			<div className="flex justify-between items-center">
-				<div className="flex flex-row  items-center w-full">
+				<div className="flex flex-row  items-center w-fit">
 					<div className="flex items-center gap-3">
 						<Link
 							to={"/"}
@@ -58,13 +58,13 @@ const DashboardPage: React.FC = () => {
 						>
 							<ArrowLeft className="w-5 h-5" />
 						</Link>
-						<h1 className="text-3xl font-bold self-center">
+						<h1 className="text-2xl font-bold self-center">
 							📊 Your DCode Dashboard
 						</h1>
 					</div>
 				</div>
 
-				<div className="flex flex-col md:flex-row items-center gap-6">
+				<div className="flex flex-col md:flex-row items-center gap-6 w-fit">
 					<div className="avatar placeholder">
 						<div className="bg-neutral text-neutral-content rounded-full w-12 h-12 ring ring-primary ring-offset-base-100 ring-offset-2">
 							{authUser?.image ? (
@@ -137,9 +137,15 @@ const DashboardPage: React.FC = () => {
 
 			<div className="divider"></div>
 
-			<div className="card bg-base-200 shadow-xl border border-base-300">
-				<div className="card-body">
-					<h2 className="card-title text-primary">📆 Daily Contributions</h2>
+			<div className="card bg-base-200 shadow-xl border border-base-300 w-full">
+				<div className="card-body w-full">
+					<div className="w-full flex justify-between items-center">
+						<h2 className="card-title text-primary">📆 Daily Contributions</h2>
+						<h2 className="text-sm text-accent-content opacity-40">
+							Total Submissions:{" "}
+							{dashboardData?.submissionData.totalSubmissions}
+						</h2>
+					</div>
 					<ContributionGraph data={dashboardData?.contributions ?? []} />
 				</div>
 			</div>

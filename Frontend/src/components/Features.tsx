@@ -79,7 +79,7 @@ const Features: React.FC = () => {
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-3xl font-bold mb-4">Features</h2>
-          <p className="text-lg text-gray-200 max-w-xl mx-auto">
+          <p className="text-lg max-w-xl mx-auto">
             Powerful tools designed to accelerate your DSA learning journey and prepare you for technical interviews.
           </p>
         </div>
@@ -100,7 +100,7 @@ const Features: React.FC = () => {
               </div>
               <div className="p-6 flex flex-col">
                 <h3 className="text-xl text-primary font-bold mb-2">{feature.title}</h3>
-                <p className="text-primary-content mb-4">{feature.description}</p>
+                <p className="text-accent-content mb-4">{feature.description}</p>
                 <button
                   onClick={() => handleOpen(feature.id)}
                   className="btn btn-link w-fit align-bottom font-medium flex items-center hover:bg-primary p-2 hover:text-white rounded-xl"

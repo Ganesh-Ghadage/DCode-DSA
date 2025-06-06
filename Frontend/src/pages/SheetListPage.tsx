@@ -64,7 +64,7 @@ const SheetListPage = () => {
 						<div
 							key={sheet.id}
 							className={cn(
-								`card text-primary-content w-96`,
+								`card text-accent-content w-96`,
 								bgClasses[index % bgClasses.length]
 							)}
 						>
@@ -72,10 +72,10 @@ const SheetListPage = () => {
 								<div className="badge badge-primary badge-soft font-semibold">
 									{sheet.company}
 								</div>
-								<h2 className="card-title text-primary-content text-md md:text-xl font-semibold">
+								<h2 className="card-title ext-accent-content text-md md:text-xl font-semibold">
 									{sheet.title}
 								</h2>
-								<p className="text-primary-content">
+								<p className="text-accent-content">
 									{sheet.description}
 								</p>
 								<div className="card-actions justify-end">
