@@ -23,6 +23,7 @@ import { useExecutionStore } from "../store/useExecutionStore";
 import { getLanguageId } from "../lib/helper";
 import SubmissionResults from "../components/SubmissionResults";
 import { useSubmissionStore } from "../store/useSubmissionStore";
+import AddToPlaylistModal from "@/components/AddToPlaylist";
 
 const ProblemPage = () => {
 	const { id } = useParams();
@@ -47,7 +48,11 @@ const ProblemPage = () => {
 	const [activeTab, setActiveTab] = useState<string>("description");
 	const [selectedLanguage, setSelectedLanguage] =
 		useState<string>("JavaScript");
-	const [isBookmarked, setIsBookmarked] = useState<boolean>(false);
+	const [isAddToPlaylistModalOpen, setIsAddToPlaylistModalOpen] =
+		useState<boolean>(false);
+	const [selectedProblemId, setSelectedProblemId] = useState<string | null>(
+		null
+	);
 	const [testCases, setTestCases] = useState<
 		{ input: string; output: string }[]
 	>([]);
@@ -86,6 +91,11 @@ const ProblemPage = () => {
 			getSubmissionForProblem(id);
 		}
 	}, [activeTab, id]);
+
+	const handleAddToPlaylist = (problemId: string) => {
+		setSelectedProblemId(problemId);
+		setIsAddToPlaylistModalOpen(true);
+	};
 
 	const handleLanguageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
 		const lang = e.target.value;
@@ -261,10 +271,8 @@ const ProblemPage = () => {
 				</div>
 				<div className="flex-none gap-4">
 					<button
-						className={`btn btn-ghost btn-circle ${
-							isBookmarked ? "text-primary" : ""
-						}`}
-						onClick={() => setIsBookmarked(!isBookmarked)}
+						className={`btn btn-ghost btn-circle`}
+						onClick={() => handleAddToPlaylist(problem.id)}
 					>
 						<Bookmark className="w-5 h-5" />
 					</button>
@@ -425,6 +433,12 @@ const ProblemPage = () => {
 					</div>
 				</div>
 			</div>
+
+			<AddToPlaylistModal
+				isOpen={isAddToPlaylistModalOpen}
+				onClose={() => setIsAddToPlaylistModalOpen(false)}
+				problemId={selectedProblemId ?? ""}
+			/>
 		</div>
 	);
 };
