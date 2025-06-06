@@ -3,6 +3,7 @@ import { upload } from "../middlewares/multer.middleware.js";
 import {
 	changePasswordViaTokenValidator,
 	forgotPasswordValidator,
+	googleLoginValidator,
 	refreshAccessTokenValidator,
 	updatePasswordValidator,
 	userLoginValidator,
@@ -15,6 +16,7 @@ import {
 	forgotPassword,
 	getUserProfile,
 	loginUser,
+	loginWithGoogle,
 	logoutUser,
 	refreshAccessToken,
 	registerUser,
@@ -74,7 +76,14 @@ authRouter.post(
  *       200:
  *         description: Login successful
  */
-authRouter.post("/login", authLimit, upload.none(), userLoginValidator(), validate, loginUser);
+authRouter.post(
+	"/login",
+	authLimit,
+	upload.none(),
+	userLoginValidator(),
+	validate,
+	loginUser
+);
 
 /**
  * @swagger
@@ -134,7 +143,12 @@ authRouter.get("/profile", upload.none(), authMiddleware, getUserProfile);
  *       200:
  *         description: Verification email sent
  */
-authRouter.post("/resend-verify-email", upload.none(), authMiddleware, resendVerificationMail);
+authRouter.post(
+	"/resend-verify-email",
+	upload.none(),
+	authMiddleware,
+	resendVerificationMail
+);
 
 /**
  * @swagger
@@ -214,5 +228,7 @@ authRouter.put(
 	validate,
 	updatePassword
 );
+
+authRouter.post("/google", googleLoginValidator(), validate, loginWithGoogle);
 
 export default authRouter;
