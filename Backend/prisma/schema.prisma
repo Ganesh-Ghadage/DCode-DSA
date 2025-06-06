@@ -31,13 +31,14 @@ model User {
   email                   String    @unique
   image                   String?
   role                    UserRole  @default(USER)
-  password                String
+  password                String?
   refreshToken            String?
   forgotPasswordToken     String?
   forgotPasswordExpiry    DateTime?
   isEmailVerified         Boolean   @default(false)
   emailVerificationToken  String?
   emailVerificationExpiry DateTime?
+  googleId                String?   @unique
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

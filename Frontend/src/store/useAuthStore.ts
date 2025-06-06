@@ -3,6 +3,7 @@ import { axiosInstance } from "../lib/axios";
 import toast from "react-hot-toast";
 import type { User } from "../types";
 import { AxiosError } from "axios";
+import type { CredentialResponse } from "@react-oauth/google";
 
 interface signupData {
   name: string,
@@ -26,6 +27,7 @@ interface AuthState {
   signup: (data: signupData) => void,
   login: (data: loginData) => void
   logout: () => void
+  googleLogin: (credentialResponse: CredentialResponse) => void
 }
 
 export const useAuthStore = create<AuthState>()((set) => ({
@@ -101,6 +103,33 @@ export const useAuthStore = create<AuthState>()((set) => ({
           ? error.response.data.message
           : "Something went wrong"
       );
+    }
+  },
+
+  googleLogin: async (credentialResponse: CredentialResponse) => {
+    set({ isLoggingIn: true })
+    try {
+      const res = await axiosInstance.post(
+        "/auth/google",
+        {
+          token: credentialResponse.credential,
+        },
+        {
+          withCredentials: true,
+        }
+      );
+      console.log(res.data)
+      set({ authUser: res.data.data })
+      toast.success(res.data?.message || "login successfull")
+    } catch (error) {
+      set({ errorMessage: (error instanceof Error && error.message) ? error.message : "Something went wrong" })
+      toast.error(
+        error instanceof AxiosError && error?.response?.data.message
+          ? error.response.data.message
+          : "Something went wrong"
+      );
+    } finally {
+      set({ isLoggingIn: false })
     }
   }
 

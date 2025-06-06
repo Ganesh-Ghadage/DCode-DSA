@@ -11,6 +11,8 @@ import {
 	Lock,
 	Mail,
 } from "lucide-react";
+import { GoogleLogin, type CredentialResponse } from "@react-oauth/google";
+import toast from "react-hot-toast";
 
 import { loginSchema } from "../schemas/loginSchema";
 import CodeBackground from "../components/CodeBackground";
@@ -20,7 +22,7 @@ import { useAuthStore } from "../store/useAuthStore";
 const LoginPage = () => {
 	const [showPassword, setShowPassword] = useState<boolean>(false);
 
-	const { login, isLoggingIn } = useAuthStore();
+	const { login, isLoggingIn, googleLogin } = useAuthStore();
 
 	const {
 		register,
@@ -30,6 +32,10 @@ const LoginPage = () => {
 
 	const onSubmit = async (data: any) => {
 		await login(data);
+	};
+
+	const handleLogin = async (credentialResponse: CredentialResponse) => {
+		await googleLogin(credentialResponse);
 	};
 
 	return (
@@ -138,6 +144,13 @@ const LoginPage = () => {
 								)}
 							</button>
 						</form>
+
+						<div className="divider">OR</div>
+
+						<GoogleLogin
+							onSuccess={handleLogin}
+							onError={() => toast.error("Login Failed")}
+						/>
 
 						{/* Footer */}
 						<div className="text-center">

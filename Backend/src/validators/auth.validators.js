@@ -111,3 +111,11 @@ export const updatePasswordValidator = () => {
 			),
 	];
 };
+
+export const googleLoginValidator = () => {
+	return [
+		body("token")
+			.trim()
+			.notEmpty().withMessage("Google token is required"),
+	];
+};

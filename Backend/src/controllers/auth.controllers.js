@@ -12,6 +12,9 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import { sendForgotPasswordMail, sendVerifyMail } from "../utils/mail.js";
 import { cookieOptions } from "../utils/constants.js";
+import { OAuth2Client } from "google-auth-library";
+
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 const generateAccessAndRefreshToken = async (userId) => {
 	if (!userId) {
@@ -241,6 +244,80 @@ export const loginUser = asyncHandler(async (req, res) => {
 			maxAge: 1000 * 60 * 60 * 24 * 10,
 		})
 		.json(new ApiResponce(200, loggedInUser, "User logged In successfull"));
+});
+
+export const loginWithGoogle = asyncHandler(async (req, res) => {
+	const { token } = req.body;
+
+	if (!token) {
+		throw new ApiError(400, "Google token is required");
+	}
+
+	const ticket = await client.verifyIdToken({
+		idToken: token,
+		audience: process.env.GOOGLE_CLIENT_ID,
+	});
+
+	const payload = ticket.getPayload();
+
+	if (!payload) {
+		throw new ApiError(401, "Invalid Google token");
+	}
+
+	const { email, name, picture, sub: googleId } = payload;
+
+	if (!email) {
+		throw new ApiError(400, "Google account has no email");
+	}
+
+	let user = await userDBClient.user.findUnique({
+		where: { email },
+		omit: {
+			password: true,
+			refreshToken: true,
+		},
+	});
+
+	if (!user) {
+		user = await userDBClient.user.create({
+			data: {
+				name,
+				email,
+				image: picture || null,
+				googleId,
+				isEmailVerified: true,
+				role: UserRole.USER,
+			},
+		});
+	}
+
+	const { accessToken, refreshToken } = await generateAccessAndRefreshToken(
+		user.id
+	);
+
+	if (!accessToken || !refreshToken) {
+		throw new ApiError(502, "Tokens generation failed");
+	}
+
+	const loggedInUser = await userDBClient.user.findUnique({
+		where: { id: user.id },
+		omit: {
+			password: true,
+			refreshToken: true,
+		},
+	});
+
+	return res
+		.status(200)
+		.cookie("accessToken", accessToken, {
+			...cookieOptions,
+			maxAge: 1000 * 60 * 60 * 24 * 1, // 1 day
+		})
+		.cookie("refreshToken", refreshToken, {
+			...cookieOptions,
+			maxAge: 1000 * 60 * 60 * 24 * 10, // 10 days
+		})
+		.json(new ApiResponce(200, loggedInUser, "Google Login Successful"));
 });
 
 export const verifyUser = asyncHandler(async (req, res) => {

@@ -1,14 +1,8 @@
-import nodemailer from "nodemailer";
+import { Resend } from "resend";
+import { ApiError } from "./ApiError.js";
 
-const transporter = nodemailer.createTransport({
-	host: process.env.MAILTRAP_HOST,
-	port: process.env.MAILTRAP_PORT,
-	secure: false, // true for port 465, false for other ports
-	auth: {
-		user: process.env.MAILTRAP_USER,
-		pass: process.env.MAILTRAP_PASSWORD,
-	},
-});
+const resend = new Resend(process.env.RESEND_KEY);
+
 
 async function sendVerifyMail(name, email, token) {
 	const htmlTemplate = `
@@ -74,8 +68,8 @@ async function sendVerifyMail(name, email, token) {
             <p>Hello <strong>${name}</strong>,</p>
             <p>Thank you for signing up for <strong>LeetLab</strong>. Please use the link below to verify your email address:</p>
             <div class="token-box"><a href="${
-							process.env.BASE_URl
-						}/api/v1/auth/verify/${token}">Verify Email</a></div>
+							process.env.FRONTEND_URL
+						}/verify/${token}">Verify Email</a></div>
             <p>This token will expire in 20 minutes. If you did not request this, please ignore this email.</p>
             <p>Thanks,<br />The LeetLab Team</p>
           </div>
@@ -88,16 +82,20 @@ async function sendVerifyMail(name, email, token) {
   `;
 
 	const options = {
-		from: process.env.MAILTRAP_EMAIL,
+		from: process.env.RESEND_EMAIL,
 		to: email, // list of receivers
 		subject: "Verify your mail",
-		text: `Plase click on below like to verify your email: ${process.env.BASE_URl}/api/v1/auth/verify/${token}`,
+		text: `Plase click on below like to verify your email: ${process.env.FRONTEND_URL}/verify/${token}`,
 		html: htmlTemplate,
 	};
 
-	const info = await transporter.sendMail(options);
+	const { data, error } = await resend.emails.send(options);
 
-	return info;
+	if (error) {
+		throw new ApiError(400, error.message, error);
+	}
+
+	return data;
 }
 
 async function sendForgotPasswordMail(name, email, token) {
@@ -164,8 +162,8 @@ async function sendForgotPasswordMail(name, email, token) {
             <p>Hello <strong>${name}</strong>,</p>
             <p>Please use the link below to change your password for LeetLab:</p>
             <div class="token-box"><a href="${
-							process.env.BASE_URl
-						}/api/v1/auth/change-password/${token}">Change Password</a></div>
+							process.env.FRONTEND_URL
+						}/change-password/${token}">Change Password</a></div>
             <p>This token will expire in 20 minutes. If you did not request this, please ignore this email.</p>
             <p>Thanks,<br />The LeetLab Team</p>
           </div>
@@ -178,16 +176,20 @@ async function sendForgotPasswordMail(name, email, token) {
   `;
 
 	const options = {
-		from: process.env.MAILTRAP_EMAIL,
+		from: process.env.RESEND_EMAIL,
 		to: email, // list of receivers
 		subject: "Verify your mail",
-		text: `Plase click on below like to verify your email: ${process.env.BASE_URl}/api/v1/auth/change-password/${token}`,
+		text: `Plase click on below like to verify your email: ${process.env.FRONTEND_URL}/change-password/${token}`,
 		html: htmlTemplate,
 	};
 
-	const info = await transporter.sendMail(options);
+	const { data, error } = await resend.emails.send(options);
 
-	return info;
+	if (error) {
+		throw new ApiError(400, error.message, error);
+	}
+
+	return data;
 }
 
 export { sendVerifyMail, sendForgotPasswordMail };
