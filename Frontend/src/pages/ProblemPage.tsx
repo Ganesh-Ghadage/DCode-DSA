@@ -7,7 +7,6 @@ import {
 	MessageSquare,
 	Lightbulb,
 	Bookmark,
-	Share2,
 	Clock,
 	Terminal,
 	Code2,
