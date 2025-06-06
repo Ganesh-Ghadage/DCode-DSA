@@ -24,6 +24,7 @@ import { getLanguageId } from "../lib/helper";
 import SubmissionResults from "../components/SubmissionResults";
 import { useSubmissionStore } from "../store/useSubmissionStore";
 import AddToPlaylistModal from "@/components/AddToPlaylist";
+import ShareButton from "@/components/ShareButton";
 
 const ProblemPage = () => {
 	const { id } = useParams();
@@ -276,9 +277,7 @@ const ProblemPage = () => {
 					>
 						<Bookmark className="w-5 h-5" />
 					</button>
-					<button className="btn btn-ghost btn-circle">
-						<Share2 className="w-5 h-5" />
-					</button>
+					<ShareButton problemSlug={problem.id} title={problem.title} />
 					<select
 						className="select select-bordered select-primary w-40"
 						value={selectedLanguage}
