@@ -13,7 +13,7 @@ const Hero: React.FC = () => {
             <h1 className="text-2xl md:text-3xl font-bold leading-tight mb-4">
               Master DSA. Smarter. Faster. With DCode.
             </h1>
-            <p className="text-lg md:text-xl mb-8 text-gray-500 dark:text-gray-400 max-w-lg">
+            <p className="text-lg md:text-xl mb-8 max-w-lg">
               Personalized DSA sheets, goal-based learning paths, and a clean code environment to help you excel in technical interviews.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
