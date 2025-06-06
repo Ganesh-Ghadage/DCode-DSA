@@ -45,11 +45,6 @@ export const useAuthStore = create<AuthState>()((set) => ({
     } catch (error) {
       set({ errorMessage: (error instanceof Error && error.message) ? error.message : "Something went wrong" })
       set({ authUser: null })
-      // toast.error(
-      //   error instanceof AxiosError && error?.response?.data.message
-      //     ? error.response.data.message
-      //     : "Something went wrong"
-      // );
     } finally {
       set({ isCheckingAuth: false })
     }
@@ -118,7 +113,6 @@ export const useAuthStore = create<AuthState>()((set) => ({
           withCredentials: true,
         }
       );
-      console.log(res.data)
       set({ authUser: res.data.data })
       toast.success(res.data?.message || "login successfull")
     } catch (error) {
