@@ -134,6 +134,10 @@ const ProblemPage = () => {
 		}
 	};
 
+	if (errorMessage) {
+		return <ErrorComponent errorMessage={errorMessage} />;
+	}
+
 	if (isProblemLoading || !problem) {
 		return (
 			<div className="flex items-center justify-center h-screen w-full bg-base-200">
@@ -143,10 +147,6 @@ const ProblemPage = () => {
 				</div>
 			</div>
 		);
-	}
-
-	if (errorMessage) {
-		return <ErrorComponent errorMessage={errorMessage} />;
 	}
 
 	const renderTabContent = () => {

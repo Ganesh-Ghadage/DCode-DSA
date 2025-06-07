@@ -34,7 +34,11 @@ export const useExecutionStore = create<ExecutionState>()((set) => ({
 
       toast.success(res.data.message);
     } catch (error) {
-      set({ errorMessage: (error instanceof Error && error.message) ? error.message : "Something went wrong" })
+      set({
+        errorMessage: error instanceof AxiosError && error?.response?.data.message
+          ? error.response.data.message
+          : "Something went wrong"
+      })
       set({ submission: null })
       toast.error(
         error instanceof AxiosError && error?.response?.data.message
@@ -59,7 +63,11 @@ export const useExecutionStore = create<ExecutionState>()((set) => ({
 
       toast.success(res.data.message);
     } catch (error) {
-      set({ errorMessage: (error instanceof Error && error.message) ? error.message : "Something went wrong" })
+      set({
+        errorMessage: error instanceof AxiosError && error?.response?.data.message
+          ? error.response.data.message
+          : "Something went wrong"
+      })
       set({ submission: null })
       toast.error(
         error instanceof AxiosError && error?.response?.data.message

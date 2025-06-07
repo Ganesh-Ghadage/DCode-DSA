@@ -39,11 +39,16 @@ export const useAuthStore = create<AuthState>()((set) => ({
 
   checkAuth: async () => {
     set({ isCheckingAuth: true })
+    set({ errorMessage: null })
     try {
       const res = await axiosInstance.get("/auth/profile")
       set({ authUser: res.data.data })
     } catch (error) {
-      set({ errorMessage: (error instanceof Error && error.message) ? error.message : "Something went wrong" })
+      set({
+        errorMessage: error instanceof AxiosError && error?.response?.data.message
+          ? error.response.data.message
+          : "Something went wrong"
+      })
       set({ authUser: null })
     } finally {
       set({ isCheckingAuth: false })
@@ -52,12 +57,17 @@ export const useAuthStore = create<AuthState>()((set) => ({
 
   signup: async (data) => {
     set({ isSigningUp: true })
+    set({ errorMessage: null })
     try {
       const res = await axiosInstance.post("/auth/register", data)
       set({ authUser: res.data.data })
       toast.success(res.data?.message || "Signup successfull")
     } catch (error) {
-      set({ errorMessage: (error instanceof Error && error.message) ? error.message : "Something went wrong" })
+      set({
+        errorMessage: error instanceof AxiosError && error?.response?.data.message
+          ? error.response.data.message
+          : "Something went wrong"
+      })
       toast.error(
         error instanceof AxiosError && error?.response?.data.message
           ? error.response.data.message
@@ -70,12 +80,17 @@ export const useAuthStore = create<AuthState>()((set) => ({
 
   login: async (data) => {
     set({ isLoggingIn: true })
+    set({ errorMessage: null })
     try {
       const res = await axiosInstance.post("/auth/login", data)
       set({ authUser: res.data.data })
       toast.success(res.data?.message || "login successfull")
     } catch (error) {
-      set({ errorMessage: (error instanceof Error && error.message) ? error.message : "Something went wrong" })
+      set({
+        errorMessage: error instanceof AxiosError && error?.response?.data.message
+          ? error.response.data.message
+          : "Something went wrong"
+      })
       toast.error(
         error instanceof AxiosError && error?.response?.data.message
           ? error.response.data.message
@@ -88,11 +103,16 @@ export const useAuthStore = create<AuthState>()((set) => ({
 
   logout: async () => {
     try {
+      set({ errorMessage: null })
       await axiosInstance.post("/auth/logout")
       set({ authUser: null })
       toast.success("logout successfull")
     } catch (error) {
-      set({ errorMessage: (error instanceof Error && error.message) ? error.message : "Something went wrong" })
+      set({
+        errorMessage: error instanceof AxiosError && error?.response?.data.message
+          ? error.response.data.message
+          : "Something went wrong"
+      })
       toast.error(
         error instanceof AxiosError && error?.response?.data.message
           ? error.response.data.message
@@ -103,6 +123,7 @@ export const useAuthStore = create<AuthState>()((set) => ({
 
   googleLogin: async (credentialResponse: CredentialResponse) => {
     set({ isLoggingIn: true })
+    set({ errorMessage: null })
     try {
       const res = await axiosInstance.post(
         "/auth/google",
@@ -116,7 +137,11 @@ export const useAuthStore = create<AuthState>()((set) => ({
       set({ authUser: res.data.data })
       toast.success(res.data?.message || "login successfull")
     } catch (error) {
-      set({ errorMessage: (error instanceof Error && error.message) ? error.message : "Something went wrong" })
+      set({
+        errorMessage: error instanceof AxiosError && error?.response?.data.message
+          ? error.response.data.message
+          : "Something went wrong"
+      })
       toast.error(
         error instanceof AxiosError && error?.response?.data.message
           ? error.response.data.message

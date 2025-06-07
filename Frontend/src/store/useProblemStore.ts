@@ -37,11 +37,15 @@ export const useProblemStore = create<ProblemState>()((set, get) => ({
   getAllProblems: async () => {
     try {
       set({ isProblemsLoading: true })
-
+      set({ errorMessage: null })
       const res = await axiosInstance.get("/problems/get-all-problems")
       set({ problems: res.data.data })
     } catch (error) {
-      set({ errorMessage: (error instanceof Error && error.message) ? error.message : "Something went wrong" })
+      set({
+        errorMessage: error instanceof AxiosError && error?.response?.data.message
+          ? error.response.data.message
+          : "Something went wrong"
+      })
       set({ problems: [] })
       toast.error(
         error instanceof AxiosError && error?.response?.data.message
@@ -56,12 +60,16 @@ export const useProblemStore = create<ProblemState>()((set, get) => ({
   getProblemById: async (id: string) => {
     try {
       set({ isProblemLoading: true })
-
+      set({ errorMessage: null })
       const res = await axiosInstance.get(`/problems/get-problem/${id}`)
       set({ problem: res.data.data })
       toast.success(res.data?.message || "Problem fetched successfully")
     } catch (error) {
-      set({ errorMessage: (error instanceof Error && error.message) ? error.message : "Something went wrong" })
+      set({
+        errorMessage: error instanceof AxiosError && error?.response?.data.message
+          ? error.response.data.message
+          : "Something went wrong"
+      })
       set({ problem: null })
       toast.error(
         error instanceof AxiosError && error?.response?.data.message
@@ -76,16 +84,20 @@ export const useProblemStore = create<ProblemState>()((set, get) => ({
   updateProblem: async (id: string, data: z.infer<typeof problemSchema>) => {
     try {
       set({ isProblemUpdating: true })
-
+      set({ errorMessage: null })
       const res = await axiosInstance.put(`/problems/update-problem/${id}`, data)
 
       if (get().problem?.id === id) {
         await get().getAllProblems()
       }
-      
+
       toast.success(res.data?.message || "Problem updated successfully")
     } catch (error) {
-      set({ errorMessage: (error instanceof Error && error.message) ? error.message : "Something went wrong" })
+      set({
+        errorMessage: error instanceof AxiosError && error?.response?.data.message
+          ? error.response.data.message
+          : "Something went wrong"
+      })
       toast.error(
         error instanceof AxiosError && error?.response?.data.message
           ? error.response.data.message
@@ -99,7 +111,7 @@ export const useProblemStore = create<ProblemState>()((set, get) => ({
   deleteProblem: async (id: string) => {
     try {
       set({ isProblemDeleting: true })
-
+      set({ errorMessage: null })
       const res = await axiosInstance.delete(`/problems/delete-problem/${id}`)
 
       if (get().problem?.id === id) {
@@ -107,7 +119,11 @@ export const useProblemStore = create<ProblemState>()((set, get) => ({
       }
       toast.success(res.data?.message || "Problem deleted successfully")
     } catch (error) {
-      set({ errorMessage: (error instanceof Error && error.message) ? error.message : "Something went wrong" })
+      set({
+        errorMessage: error instanceof AxiosError && error?.response?.data.message
+          ? error.response.data.message
+          : "Something went wrong"
+      })
       toast.error(
         error instanceof AxiosError && error?.response?.data.message
           ? error.response.data.message
@@ -120,10 +136,15 @@ export const useProblemStore = create<ProblemState>()((set, get) => ({
 
   getSolvedProblems: async () => {
     try {
+      set({ errorMessage: null })
       const res = await axiosInstance.get("/problems/get-solved-problems")
       set({ solvedProblems: res.data.data })
     } catch (error) {
-      set({ errorMessage: (error instanceof Error && error.message) ? error.message : "Something went wrong" })
+      set({
+        errorMessage: error instanceof AxiosError && error?.response?.data.message
+          ? error.response.data.message
+          : "Something went wrong"
+      })
       set({ solvedProblems: [] })
       toast.error(
         error instanceof AxiosError && error?.response?.data.message

@@ -10,7 +10,7 @@ interface SubmissionState {
   problemSubmissions: Submission[]
   submissionData: {
     totalCount: number
-		acceptedCount: number
+    acceptedCount: number
   }
   isALLSubmissionLodading: boolean
   isProblemSubmissionLodading: boolean
@@ -37,11 +37,16 @@ export const useSubmissionStore = create<SubmissionState>()((set) => ({
   getAllSubmissions: async () => {
     try {
       set({ isALLSubmissionLodading: true })
+      set({ errorMessage: null })
       const res = await axiosInstance.get("/submissions/get-all-submissions")
       set({ allSubmissions: res.data.data })
       toast.success(res.data.message)
     } catch (error) {
-      set({ errorMessage: (error instanceof Error && error.message) ? error.message : "Something went wrong" })
+      set({
+        errorMessage: error instanceof AxiosError && error?.response?.data.message
+          ? error.response.data.message
+          : "Something went wrong"
+      })
       set({ allSubmissions: [] })
       toast.error(
         error instanceof AxiosError && error?.response?.data.message
@@ -56,10 +61,15 @@ export const useSubmissionStore = create<SubmissionState>()((set) => ({
   getSubmissionForProblem: async (problemId) => {
     try {
       set({ isProblemSubmissionLodading: true })
+      set({ errorMessage: null })
       const res = await axiosInstance.get(`/submissions/get-submission/${problemId}`)
       set({ problemSubmissions: res.data.data })
     } catch (error) {
-      set({ errorMessage: (error instanceof Error && error.message) ? error.message : "Something went wrong" })
+      set({
+        errorMessage: error instanceof AxiosError && error?.response?.data.message
+          ? error.response.data.message
+          : "Something went wrong"
+      })
       set({ problemSubmissions: [] })
       toast.error(
         error instanceof AxiosError && error?.response?.data.message
@@ -74,16 +84,15 @@ export const useSubmissionStore = create<SubmissionState>()((set) => ({
   getSubmissionCountForProblem: async (problemId) => {
     try {
       set({ isCountLoading: true })
+      set({ errorMessage: null })
       const res = await axiosInstance.get(`/submissions/get-submissions-count/${problemId}`)
       set({ submissionData: res.data.data })
     } catch (error) {
-      set({ errorMessage: (error instanceof Error && error.message) ? error.message : "Something went wrong" })
-      // set({ submissionCount: null })
-      // toast.error(
-      //   error instanceof AxiosError && error?.response?.data.message
-      //     ? error.response.data.message
-      //     : "Something went wrong"
-      // );
+      set({
+        errorMessage: error instanceof AxiosError && error?.response?.data.message
+          ? error.response.data.message
+          : "Something went wrong"
+      })
     } finally {
       set({ isCountLoading: false })
     }

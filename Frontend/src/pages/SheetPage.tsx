@@ -41,7 +41,7 @@ const SheetPage = () => {
 		removeProblemFromSheet,
 		deleteSheet,
 		updateSheet,
-		errorMessage
+		errorMessage,
 	} = useSheetStore();
 	const { authUser } = useAuthStore();
 
@@ -103,6 +103,10 @@ const SheetPage = () => {
 		}
 	};
 
+	if (errorMessage) {
+		return <ErrorComponent errorMessage={errorMessage} />;
+	}
+
 	if (isLoading || !sheet) {
 		return (
 			<div className="flex items-center justify-center h-screen w-full bg-base-200">
@@ -112,10 +116,6 @@ const SheetPage = () => {
 				</div>
 			</div>
 		);
-	}
-
-	if(errorMessage){
-		return <ErrorComponent errorMessage={errorMessage} />
 	}
 
 	return (

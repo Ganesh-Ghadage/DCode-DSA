@@ -82,16 +82,16 @@ const SheetListPage = () => {
 		rzp.open();
 	};
 
+	if (errorMessage) {
+		return <ErrorComponent errorMessage={errorMessage} />;
+	}
+
 	if (isLoading) {
 		return (
 			<div className="flex items-center justify-center h-[80dvh] w-full">
 				<Loader className="size-10 animate-spin" />
 			</div>
 		);
-	}
-
-	if (errorMessage) {
-		return <ErrorComponent errorMessage={errorMessage} />;
 	}
 
 	return (
