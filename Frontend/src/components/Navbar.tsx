@@ -17,6 +17,8 @@ function Navbar() {
 		{ name: "Home", url: "/" },
 		{ name: "Problems", url: "/problem" },
 		{ name: "Sheets", url: "/sheets" },
+		{ name: "Code War", url: "/code-war" },
+		{ name: "Code Room", url: "/code-room" },
 	];
 
 	return (

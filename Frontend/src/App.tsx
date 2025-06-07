@@ -18,6 +18,8 @@ import SheetPage from "./pages/SheetPage";
 import EditProblemPage from "./pages/EditProblemPage";
 import DashboardPage from "./pages/DashboardPage";
 import VerifyPage from "./pages/VerifyPage";
+import CodeWar from "./pages/CodeWarPage";
+import CodeRoom from "./pages/CodeRoomPage";
 
 function App() {
 	const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
@@ -58,6 +60,16 @@ function App() {
 					<Route
 						path="/sheets"
 						element={authUser ? <SheetListPage /> : <Navigate to={"/login"} />}
+					/>
+
+					<Route 
+						path="/code-war"
+						element={<CodeWar />}
+					/>
+
+					<Route 
+						path="/code-room"
+						element={<CodeRoom />}
 					/>
 				</Route>
 
