@@ -31,11 +31,16 @@ export const usePlaylistStore = create<PlaylistState>()((set, get) => ({
   getPlaylists: async () => {
     try {
       set({ isLoading: true })
+      set({ errorMessage: null })
       const res = await axiosInstance.get("/playlist")
       set({ allPlaylists: res.data.data })
       toast.success(res.data.message)
     } catch (error) {
-      set({ errorMessage: (error instanceof Error && error.message) ? error.message : "Something went wrong" })
+      set({
+        errorMessage: error instanceof AxiosError && error?.response?.data.message
+          ? error.response.data.message
+          : "Something went wrong"
+      })
       set({ allPlaylists: [] })
       toast.error(
         error instanceof AxiosError && error?.response?.data.message
@@ -50,11 +55,16 @@ export const usePlaylistStore = create<PlaylistState>()((set, get) => ({
   getPlaylistById: async (id: string) => {
     try {
       set({ isLoading: true })
+      set({ errorMessage: null })
       const res = await axiosInstance.get(`/playlist/${id}`)
       set({ playlist: res.data.data })
       toast.success(res.data.message)
     } catch (error) {
-      set({ errorMessage: (error instanceof Error && error.message) ? error.message : "Something went wrong" })
+      set({
+        errorMessage: error instanceof AxiosError && error?.response?.data.message
+          ? error.response.data.message
+          : "Something went wrong"
+      })
       set({ playlist: null })
       toast.error(
         error instanceof AxiosError && error?.response?.data.message
@@ -69,13 +79,18 @@ export const usePlaylistStore = create<PlaylistState>()((set, get) => ({
   createPlaylist: async (data: z.infer<typeof playlistSchema>) => {
     try {
       set({ isLoading: true })
+      set({ errorMessage: null })
       const res = await axiosInstance.post(`/playlist/create-playlist`, data)
       toast.success(res.data.message || "Playlist created successfully")
       set((state) => ({
         allPlaylists: [...state.allPlaylists, res.data.data]
       }))
     } catch (error) {
-      set({ errorMessage: (error instanceof Error && error.message) ? error.message : "Something went wrong" })
+      set({
+        errorMessage: error instanceof AxiosError && error?.response?.data.message
+          ? error.response.data.message
+          : "Something went wrong"
+      })
       toast.error(
         error instanceof AxiosError && error?.response?.data.message
           ? error.response.data.message
@@ -89,10 +104,15 @@ export const usePlaylistStore = create<PlaylistState>()((set, get) => ({
   updatePlaylist: async (id: string, data: z.infer<typeof playlistSchema>) => {
     try {
       set({ isLoading: true })
+      set({ errorMessage: null })
       const res = await axiosInstance.patch(`/playlist/${id}/update`, data)
       toast.success(res.data.message)
     } catch (error) {
-      set({ errorMessage: (error instanceof Error && error.message) ? error.message : "Something went wrong" })
+      set({
+        errorMessage: error instanceof AxiosError && error?.response?.data.message
+          ? error.response.data.message
+          : "Something went wrong"
+      })
       toast.error(
         error instanceof AxiosError && error?.response?.data.message
           ? error.response.data.message
@@ -106,6 +126,7 @@ export const usePlaylistStore = create<PlaylistState>()((set, get) => ({
   addProblemInPlaylist: async (id: string, problemIds: string[]) => {
     try {
       set({ isLoading: true })
+      set({ errorMessage: null })
       const res = await axiosInstance.post(`/playlist/${id}/add-problems`, { problemIds })
 
       if (get().playlist?.id === id) {
@@ -114,7 +135,11 @@ export const usePlaylistStore = create<PlaylistState>()((set, get) => ({
 
       toast.success(res.data.message)
     } catch (error) {
-      set({ errorMessage: (error instanceof Error && error.message) ? error.message : "Something went wrong" })
+      set({
+        errorMessage: error instanceof AxiosError && error?.response?.data.message
+          ? error.response.data.message
+          : "Something went wrong"
+      })
       toast.error(
         error instanceof AxiosError && error?.response?.data.message
           ? error.response.data.message
@@ -128,6 +153,7 @@ export const usePlaylistStore = create<PlaylistState>()((set, get) => ({
   removeProblemFromPlaylist: async (id: string, problemIds: []) => {
     try {
       set({ isLoading: true })
+      set({ errorMessage: null })
       const res = await axiosInstance.delete(`/playlist/${id}/remove-problems`, { data: problemIds })
 
       if (get().playlist?.id === id) {
@@ -136,7 +162,11 @@ export const usePlaylistStore = create<PlaylistState>()((set, get) => ({
 
       toast.success(res.data.message)
     } catch (error) {
-      set({ errorMessage: (error instanceof Error && error.message) ? error.message : "Something went wrong" })
+      set({
+        errorMessage: error instanceof AxiosError && error?.response?.data.message
+          ? error.response.data.message
+          : "Something went wrong"
+      })
       toast.error(
         error instanceof AxiosError && error?.response?.data.message
           ? error.response.data.message
@@ -150,10 +180,15 @@ export const usePlaylistStore = create<PlaylistState>()((set, get) => ({
   deletePlaylist: async (id: string) => {
     try {
       set({ isLoading: true })
+      set({ errorMessage: null })
       const res = await axiosInstance.delete(`/playlist/${id}`)
       toast.success(res.data.message)
     } catch (error) {
-      set({ errorMessage: (error instanceof Error && error.message) ? error.message : "Something went wrong" })
+      set({
+        errorMessage: error instanceof AxiosError && error?.response?.data.message
+          ? error.response.data.message
+          : "Something went wrong"
+      })
       toast.error(
         error instanceof AxiosError && error?.response?.data.message
           ? error.response.data.message

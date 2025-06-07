@@ -30,12 +30,17 @@ export const useSheetStore = create<SheetState>()((set, get) => ({
 
   getSheets: async () => {
     try {
+      set({ errorMessage: null })
       set({ isLoading: true })
       const res = await axiosInstance.get("/sheet")
       set({ allSheets: res.data.data })
       toast.success(res.data.message)
     } catch (error) {
-      set({ errorMessage: (error instanceof Error && error.message) ? error.message : "Something went wrong" })
+      set({
+        errorMessage: error instanceof AxiosError && error?.response?.data.message
+          ? error.response.data.message
+          : "Something went wrong"
+      })
       set({ allSheets: [] })
       toast.error(
         error instanceof AxiosError && error?.response?.data.message
@@ -50,11 +55,16 @@ export const useSheetStore = create<SheetState>()((set, get) => ({
   getSheetById: async (id: string) => {
     try {
       set({ isLoading: true })
+      set({ errorMessage: null })
       const res = await axiosInstance.get(`/sheet/${id}`)
       set({ sheet: res.data.data })
       toast.success(res.data.message)
     } catch (error) {
-      set({ errorMessage: (error instanceof Error && error.message) ? error.message : "Something went wrong" })
+      set({
+        errorMessage: error instanceof AxiosError && error?.response?.data.message
+          ? error.response.data.message
+          : "Something went wrong"
+      })
       set({ sheet: null })
       toast.error(
         error instanceof AxiosError && error?.response?.data.message
@@ -69,13 +79,18 @@ export const useSheetStore = create<SheetState>()((set, get) => ({
   createSheet: async (data: z.infer<typeof sheetSchema>) => {
     try {
       set({ isLoading: true })
+      set({ errorMessage: null })
       const res = await axiosInstance.post(`/sheet/create-sheet`, data)
       toast.success(res.data.message || "Sheet created successfully")
       set((state) => ({
         allSheets: [...state.allSheets, res.data.data]
       }))
     } catch (error) {
-      set({ errorMessage: (error instanceof Error && error.message) ? error.message : "Something went wrong" })
+      set({
+        errorMessage: error instanceof AxiosError && error?.response?.data.message
+          ? error.response.data.message
+          : "Something went wrong"
+      })
       toast.error(
         error instanceof AxiosError && error?.response?.data.message
           ? error.response.data.message
@@ -89,16 +104,20 @@ export const useSheetStore = create<SheetState>()((set, get) => ({
   updateSheet: async (id: string, data: z.infer<typeof sheetSchema>) => {
     try {
       set({ isLoading: true })
+      set({ errorMessage: null })
       const res = await axiosInstance.patch(`/sheet/update-sheet/${id}`, data)
       toast.success(res.data.message)
     } catch (error) {
-      set({ errorMessage: (error instanceof Error && error.message) ? error.message : "Something went wrong" })
+      set({
+        errorMessage: error instanceof AxiosError && error?.response?.data.message
+          ? error.response.data.message
+          : "Something went wrong"
+      })
       toast.error(
         error instanceof AxiosError && error?.response?.data.message
           ? error.response.data.message
           : "Something went wrong"
       );
-      console.log(error)
     } finally {
       set({ isLoading: false })
     }
@@ -107,6 +126,7 @@ export const useSheetStore = create<SheetState>()((set, get) => ({
   addProblemInSheet: async (id: string, problemIds: string[]) => {
     try {
       set({ isLoading: true })
+      set({ errorMessage: null })
       const res = await axiosInstance.post(`/sheet/${id}/add-problem`, { problemIds })
 
       if (get().sheet?.id === id) {
@@ -115,7 +135,11 @@ export const useSheetStore = create<SheetState>()((set, get) => ({
 
       toast.success(res.data.message)
     } catch (error) {
-      set({ errorMessage: (error instanceof Error && error.message) ? error.message : "Something went wrong" })
+      set({
+        errorMessage: error instanceof AxiosError && error?.response?.data.message
+          ? error.response.data.message
+          : "Something went wrong"
+      })
       toast.error(
         error instanceof AxiosError && error?.response?.data.message
           ? error.response.data.message
@@ -129,7 +153,8 @@ export const useSheetStore = create<SheetState>()((set, get) => ({
   removeProblemFromSheet: async (id: string, problemIds: string[]) => {
     try {
       set({ isLoading: true })
-      const res = await axiosInstance.delete(`/sheet/${id}/remove-problem`, { data: {problemIds} })
+      set({ errorMessage: null })
+      const res = await axiosInstance.delete(`/sheet/${id}/remove-problem`, { data: { problemIds } })
 
       if (get().sheet?.id === id) {
         await get().getSheetById(id)
@@ -137,7 +162,11 @@ export const useSheetStore = create<SheetState>()((set, get) => ({
 
       toast.success(res.data.message)
     } catch (error) {
-      set({ errorMessage: (error instanceof Error && error.message) ? error.message : "Something went wrong" })
+      set({
+        errorMessage: error instanceof AxiosError && error?.response?.data.message
+          ? error.response.data.message
+          : "Something went wrong"
+      })
       toast.error(
         error instanceof AxiosError && error?.response?.data.message
           ? error.response.data.message
@@ -151,10 +180,15 @@ export const useSheetStore = create<SheetState>()((set, get) => ({
   deleteSheet: async (id: string) => {
     try {
       set({ isLoading: true })
+      set({ errorMessage: null })
       const res = await axiosInstance.delete(`/sheet/${id}`)
       toast.success(res.data.message)
     } catch (error) {
-      set({ errorMessage: (error instanceof Error && error.message) ? error.message : "Something went wrong" })
+      set({
+        errorMessage: error instanceof AxiosError && error?.response?.data.message
+          ? error.response.data.message
+          : "Something went wrong"
+      })
       toast.error(
         error instanceof AxiosError && error?.response?.data.message
           ? error.response.data.message

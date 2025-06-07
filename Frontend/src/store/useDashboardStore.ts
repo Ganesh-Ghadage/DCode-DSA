@@ -20,11 +20,16 @@ export const useDashboardStore = create<DashboardState>()((set) => ({
   fectchData: async () => {
     try {
       set({ isLoading: true })
+      set({ errorMessage: null })
       const res = await axiosInstance.get("/dashboard")
       set({ dashboardData: res.data.data })
       toast.success(res.data.message)
     } catch (error) {
-      set({ errorMessage: (error instanceof Error && error.message) ? error.message : "Something went wrong" })
+      set({
+        errorMessage: error instanceof AxiosError && error?.response?.data.message
+          ? error.response.data.message
+          : "Something went wrong"
+      })
       set({ dashboardData: null })
       toast.error(
         error instanceof AxiosError && error?.response?.data.message
