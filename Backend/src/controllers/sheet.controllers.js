@@ -48,7 +48,18 @@ export const createSheet = asyncHandler(async (req, res) => {
 
 export const getAllSheets = asyncHandler(async (req, res) => {
 	try {
-		const sheets = await db.Sheet.findMany();
+		const sheets = await db.Sheet.findMany({
+			include: {
+				orders: {
+					where: {
+						status: "paid"
+					},
+					include: {
+						user: true,
+					}
+				},
+			},
+		});
 
 		if (!sheets) {
 			throw new ApiError(404, "No sheets found");
@@ -83,6 +94,14 @@ export const getSheetById = asyncHandler(async (req, res) => {
 					include: {
 						problem: true,
 					},
+				},
+				orders: {
+					where: {
+						status: "paid"
+					},
+					include: {
+						user: true,
+					}
 				},
 			},
 		});
