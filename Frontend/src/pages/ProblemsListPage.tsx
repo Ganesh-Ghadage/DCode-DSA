@@ -3,10 +3,11 @@ import { useProblemStore } from "../store/useProblemStore";
 import { Loader, X } from "lucide-react";
 import ProblemsTable from "../components/ProblemsTable";
 import { useNavigate } from "react-router-dom";
+import ErrorComponent from "@/components/ErrorComponent";
 
 const ProblemsListPage = () => {
 	const [showAlert, setShowAlert] = useState<boolean>(true)
-	const { getAllProblems, problems, isProblemsLoading } = useProblemStore();
+	const { getAllProblems, problems, isProblemsLoading, errorMessage } = useProblemStore();
 	const navigate = useNavigate();
 
 	useEffect(() => {
@@ -19,6 +20,10 @@ const ProblemsListPage = () => {
 				<Loader className="size-10 animate-spin" />
 			</div>
 		);
+	}
+
+	if(errorMessage){
+		return <ErrorComponent errorMessage={errorMessage} />
 	}
 
 	return (

@@ -1,4 +1,5 @@
 import CreateSheetModal from "@/components/CreateSheetModal";
+import ErrorComponent from "@/components/ErrorComponent";
 import { axiosInstance } from "@/lib/axios";
 import { loadRazorpay } from "@/lib/rozarpay";
 import { cn } from "@/lib/utils";
@@ -12,7 +13,8 @@ import { Link, useNavigate } from "react-router-dom";
 import type { z } from "zod";
 
 const SheetListPage = () => {
-	const { allSheets, getSheets, createSheet, isLoading } = useSheetStore();
+	const { allSheets, getSheets, createSheet, isLoading, errorMessage } =
+		useSheetStore();
 	const { authUser } = useAuthStore();
 	const [isCreateSheetModalOpen, setIsCreateSheetModalOpen] =
 		useState<boolean>(false);
@@ -86,6 +88,10 @@ const SheetListPage = () => {
 				<Loader className="size-10 animate-spin" />
 			</div>
 		);
+	}
+
+	if (errorMessage) {
+		return <ErrorComponent errorMessage={errorMessage} />;
 	}
 
 	return (

@@ -1,5 +1,6 @@
 import AddProblemToSheet from "@/components/AddProblemToSheet";
 import ConfirmDeleteModal from "@/components/ConfirmDeleteModal";
+import ErrorComponent from "@/components/ErrorComponent";
 import UpdateSheetModal from "@/components/UpdateSheetModal";
 import type { sheetSchema } from "@/schemas/sheetsSchema";
 import { useAuthStore } from "@/store/useAuthStore";
@@ -40,6 +41,7 @@ const SheetPage = () => {
 		removeProblemFromSheet,
 		deleteSheet,
 		updateSheet,
+		errorMessage
 	} = useSheetStore();
 	const { authUser } = useAuthStore();
 
@@ -110,6 +112,10 @@ const SheetPage = () => {
 				</div>
 			</div>
 		);
+	}
+
+	if(errorMessage){
+		return <ErrorComponent errorMessage={errorMessage} />
 	}
 
 	return (

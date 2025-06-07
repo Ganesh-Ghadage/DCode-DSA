@@ -9,9 +9,11 @@ import WeeklyChart from "@/components/WeeklyChart";
 import AcceptedStatsCard from "@/components/AcceptedStatsCard";
 import { ArrowLeft, Check, Clock, Sigma } from "lucide-react";
 import { useAuthStore } from "@/store/useAuthStore";
+import ErrorComponent from "@/components/ErrorComponent";
 
 const DashboardPage: React.FC = () => {
-	const { dashboardData, isLoading, fectchData } = useDashboardStore();
+	const { dashboardData, isLoading, fectchData, errorMessage } =
+		useDashboardStore();
 	const { authUser } = useAuthStore();
 
 	useEffect(() => {
@@ -42,10 +44,15 @@ const DashboardPage: React.FC = () => {
 		}).format(date);
 	};
 
-	if (isLoading)
+	if (isLoading) {
 		return (
 			<span className="loading loading-ring loading-lg mx-auto mt-10"></span>
 		);
+	}
+
+	if (errorMessage) {
+		return <ErrorComponent errorMessage={errorMessage} />;
+	}
 
 	return (
 		<div className="p-4 max-w-7xl w-full mx-auto space-y-8">
