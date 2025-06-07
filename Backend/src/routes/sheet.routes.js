@@ -17,6 +17,7 @@ import {
 	updatedSheetValidator,
 } from "../validators/sheet.validators.js";
 import validator from "../middlewares/validate.middleware.js";
+import { hasSheetAccess } from "../middlewares/hasSheetAccess.middleware.js";
 
 const sheetRouter = express.Router();
 
@@ -108,6 +109,7 @@ sheetRouter.get(
 	authMiddleware,
 	sheetIdParamsValidator(),
 	validator,
+	hasSheetAccess,
 	getSheetById
 );
 
