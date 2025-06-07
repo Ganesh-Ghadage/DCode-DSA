@@ -6,13 +6,18 @@ import { useNavigate } from "react-router-dom";
 import ErrorComponent from "@/components/ErrorComponent";
 
 const ProblemsListPage = () => {
-	const [showAlert, setShowAlert] = useState<boolean>(true)
-	const { getAllProblems, problems, isProblemsLoading, errorMessage } = useProblemStore();
+	const [showAlert, setShowAlert] = useState<boolean>(true);
+	const { getAllProblems, problems, isProblemsLoading, errorMessage } =
+		useProblemStore();
 	const navigate = useNavigate();
 
 	useEffect(() => {
 		getAllProblems();
 	}, [getAllProblems]);
+
+	if (errorMessage) {
+		return <ErrorComponent errorMessage={errorMessage} />;
+	}
 
 	if (isProblemsLoading) {
 		return (
@@ -22,33 +27,31 @@ const ProblemsListPage = () => {
 		);
 	}
 
-	if(errorMessage){
-		return <ErrorComponent errorMessage={errorMessage} />
-	}
-
 	return (
 		<section className="min-h-screen w-full flex flex-col items-center mt-5 px-4">
-			{showAlert && (<div
-				role="alert"
-				className="alert alert-info alert-soft"
-			>
-				<span>
-					Check out{" "}
-					<span
-						onClick={() => navigate("/sheets")}
-						className="text-blue-800 cursor-pointer hover:underline"
-					>
-						Sheets
-					</span>{" "}
-					to get problems based on your target company
-				</span>
-				<button
-					onClick={() => setShowAlert(false)}
-					className="btn btn-xs btn-circle btn-outline btn-info"
+			{showAlert && (
+				<div
+					role="alert"
+					className="alert alert-info alert-soft"
 				>
-					<X className="w-5 h-5" />
-				</button>
-			</div>)}
+					<span>
+						Check out{" "}
+						<span
+							onClick={() => navigate("/sheets")}
+							className="text-blue-800 cursor-pointer hover:underline"
+						>
+							Sheets
+						</span>{" "}
+						to get problems based on your target company
+					</span>
+					<button
+						onClick={() => setShowAlert(false)}
+						className="btn btn-xs btn-circle btn-outline btn-info"
+					>
+						<X className="w-5 h-5" />
+					</button>
+				</div>
+			)}
 			{problems.length > 0 ? (
 				<ProblemsTable problems={problems} />
 			) : (

@@ -44,14 +44,14 @@ const DashboardPage: React.FC = () => {
 		}).format(date);
 	};
 
+	if (errorMessage) {
+		return <ErrorComponent errorMessage={errorMessage} />;
+	}
+
 	if (isLoading) {
 		return (
 			<span className="loading loading-ring loading-lg mx-auto mt-10"></span>
 		);
-	}
-
-	if (errorMessage) {
-		return <ErrorComponent errorMessage={errorMessage} />;
 	}
 
 	return (
