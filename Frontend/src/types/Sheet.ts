@@ -1,4 +1,5 @@
 import { type User, type ProblemInSheet } from './index';
+import type { Order } from './order';
 
 export interface Sheet {
   id: string;
@@ -8,6 +9,10 @@ export interface Sheet {
   userId: string;
   createdAt: string;
   updatedAt: string;
+  price: number;
+  isPaid: boolean;
+
+  orders?: Order[];
 
   user?: User;
   problems?: ProblemInSheet[];
