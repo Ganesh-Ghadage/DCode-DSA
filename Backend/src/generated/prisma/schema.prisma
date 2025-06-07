@@ -48,6 +48,7 @@ model User {
   problemSolved ProblemSolved[]
   playlists     Playlist[]
   sheet         Sheet[]
+  orders        Order[]
 }
 
 model Problem {
@@ -163,12 +164,16 @@ model ProblemInPlaylist {
 }
 
 model Sheet {
-  id          String           @id @default(uuid())
+  id          String  @id @default(uuid())
   title       String
   company     String
   description String?
   userId      String
-  problems    ProblemInSheet[]
+  price       Int     @default(0)
+  isPaid      Boolean @default(false)
+
+  problems ProblemInSheet[]
+  orders   Order[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -190,4 +195,19 @@ model ProblemInSheet {
   problem Problem @relation(fields: [problemId], references: [id], onDelete: Cascade)
 
   @@unique([sheetId, problemId])
+}
+
+model Order {
+  id                String   @id @default(cuid())
+  userId            String
+  sheetId           String
+  razorpayOrderId   String
+  razorpayPaymentId String?
+  razorpaySignature String?
+  status            String // "created" | "paid" | "failed"
+  amount            Int // in paise
+  createdAt         DateTime @default(now())
+
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  sheet Sheet @relation(fields: [sheetId], references: [id])
 }

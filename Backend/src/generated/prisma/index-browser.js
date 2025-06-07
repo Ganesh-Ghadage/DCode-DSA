@@ -217,6 +217,8 @@ exports.Prisma.SheetScalarFieldEnum = {
   company: 'company',
   description: 'description',
   userId: 'userId',
+  price: 'price',
+  isPaid: 'isPaid',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -227,6 +229,18 @@ exports.Prisma.ProblemInSheetScalarFieldEnum = {
   sheetId: 'sheetId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
+};
+
+exports.Prisma.OrderScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  sheetId: 'sheetId',
+  razorpayOrderId: 'razorpayOrderId',
+  razorpayPaymentId: 'razorpayPaymentId',
+  razorpaySignature: 'razorpaySignature',
+  status: 'status',
+  amount: 'amount',
+  createdAt: 'createdAt'
 };
 
 exports.Prisma.SortOrder = {
@@ -273,7 +287,8 @@ exports.Prisma.ModelName = {
   Playlist: 'Playlist',
   ProblemInPlaylist: 'ProblemInPlaylist',
   Sheet: 'Sheet',
-  ProblemInSheet: 'ProblemInSheet'
+  ProblemInSheet: 'ProblemInSheet',
+  Order: 'Order'
 };
 
 /**
