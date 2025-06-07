@@ -15,7 +15,7 @@ interface ProblemState {
   isProblemLoading: boolean
   isProblemUpdating: boolean
   isProblemDeleting: boolean
-  errorMessage: string
+  errorMessage: string | null
 
   getAllProblems: () => void
   getProblemById: (id: string) => void
@@ -32,7 +32,7 @@ export const useProblemStore = create<ProblemState>()((set, get) => ({
   isProblemLoading: false,
   isProblemUpdating: false,
   isProblemDeleting: false,
-  errorMessage: '',
+  errorMessage: null,
 
   getAllProblems: async () => {
     try {
