@@ -18,13 +18,26 @@ import UserPlaylists from "../components/UserPlaylists";
 import { useSubmissionStore } from "../store/useSubmissionStore";
 import { useProblemStore } from "../store/useProblemStore";
 import { usePlaylistStore } from "../store/usePlaylistStore";
+import ErrorComponent from "@/components/ErrorComponent";
 
 const ProfilePage = () => {
 	const [activeTab, setActiveTab] = useState<string>("submissions");
 	const { authUser } = useAuthStore();
-	const { allSubmissions, getAllSubmissions } = useSubmissionStore();
-	const { getSolvedProblems, solvedProblems } = useProblemStore();
-	const { getPlaylists, allPlaylists } = usePlaylistStore();
+	const {
+		allSubmissions,
+		getAllSubmissions,
+		errorMessage: submissionError,
+	} = useSubmissionStore();
+	const {
+		getSolvedProblems,
+		solvedProblems,
+		errorMessage: problemError,
+	} = useProblemStore();
+	const {
+		getPlaylists,
+		allPlaylists,
+		errorMessage: playlistError,
+	} = usePlaylistStore();
 
 	useEffect(() => {
 		getSolvedProblems();
@@ -50,6 +63,20 @@ const ProfilePage = () => {
 				return null;
 		}
 	};
+
+	if (submissionError || problemError || playlistError) {
+		return (
+			<ErrorComponent
+				errorMessage={
+					submissionError ||
+					problemError ||
+					playlistError ||
+					"Something went wrong"
+				}
+			/>
+		);
+	}
+
 	return (
 		<div className="min-h-screen bg-base-200 flex flex-col items-center justify-center py-10 px-4 md:px-8 w-full">
 			{/* Header with back button */}

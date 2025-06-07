@@ -24,10 +24,12 @@ import SubmissionResults from "../components/SubmissionResults";
 import { useSubmissionStore } from "../store/useSubmissionStore";
 import AddToPlaylistModal from "@/components/AddToPlaylist";
 import ShareButton from "@/components/ShareButton";
+import ErrorComponent from "@/components/ErrorComponent";
 
 const ProblemPage = () => {
 	const { id } = useParams();
-	const { getProblemById, problem, isProblemLoading } = useProblemStore();
+	const { getProblemById, problem, isProblemLoading, errorMessage } =
+		useProblemStore();
 	const {
 		executeCode,
 		submission,
@@ -141,6 +143,10 @@ const ProblemPage = () => {
 				</div>
 			</div>
 		);
+	}
+
+	if (errorMessage) {
+		return <ErrorComponent errorMessage={errorMessage} />;
 	}
 
 	const renderTabContent = () => {
@@ -276,7 +282,10 @@ const ProblemPage = () => {
 					>
 						<Bookmark className="w-5 h-5" />
 					</button>
-					<ShareButton problemSlug={problem.id} title={problem.title} />
+					<ShareButton
+						problemSlug={problem.id}
+						title={problem.title}
+					/>
 					<select
 						className="select select-bordered select-primary w-40"
 						value={selectedLanguage}
