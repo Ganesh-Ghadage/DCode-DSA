@@ -1,5 +1,5 @@
 import Lottie from "lottie-react";
-import errorAmination from "../../public/security-research.json";
+import errorAmination from "../assets/lotties/error-lottie.json";
 import { Link } from "react-router-dom";
 
 interface props {
