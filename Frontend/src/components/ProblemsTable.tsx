@@ -46,6 +46,7 @@ const ProblemsTable = ({ problems }: props) => {
 	}, [problems]);
 
 	const filteredProblems = useMemo(() => {
+		setCurrentPage(1)
 		return (problems || [])
 			.filter((problem) =>
 				problem.title.toLowerCase().includes(search.toLowerCase())
