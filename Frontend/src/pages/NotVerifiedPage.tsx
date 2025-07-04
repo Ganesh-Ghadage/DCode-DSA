@@ -1,12 +1,44 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Clock, Clock12, Clock3, Clock6, Clock9, Send } from "lucide-react";
 import Logo from "@/components/Logo";
 import { useAuthStore } from "@/store/useAuthStore";
+
+const COOLDOWN_SECONDS = 30;
+const STORAGE_KEY = "dcode-verification-cooldown-end";
 
 const NotVerifiedPage = () => {
 	const [isSending, setIsSending] = useState(false);
 	const [cooldown, setCooldown] = useState(0);
 	const { resendVerifyMail, isVerfiyMailSending } = useAuthStore();
+
+	useEffect(() => {
+		const cooldownEnd = sessionStorage.getItem(STORAGE_KEY);
+		if (cooldownEnd) {
+			const endTime = parseInt(cooldownEnd, 10);
+			const remaining = Math.floor((endTime - Date.now()) / 1000);
+			if (remaining > 0) {
+				setIsSending(true);
+				setCooldown(remaining);
+				startCooldownCountdown(remaining);
+			} else {
+				sessionStorage.removeItem(STORAGE_KEY);
+			}
+		}
+	}, []);
+
+	const startCooldownCountdown = (seconds: number) => {
+		let timeLeft = seconds;
+		const interval = setInterval(() => {
+			timeLeft -= 1;
+			setCooldown(timeLeft);
+
+			if (timeLeft <= 0) {
+				clearInterval(interval);
+				setIsSending(false);
+				sessionStorage.removeItem(STORAGE_KEY);
+			}
+		}, 1000);
+	};
 
 	const handleSendVerification = async () => {
 		if (isSending) return;
@@ -14,18 +46,12 @@ const NotVerifiedPage = () => {
 		await resendVerifyMail();
 
 		setIsSending(true);
-		setCooldown(30);
+		setCooldown(COOLDOWN_SECONDS);
 
-		const interval = setInterval(() => {
-			setCooldown((prev) => {
-				if (prev <= 1) {
-					clearInterval(interval);
-					setIsSending(false);
-					return 0;
-				}
-				return prev - 1;
-			});
-		}, 1000);
+		const cooldownEnd = Date.now() + COOLDOWN_SECONDS * 1000;
+		sessionStorage.setItem(STORAGE_KEY, cooldownEnd.toString());
+
+		startCooldownCountdown(COOLDOWN_SECONDS);
 	};
 
 	const renderClock = (time: number) => {
@@ -60,7 +86,9 @@ const NotVerifiedPage = () => {
 					secure.
 				</p>
 
-				<p className="text-base-content">Kindly check your email for verification link</p>
+				<p className="text-base-content">
+					Kindly check your email for verification link
+				</p>
 
 				<div className="divider text-base-content">OR</div>
 
