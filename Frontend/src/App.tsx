@@ -20,6 +20,7 @@ import DashboardPage from "./pages/DashboardPage";
 import VerifyPage from "./pages/VerifyPage";
 import CodeWar from "./pages/CodeWarPage";
 import CodeRoom from "./pages/CodeRoomPage";
+import NotVerifiedPage from "./pages/NotVerifiedPage";
 
 function App() {
 	const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
@@ -43,7 +44,17 @@ function App() {
 			<Routes>
 				<Route
 					path="/"
-					element={<Layout />}
+					element={
+						authUser ? (
+							authUser?.isEmailVerified ? (
+								<Layout />
+							) : (
+								<NotVerifiedPage />
+							)
+						) : (
+							<Layout />
+						)
+					}
 				>
 					<Route
 						index
@@ -62,12 +73,12 @@ function App() {
 						element={authUser ? <SheetListPage /> : <Navigate to={"/login"} />}
 					/>
 
-					<Route 
+					<Route
 						path="/code-war"
 						element={<CodeWar />}
 					/>
 
-					<Route 
+					<Route
 						path="/code-room"
 						element={<CodeRoom />}
 					/>
@@ -88,7 +99,7 @@ function App() {
 					element={authUser ? <ProblemPage /> : <Navigate to={"/login"} />}
 				/>
 
-				<Route 
+				<Route
 					path="/sheet/:id"
 					element={authUser ? <SheetPage /> : <Navigate to={"/login"} />}
 				/>
@@ -97,13 +108,13 @@ function App() {
 					path="/profile"
 					element={authUser ? <ProfilePage /> : <Navigate to={"/login"} />}
 				/>
-				
+
 				<Route
 					path="/dashboard"
 					element={authUser ? <DashboardPage /> : <Navigate to={"/login"} />}
 				/>
 
-				<Route 
+				<Route
 					path="/verify/:token"
 					element={<VerifyPage />}
 				/>

@@ -22,12 +22,16 @@ interface AuthState {
   isSigningUp: boolean,
   isCheckingAuth: boolean,
   errorMessage: string | null,
+  isLoading: boolean,
+  isVerfiyMailSending: boolean
 
   checkAuth: () => void,
   signup: (data: signupData) => void,
   login: (data: loginData) => void
   logout: () => void
   googleLogin: (credentialResponse: CredentialResponse) => void
+  verifyMail: () => void
+  resendVerifyMail: () => void
 }
 
 export const useAuthStore = create<AuthState>()((set) => ({
@@ -36,6 +40,8 @@ export const useAuthStore = create<AuthState>()((set) => ({
   isCheckingAuth: false,
   isSigningUp: false,
   errorMessage: null,
+  isLoading: false,
+  isVerfiyMailSending: false,
 
   checkAuth: async () => {
     set({ isCheckingAuth: true })
@@ -149,6 +155,30 @@ export const useAuthStore = create<AuthState>()((set) => ({
       );
     } finally {
       set({ isLoggingIn: false })
+    }
+  },
+
+  verifyMail: () => { },
+
+  resendVerifyMail: async () => {
+    set({ isVerfiyMailSending: true })
+    set({ errorMessage: null })
+    try {
+      const res = await axiosInstance.post("/auth/resend-verify-email")
+      toast.success(res.data?.message || "Verify email sent successfull")
+    } catch (error) {
+      set({
+        errorMessage: error instanceof AxiosError && error?.response?.data.message
+          ? error.response.data.message
+          : "Something went wrong"
+      })
+      toast.error(
+        error instanceof AxiosError && error?.response?.data.message
+          ? error.response.data.message
+          : "Something went wrong"
+      );
+    } finally {
+      set({ isVerfiyMailSending: false })
     }
   }
 
