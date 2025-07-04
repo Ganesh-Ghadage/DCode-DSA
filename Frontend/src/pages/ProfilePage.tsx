@@ -19,9 +19,12 @@ import { useSubmissionStore } from "../store/useSubmissionStore";
 import { useProblemStore } from "../store/useProblemStore";
 import { usePlaylistStore } from "../store/usePlaylistStore";
 import ErrorComponent from "@/components/ErrorComponent";
+import UpdatePasswordModal from "@/components/UpdatePassword";
 
 const ProfilePage = () => {
 	const [activeTab, setActiveTab] = useState<string>("submissions");
+	const [isUpdatePasswordModalOpen, setIsUpdatePasswordModalOpen] =
+		useState<boolean>(false);
 	const { authUser } = useAuthStore();
 	const {
 		allSubmissions,
@@ -182,7 +185,11 @@ const ProfilePage = () => {
 						<button className="btn btn-outline btn-primary">
 							Edit Profile
 						</button>
-						<button className="btn btn-primary">Change Password</button>
+						<button className="btn btn-primary"
+							onClick={() => setIsUpdatePasswordModalOpen(true)}
+						>
+							Change Password
+						</button>
 					</div>
 				</div>
 			</div>
@@ -230,6 +237,11 @@ const ProfilePage = () => {
 					</div>
 				</div>
 			</div>
+
+			<UpdatePasswordModal 
+				isOpen={isUpdatePasswordModalOpen}
+				onClose={() => setIsUpdatePasswordModalOpen(false)}
+			/>
 		</div>
 	);
 };

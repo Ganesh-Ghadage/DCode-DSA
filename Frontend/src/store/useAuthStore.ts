@@ -16,6 +16,12 @@ interface loginData {
   password: string
 }
 
+interface updatePasswordData {
+  name: string,
+  email: string,
+  password: string
+}
+
 interface AuthState {
   authUser: User | null,
   isLoggingIn: boolean,
@@ -32,6 +38,7 @@ interface AuthState {
   googleLogin: (credentialResponse: CredentialResponse) => void
   verifyMail: (token: string) => void
   resendVerifyMail: () => void
+  updatePassword: (data: updatePasswordData) => void
 }
 
 export const useAuthStore = create<AuthState>()((set) => ({
@@ -199,6 +206,27 @@ export const useAuthStore = create<AuthState>()((set) => ({
       );
     } finally {
       set({ isVerfiyMailSending: false })
+    }
+  },
+
+  updatePassword: async (data: updatePasswordData) => {
+    set({ isLoading: true, errorMessage: null })
+    try {
+      const res = await axiosInstance.put(`/auth/update-password`, data)
+      toast.success(res.data?.message || "Password updated successfully")
+    } catch (error) {
+      set({
+        errorMessage: error instanceof AxiosError && error?.response?.data.message
+          ? error.response.data.message
+          : "Something went wrong"
+      })
+      toast.error(
+        error instanceof AxiosError && error?.response?.data.message
+          ? error.response.data.message
+          : "Password update failed"
+      )
+    } finally {
+      set({ isLoading: false })
     }
   }
 
