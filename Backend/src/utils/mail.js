@@ -66,15 +66,15 @@ async function sendVerifyMail(name, email, token) {
           </div>
           <div class="content">
             <p>Hello <strong>${name}</strong>,</p>
-            <p>Thank you for signing up for <strong>LeetLab</strong>. Please use the link below to verify your email address:</p>
+            <p>Thank you for signing up for <strong>DCode</strong>. Please use the link below to verify your email address:</p>
             <div class="token-box"><a href="${
 							process.env.FRONTEND_URL
 						}/verify/${token}">Verify Email</a></div>
             <p>This token will expire in 20 minutes. If you did not request this, please ignore this email.</p>
-            <p>Thanks,<br />The LeetLab Team</p>
+            <p>Thanks,<br />The DCode Team</p>
           </div>
           <div class="footer">
-            &copy; ${new Date().getFullYear()} LeetLab. All rights reserved.
+            &copy; ${new Date().getFullYear()} DCode. All rights reserved.
           </div>
         </div>
       </body>
@@ -160,15 +160,15 @@ async function sendForgotPasswordMail(name, email, token) {
           </div>
           <div class="content">
             <p>Hello <strong>${name}</strong>,</p>
-            <p>Please use the link below to change your password for LeetLab:</p>
+            <p>Please use the link below to change your password for DCode:</p>
             <div class="token-box"><a href="${
 							process.env.FRONTEND_URL
 						}/change-password/${token}">Change Password</a></div>
             <p>This token will expire in 20 minutes. If you did not request this, please ignore this email.</p>
-            <p>Thanks,<br />The LeetLab Team</p>
+            <p>Thanks,<br />The DCode Team</p>
           </div>
           <div class="footer">
-            &copy; ${new Date().getFullYear()} LeetLab. All rights reserved.
+            &copy; ${new Date().getFullYear()} DCode. All rights reserved.
           </div>
         </div>
       </body>
