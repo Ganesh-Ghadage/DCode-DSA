@@ -30,7 +30,7 @@ interface AuthState {
   login: (data: loginData) => void
   logout: () => void
   googleLogin: (credentialResponse: CredentialResponse) => void
-  verifyMail: () => void
+  verifyMail: (token: string) => void
   resendVerifyMail: () => void
 }
 
@@ -158,7 +158,27 @@ export const useAuthStore = create<AuthState>()((set) => ({
     }
   },
 
-  verifyMail: () => { },
+  verifyMail: async (token: string) => {
+    set({ isLoading: true, errorMessage: null })
+    try {
+      const res = await axiosInstance.get(`/auth/verify/${token}`)
+      toast.success(res.data?.message || "Your email has been verified.")
+      await useAuthStore.getState().checkAuth()
+    } catch (error) {
+      set({
+        errorMessage: error instanceof AxiosError && error?.response?.data.message
+          ? error.response.data.message
+          : "Something went wrong"
+      })
+      toast.error(
+        error instanceof AxiosError && error?.response?.data.message
+          ? error.response.data.message
+          : "Verification failed"
+      )
+    } finally {
+      set({ isLoading: false })
+    }
+  },
 
   resendVerifyMail: async () => {
     set({ isVerfiyMailSending: true })
