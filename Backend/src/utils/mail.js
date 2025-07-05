@@ -178,8 +178,8 @@ async function sendForgotPasswordMail(name, email, token) {
 	const options = {
 		from: process.env.RESEND_EMAIL,
 		to: email, // list of receivers
-		subject: "Verify your mail",
-		text: `Plase click on below like to verify your email: ${process.env.FRONTEND_URL}/change-password/${token}`,
+		subject: "Password reset link",
+		text: `Plase click on below like to reset your password: ${process.env.FRONTEND_URL}/change-password/${token}`,
 		html: htmlTemplate,
 	};
 
