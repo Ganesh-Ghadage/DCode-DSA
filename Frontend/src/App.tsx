@@ -22,6 +22,7 @@ import CodeWar from "./pages/CodeWarPage";
 import CodeRoom from "./pages/CodeRoomPage";
 import NotVerifiedPage from "./pages/NotVerifiedPage";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
+import ChangePasswordPage from "./pages/ChangePasswordPage";
 
 function App() {
 	const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
@@ -93,6 +94,11 @@ function App() {
 				<Route
 					path="/forgot-password"
 					element={!authUser ? <ForgotPasswordPage /> : <Navigate to={"/"} />}
+				/>
+
+				<Route
+					path="/change-password/:token"
+					element={!authUser ? <ChangePasswordPage /> : <Navigate to={"/"} />}
 				/>
 
 				<Route
