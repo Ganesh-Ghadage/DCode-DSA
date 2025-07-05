@@ -17,9 +17,18 @@ interface loginData {
 }
 
 interface updatePasswordData {
-  name: string,
   email: string,
-  password: string
+  newPassword: string,
+  oldPassword: string,
+}
+
+interface forgotPasswordData {
+  email: string
+}
+
+interface changePasswordData {
+  email: string,
+  newPassword: string
 }
 
 interface AuthState {
@@ -39,6 +48,8 @@ interface AuthState {
   verifyMail: (token: string) => void
   resendVerifyMail: () => void
   updatePassword: (data: updatePasswordData) => void
+  forgotPassword: (data: forgotPasswordData) => void
+  changePassword: (token: string, data: changePasswordData) => void
 }
 
 export const useAuthStore = create<AuthState>()((set) => ({
@@ -210,6 +221,7 @@ export const useAuthStore = create<AuthState>()((set) => ({
   },
 
   updatePassword: async (data: updatePasswordData) => {
+    console.log(data)
     set({ isLoading: true, errorMessage: null })
     try {
       const res = await axiosInstance.put(`/auth/update-password`, data)
@@ -224,6 +236,48 @@ export const useAuthStore = create<AuthState>()((set) => ({
         error instanceof AxiosError && error?.response?.data.message
           ? error.response.data.message
           : "Password update failed"
+      )
+    } finally {
+      set({ isLoading: false })
+    }
+  },
+
+  forgotPassword: async (data: forgotPasswordData) => {
+    set({ isLoading: true, errorMessage: null })
+    try {
+      const res = await axiosInstance.post(`/auth/forgot-password`, data)
+      toast.success(res.data?.message || "Password reset link sent successfully")
+    } catch (error) {
+      set({
+        errorMessage: error instanceof AxiosError && error?.response?.data.message
+          ? error.response.data.message
+          : "Something went wrong"
+      })
+      toast.error(
+        error instanceof AxiosError && error?.response?.data.message
+          ? error.response.data.message
+          : "Password reset link generation failed"
+      )
+    } finally {
+      set({ isLoading: false })
+    }
+  },
+
+  changePassword: async (token: string, data: changePasswordData) => {
+    set({ isLoading: true, errorMessage: null })
+    try {
+      const res = await axiosInstance.put(`/auth/change-password/${token}`, data)
+      toast.success(res.data?.message || "Password reset link sent successfully")
+    } catch (error) {
+      set({
+        errorMessage: error instanceof AxiosError && error?.response?.data.message
+          ? error.response.data.message
+          : "Something went wrong"
+      })
+      toast.error(
+        error instanceof AxiosError && error?.response?.data.message
+          ? error.response.data.message
+          : "Password reset link generation failed"
       )
     } finally {
       set({ isLoading: false })
