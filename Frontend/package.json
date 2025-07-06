@@ -25,6 +25,7 @@
     "react": "^19.1.0",
     "react-calendar-heatmap": "^1.10.0",
     "react-dom": "^19.1.0",
+    "react-easy-crop": "^5.4.2",
     "react-hook-form": "^7.56.3",
     "react-hot-toast": "^2.5.2",
     "react-intersection-observer": "^9.16.0",
