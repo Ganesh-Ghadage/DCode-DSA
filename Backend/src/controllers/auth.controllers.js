@@ -670,3 +670,66 @@ export const updatePassword = asyncHandler(async (req, res) => {
 		);
 	}
 });
+
+export const updateUserProfile = asyncHandler(async (req, res) => {
+	const { name } = req.body;
+
+	const imageLocalPath = req.file?.path;
+
+	try {
+		const user = await userDBClient.user.findUnique({
+			where: {
+				id: req.user.id,
+			},
+		});
+
+		if (!user) {
+			throw new ApiError(404, "User not found");
+		}
+
+		let image;
+		if (imageLocalPath) {
+			try {
+				image = await upolodOnClodinary(imageLocalPath);
+			} catch (error) {
+				throw new ApiError(500, "Image upload on clodinary failed", error);
+			}
+		}
+
+		const updatedUser = await userDBClient.user.update({
+			where: {
+				id: req.user.id,
+			},
+			data: {
+				name: name || req.user.name,
+				image: image?.url || null,
+			},
+			omit: {
+				password: true,
+				refreshToken: true,
+			},
+		});
+
+		return res
+			.status(201)
+			.json(
+				new ApiResponce(201, updatedUser, "User profile updated successfully")
+			);
+	} catch (error) {
+		console.log(error);
+
+		if (image) {
+			await deleteFromCloudinary(image.url);
+		}
+
+		if (imageLocalPath && !image) {
+			fs.unlinkSync(imageLocalPath);
+		}
+
+		throw new ApiError(
+			error?.statusCode || 500,
+			error?.message || "User profile updation Failed",
+			error
+		);
+	}
+});
