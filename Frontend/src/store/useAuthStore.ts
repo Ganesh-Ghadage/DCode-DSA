@@ -50,6 +50,7 @@ interface AuthState {
   updatePassword: (data: updatePasswordData) => void
   forgotPassword: (data: forgotPasswordData) => void
   changePassword: (token: string, data: changePasswordData) => void
+  updateProfile: (name: string, avatar?: Blob | null) => void
 }
 
 export const useAuthStore = create<AuthState>()((set) => ({
@@ -282,6 +283,33 @@ export const useAuthStore = create<AuthState>()((set) => ({
     } finally {
       set({ isLoading: false })
     }
-  }
+  },
 
+  updateProfile: async (name, avatar) => {
+    set({ isLoading: true, errorMessage: null })
+
+    try {
+      const formData = new FormData()
+      formData.append("name", name)
+      if (avatar) {
+        formData.append("image", avatar, "avatar.jpg")
+      }
+      const res = await axiosInstance.patch("/auth/update-profile", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      })
+
+      set({ authUser: res.data?.data })
+      toast.success(res.data?.message || "Profile updated successfully")
+    } catch (error) {
+      const message =
+        error instanceof AxiosError && error?.response?.data?.message
+          ? error.response.data.message
+          : "Failed to update profile"
+
+      set({ errorMessage: message })
+      toast.error(message)
+    } finally {
+      set({ isLoading: false })
+    }
+  }
 }))

@@ -20,10 +20,13 @@ import { useProblemStore } from "../store/useProblemStore";
 import { usePlaylistStore } from "../store/usePlaylistStore";
 import ErrorComponent from "@/components/ErrorComponent";
 import UpdatePasswordModal from "@/components/UpdatePassword";
+import UpdateProfileModal from "@/components/UpdateProfileModal";
 
 const ProfilePage = () => {
 	const [activeTab, setActiveTab] = useState<string>("submissions");
 	const [isUpdatePasswordModalOpen, setIsUpdatePasswordModalOpen] =
+		useState<boolean>(false);
+	const [isUpdateProfileModalOpen, setIsUpdateProfileModalOpen] =
 		useState<boolean>(false);
 	const { authUser } = useAuthStore();
 	const {
@@ -182,7 +185,9 @@ const ProfilePage = () => {
 
 					{/* Action Buttons */}
 					<div className="card-actions justify-end mt-6">
-						<button className="btn btn-outline btn-primary">
+						<button className="btn btn-outline btn-primary"
+							onClick={() => setIsUpdateProfileModalOpen(true)}
+						>
 							Edit Profile
 						</button>
 						<button className="btn btn-primary"
@@ -241,6 +246,10 @@ const ProfilePage = () => {
 			<UpdatePasswordModal 
 				isOpen={isUpdatePasswordModalOpen}
 				onClose={() => setIsUpdatePasswordModalOpen(false)}
+			/>
+			<UpdateProfileModal
+				isOpen={isUpdateProfileModalOpen}
+				onClose={() => setIsUpdateProfileModalOpen(false)}
 			/>
 		</div>
 	);
