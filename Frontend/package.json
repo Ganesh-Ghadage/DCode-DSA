@@ -20,6 +20,7 @@
     "clsx": "^2.1.1",
     "lottie-react": "^2.4.1",
     "lucide-react": "^0.511.0",
+    "motion": "^12.23.0",
     "qrcode.react": "^4.2.0",
     "radix-ui": "^1.4.2",
     "react": "^19.1.0",
