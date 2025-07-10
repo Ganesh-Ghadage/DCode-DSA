@@ -84,8 +84,8 @@ const ProblemsTable = ({ problems }: props) => {
 	};
 
 	return (
-		<div className="flex flex-col md:flex-row gap-8 mb-6">
-			<div className="w-full max-w-6xl mx-auto">
+		<div className="flex flex-col md:flex-row justify-center gap-8 mb-6 mt-4 w-full px-10">
+			<div className="w-full max-w-6xl">
 				{/* Header with Create Playlist Button */}
 				<div className="flex justify-between items-center mb-6">
 					<h2 className="text-2xl font-bold">Problems</h2>
