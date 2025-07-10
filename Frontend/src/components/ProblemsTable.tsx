@@ -296,7 +296,7 @@ const ProblemsTable = ({ problems }: props) => {
 				/>
 			</div>
 
-			<div className="bg-base-300 rounded-xl h-[120dvh] w-full max-w-64 ">
+			<div className="bg-base-300 rounded-xl max-h-[120dvh] h-fit w-full max-w-64 ">
 				<h1 className="text-lg font-bold p-2 px-4">Learn By Topic</h1>
 
 				<div className="bg-base-200 rounded-xl flex flex-wrap gap-2 p-4 w-full h-full overflow-y-auto">
