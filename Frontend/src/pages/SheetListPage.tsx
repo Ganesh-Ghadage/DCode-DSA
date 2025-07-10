@@ -95,7 +95,7 @@ const SheetListPage = () => {
 	}
 
 	return (
-		<section className="min-h-screen w-full  max-w-7xl mx-auto flex flex-col items-center mt-10 px-4 mb-6">
+		<section className="min-h-screen w-full mx-auto flex flex-col items-center mt-10 px-10 mb-6">
 			<div className="w-full flex justify-between items-center mb-6">
 				<h2 className="text-2xl font-bold">Sheets</h2>
 
@@ -110,7 +110,7 @@ const SheetListPage = () => {
 				)}
 			</div>
 
-			<div className="w-full flex flex-wrap items-center justify-center gap-10">
+			<div className="w-full max-w-7xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3  gap-10">
 				{allSheets.length > 0 ? (
 					allSheets.map((sheet, index) => {
 						const isPurchased = sheet.isPaid
@@ -120,7 +120,7 @@ const SheetListPage = () => {
 							<div
 								key={sheet.id}
 								className={cn(
-									`card text-accent-content w-96`,
+									`card text-accent-content max-w-96`,
 									bgClasses[index % bgClasses.length]
 								)}
 							>
