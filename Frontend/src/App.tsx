@@ -65,14 +65,12 @@ function App() {
 
 					<Route
 						path="/problem"
-						element={
-							authUser ? <ProblemsListPage /> : <Navigate to={"/login"} />
-						}
+						element={<ProblemsListPage />}
 					/>
 
 					<Route
 						path="/sheets"
-						element={authUser ? <SheetListPage /> : <Navigate to={"/login"} />}
+						element={<SheetListPage />}
 					/>
 
 					<Route
