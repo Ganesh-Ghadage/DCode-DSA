@@ -28,11 +28,11 @@ const ProblemsListPage = () => {
 	}
 
 	return (
-		<section className="min-h-screen w-full flex flex-col items-center mt-5 px-4">
+		<section className="min-h-screen w-full flex flex-col items-center mt-5 px-4 relative">
 			{showAlert && (
 				<div
 					role="alert"
-					className="alert alert-info alert-soft"
+					className="alert alert-info alert-soft absolute"
 				>
 					<span>
 						Check out{" "}
