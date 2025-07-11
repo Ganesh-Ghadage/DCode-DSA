@@ -19,9 +19,9 @@ const faqItems: FAQItem[] = [
   },
   {
     id: "faq-content-2",
-    question: "When does Dcode DSA launch?",
+    question: "Do I need an account to start?",
     answer:
-      "We've launched beta version now. Premium features will be available soon.",
+      "No account is required to browse. However, creating one unlocks progress tracking and personalized streaks.",
   },
   {
     id: "faq-content-3",
