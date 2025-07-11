@@ -32,7 +32,7 @@ const ProblemsListPage = () => {
 			{showAlert && (
 				<div
 					role="alert"
-					className="alert alert-info alert-soft absolute"
+					className="alert alert-info alert-soft md:absolute"
 				>
 					<span>
 						Check out{" "}
