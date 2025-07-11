@@ -217,7 +217,7 @@ export default function FAQ() {
   return (
     <motion.section
       ref={sectionRef}
-      className="py-16 bg-gradient-to-tl from-background via-base-100 to-primary/20"
+      className="py-8 md:py-16 bg-gradient-to-tr from-background via-base-100 to-primary/20"
       id="faq"
       initial="hidden"
       animate={isInView ? "visible" : "hidden"}
@@ -229,13 +229,13 @@ export default function FAQ() {
           variants={titleVariants}
         >
           <motion.h2 
-            className="text-2xl md:text-4xl font-bold mb-6"
+            className="text-xl md:text-4xl font-bold mb-6"
             variants={titleVariants}
           >
             Frequently Asked Questions
           </motion.h2>
           <motion.p 
-            className="text-lg text-base-content/70 max-w-2xl mx-auto"
+            className="md:text-lg text-base-content/70 max-w-2xl mx-auto"
             variants={titleVariants}
           >
             Find answers to common questions about Dcode DSA and discover how our platform can accelerate your algorithm mastery journey.
@@ -264,7 +264,7 @@ export default function FAQ() {
                 whileHover={{ backgroundColor: "hsl(var(--accent))" }}
                 transition={{ duration: 0.2 }}
               >
-                <span className="text-lg font-semibold text-foreground group-hover:text-primary transition-colors duration-200">
+                <span className="md:text-lg font-semibold text-foreground group-hover:text-primary transition-colors duration-200">
                   {item.question}
                 </span>
                 <motion.div
@@ -286,7 +286,7 @@ export default function FAQ() {
                     className="overflow-hidden"
                   >
                     <div className="px-6 pb-6 pt-2 bg-accent/20">
-                      <p className="text-muted-foreground leading-relaxed">
+                      <p className="text-sm md:text-md text-muted-foreground leading-relaxed">
                         {item.answer}
                       </p>
                     </div>
@@ -302,13 +302,13 @@ export default function FAQ() {
           variants={titleVariants}
         >
           <motion.p 
-            className="text-lg mb-8 text-muted-foreground"
+            className="md:text-lg mb-8 text-muted-foreground"
             variants={titleVariants}
           >
             Still have questions? We're here to help!
           </motion.p>
           <motion.button
-            className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-8 py-4 rounded-lg font-semibold shadow-lg hover:shadow-xl"
+            className="inline-flex items-center gap-2 btn btn-primary hover:shadow-xl"
             onClick={openModal}
             variants={buttonVariants}
             whileHover="hover"

@@ -3,7 +3,7 @@ import FAQ from "../components/sections/FAQ";
 import Features from "../components/sections/Features";
 import Footer from "../components/sections/Footer";
 import Hero from "../components/sections/Hero";
-import DCodeWay from "@/components/sections/DcodeWay";
+import DCodeWay from "@/components/sections/DCodeWay";
 import Transformation from "@/components/sections/Transformation";
 import DCodeJourney from "@/components/sections/DCodeJourney";
 

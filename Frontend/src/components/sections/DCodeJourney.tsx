@@ -28,7 +28,7 @@ const DCodeJourney = () => {
 					>
 						<Link to={"/problem"}>
 							<motion.button
-								className="btn btn-primary btn-lg px-8 py-4 text-lg"
+								className="btn btn-primary md:btn-lg px-8 py-4 md:text-lg"
 								whileHover={{ scale: 1.05 }}
 								whileTap={{ scale: 0.95 }}
 								animate={{
@@ -49,7 +49,7 @@ const DCodeJourney = () => {
 
 						<Link to={"/sheets"}>
 							<motion.button
-								className="btn btn-outline btn-lg px-8 py-4 text-lg"
+								className="btn btn-outline md:btn-lg px-8 py-4 md:text-lg"
 								whileHover={{ scale: 1.05 }}
 								whileTap={{ scale: 0.95 }}
 							>
@@ -60,13 +60,13 @@ const DCodeJourney = () => {
 					</motion.div>
 
 					<motion.div
-						className="max-w-md mx-auto"
+						className="md:max-w-md mx-auto"
 						initial={{ opacity: 0, scale: 0.8 }}
 						whileInView={{ opacity: 1, scale: 1 }}
 						transition={{ duration: 0.8, delay: 0.5 }}
 						viewport={{ once: true }}
 					>
-						<div className="mockup-code bg-base-300">
+						<div className="mockup-code bg-base-300 text-start">
 							<pre data-prefix="$">
 								<code>git clone success.git</code>
 							</pre>

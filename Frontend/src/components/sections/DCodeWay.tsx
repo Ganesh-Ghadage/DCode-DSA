@@ -98,7 +98,7 @@ const DCodeWay = () => {
 							whileHover="hover"
 						>
 							<motion.div
-								className={`card bg-base-200 min-w-lg shadow-xl hover:shadow-2xl transition-all duration-300 h-full border border-${feature.color}/20`}
+								className={`card bg-base-200  shadow-xl hover:shadow-2xl transition-all duration-300 h-full border border-${feature.color}/20`}
 								variants={cardHoverVariants}
 							>
 								<div className="card-body text-center">

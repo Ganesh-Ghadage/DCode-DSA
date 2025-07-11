@@ -3,7 +3,7 @@ import { RouteOff, CalendarOff, WebhookOff } from "lucide-react";
 
 const BeginnersStruggle = () => {
 	return (
-		<section className="p-10 bg-base-200">
+		<section className="p-4 md:p-10 bg-base-200">
 			<div className="container mx-auto px-4">
 				<motion.div
 					className="grid lg:grid-cols-2 gap-12 items-center"
@@ -18,14 +18,14 @@ const BeginnersStruggle = () => {
 						transition={{ duration: 0.8 }}
 						viewport={{ once: true }}
 					>
-						<p className="text-lg text-base-content/70 mb-8 leading-relaxed">
+						<p className="md:text-lg text-base-content/70 mb-4 md:mb-8 leading-relaxed">
 							Why Most Beginners Struggle?
 						</p>
-						<h2 className="text-2xl md:text-4xl font-bold mb-6 text-base-content max-w-xl">
+						<h2 className="text-xl md:text-4xl font-bold mb-6 text-base-content max-w-xl">
 							Too Many Resources, No Roadmap, No Motivation.
 						</h2>
 
-						<p className="text-base-content/70 mb-8 leading-relaxed">
+						<p className="text-base-content/70 mb-8 leading-relaxed text-sm md:text-md w-[80%] md:w-full">
 							From random tutorials to scattered GitHub sheets, most devs quit
 							DSA because they're overwhelmed and lack direction.
 						</p>
@@ -50,7 +50,7 @@ const BeginnersStruggle = () => {
 							].map((item, index) => (
 								<motion.div
 									key={index}
-									className="flex items-center gap-4 p-4 rounded-lg bg-base-100/50"
+									className="flex items-center gap-4 p-4 rounded-lg bg-base-100/50 w-[80%] md:w-full"
 									initial={{ opacity: 0, y: 20 }}
 									whileInView={{ opacity: 1, y: 0 }}
 									transition={{ delay: index * 0.2, duration: 0.6 }}
@@ -58,8 +58,8 @@ const BeginnersStruggle = () => {
 								>
 									<item.icon className="w-8 h-8" />
 									<div>
-										<h3 className="font-semibold text-lg">{item.title}</h3>
-										<p className="text-base-content/60">{item.desc}</p>
+										<h3 className="font-semibold md:text-lg">{item.title}</h3>
+										<p className="text-base-content/60 text-sm md:text-md">{item.desc}</p>
 									</div>
 								</motion.div>
 							))}
@@ -73,7 +73,7 @@ const BeginnersStruggle = () => {
 						transition={{ duration: 0.8 }}
 						viewport={{ once: true }}
 					>
-						<div className="mockup-browser bg-base-300 border">
+						<div className="mockup-browser bg-base-300 border w-[80%] md:w-full">
 							<div className="mockup-browser-toolbar">
 								<div className="input">Multiple Tabs - Overwhelming!</div>
 							</div>

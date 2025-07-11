@@ -38,29 +38,29 @@ const Hero: React.FC = () => {
 				>
 					<motion.div
 						variants={itemVariants}
-						className="mb-6"
+						className="md:mb-6"
 					>
-						<div className="badge badge-accent badge-lg mb-4 px-6 py-3">
+						<div className="badge badge-accent badge-md md:badge-lg mb-4 md:px-6 py-3">
 							Every Expert Was Once a Beginner
 						</div>
 					</motion.div>
 
 					<motion.h1
 						variants={itemVariants}
-						className="text-5xl md:text-7xl max-w-3xl font-bold bg-gradient-to-r from-primary to-primary-content bg-clip-text text-transparent mb-6"
+						className="text-4xl md:text-7xl max-w-3xl font-bold bg-gradient-to-r from-primary to-primary-content bg-clip-text text-transparent mb-6"
 					>
 						Your DSA Journey Starts Here
 					</motion.h1>
 
 					<motion.p
 						variants={itemVariants}
-						className="text-lg md:text-xl text-base-content/80 max-w-3xl mx-auto leading-relaxed"
+						className="text-md md:text-xl text-base-content/80 max-w-3xl mx-auto leading-relaxed"
 					>
 						Struggling with DSA?
 					</motion.p>
 					<motion.p
 						variants={itemVariants}
-						className="text-lg md:text-xl text-base-content/80 mb-8 max-w-xl mx-auto leading-relaxed"
+						className="text-md md:text-xl text-base-content/80 mb-8 max-w-xl mx-auto leading-relaxed"
 					>
 						Join the journey from beginner to expert — In a guided, gamified,
 						and structured way with DCode DSA.
@@ -72,7 +72,7 @@ const Hero: React.FC = () => {
 					>
 						<Link to={"/problem"}>
 							<motion.button
-								className="btn btn-primary btn-lg px-8 py-4 text-lg"
+								className="btn btn-primary md:btn-lg px-8 py-4 md:text-lg"
 								whileHover={{ scale: 1.05 }}
 								whileTap={{ scale: 0.95 }}
 							>
@@ -83,7 +83,7 @@ const Hero: React.FC = () => {
 
 						<Link to={"/sheets"}>
 							<motion.button
-								className="btn btn-ghost btn-lg px-8 py-4 text-lg border border-base-content/20"
+								className="btn btn-ghost md:btn-lg px-8 py-4 md:text-lg border border-base-content/20"
 								whileHover={{ scale: 1.05 }}
 								whileTap={{ scale: 0.95 }}
 							>

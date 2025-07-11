@@ -193,17 +193,17 @@ const Features: React.FC = () => {
   };
 
   return (
-    <section id="features" className="py-16 bg-gradient-to-bl from-base-200 via-base-100 to-primary/20">
+    <section id="features" className="py-8 md:py-16 bg-gradient-to-bl from-base-200 via-base-100 to-primary/20">
       <div className="container mx-auto px-4">
         <motion.div 
-          className="text-center mb-16"
+          className="text-center mb-8 md:mb-16"
           initial={{ opacity: 0, y: -30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 0.6, ease: "easeOut" }}
         >
           <motion.h2 
-            className="text-3xl md:text-3xl font-bold mb-4"
+            className="text-xl md:text-3xl font-bold mb-4"
             initial={{ opacity: 0, y: -20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -212,7 +212,7 @@ const Features: React.FC = () => {
             Features
           </motion.h2>
           <motion.p 
-            className="text-lg max-w-xl mx-auto text-base-content/70"
+            className="md:text-lg max-w-xl mx-auto text-base-content/70"
             initial={{ opacity: 0, y: -15 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -236,7 +236,7 @@ const Features: React.FC = () => {
               whileHover="hover"
               className="card bg-base-300/80 h-fit rounded-lg border-2 border-base-300 overflow-hidden transition-all duration-300 hover:shadow-lg group cursor-pointer"
             >
-              <div className="h-48 overflow-hidden">
+              <div className="h-32 md:h-48 overflow-hidden">
                 <motion.img
                   src={feature.img}
                   alt={feature.title}
@@ -247,7 +247,7 @@ const Features: React.FC = () => {
               </div>
               <div className="p-6 flex flex-col">
                 <motion.h3 
-                  className="text-xl text-primary font-bold mb-2"
+                  className="text-lg md:text-xl text-primary font-bold mb-2"
                   initial={{ opacity: 0, y: 10 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
@@ -256,7 +256,7 @@ const Features: React.FC = () => {
                   {feature.title}
                 </motion.h3>
                 <motion.p 
-                  className="text-accent-content mb-4"
+                  className="text-sm md:text-md text-accent-content mb-4"
                   initial={{ opacity: 0, y: 10 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
@@ -314,7 +314,7 @@ const Features: React.FC = () => {
                 exit={{ opacity: 0 }}
               />
               <motion.div 
-                className="bg-base-300 max-h-[80%] md:max-h-[90%] overflow-y-auto rounded-lg p-8 max-w-2xl w-full mx-4 relative z-10"
+                className="bg-base-300 max-h-[80%] md:max-h-[90%] overflow-y-auto rounded-lg md:p-8 p-4 max-w-2xl w-full mx-4 relative z-10"
                 variants={modalVariants}
                 initial="hidden"
                 animate="visible"
@@ -322,7 +322,7 @@ const Features: React.FC = () => {
               >
                 <motion.button
                   onClick={handleClose}
-                  className="absolute top-4 right-4 text-primary-content cursor-pointer btn btn-circle"
+                  className="absolute top-4 right-4 text-primary-content cursor-pointer btn btn-circle btn-sm md:btn-md"
                   aria-label="Close modal"
                   whileHover={{ scale: 1.1, rotate: 90 }}
                   whileTap={{ scale: 0.95 }}
@@ -330,7 +330,7 @@ const Features: React.FC = () => {
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="h-6 w-6"
+                    className="md:h-6 md:w-6 h-4 w-4"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -340,7 +340,7 @@ const Features: React.FC = () => {
                 </motion.button>
                 
                 <motion.h2 
-                  className="text-2xl font-bold mb-4"
+                  className="text-xl md:text-2xl font-bold mb-4"
                   initial={{ opacity: 0, y: -20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.3, delay: 0.1 }}
@@ -351,7 +351,7 @@ const Features: React.FC = () => {
                 <motion.img
                   src={selectedFeature.img}
                   alt={selectedFeature.title}
-                  className="w-full h-64 object-cover rounded-lg mb-4"
+                  className="w-full h-40 md:h-64 object-cover rounded-lg mb-4"
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.4, delay: 0.2 }}
