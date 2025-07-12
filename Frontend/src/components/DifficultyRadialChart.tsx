@@ -12,11 +12,11 @@ interface Props {
 
 const DifficultyRadialChart: React.FC<Props> = ({ data }) => {
 	return (
-		<div className="card bg-base-200 flex flex-col gap-2 items-start justify-start p-5 shadow-xl border border-base-300">
+		<div className="card w-full h-full bg-base-200 flex flex-col gap-2 items-start justify-start p-5 shadow-xl border border-base-300">
 			<h2 className="card-title text-lg font-semibold text-primary mb-2">
 				Problems Solved by Difficulty
 			</h2>
-			<div className="flex flex-col md:flex-row gap-6">
+			<div className="flex flex-col justify-center items-center md:flex-row gap-6 mx-auto">
 				{data.map((item) => {
 					const percent = item.total ? (item.solved / item.total) * 100 : 0;
 					return (

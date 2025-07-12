@@ -18,7 +18,7 @@ const AcceptedStatsCard: React.FC<AcceptedStatsCardProps> = ({
 	percentage,
 }) => {
 	return (
-		<div className="card w-full max-w-sm bg-base-200 shadow-xl border border-base-300">
+		<div className="card w-full bg-base-200 shadow-xl border border-base-300">
 			<div className="card-body">
 				<h2 className="card-title text-lg font-semibold text-primary">
 					Submission Overview
