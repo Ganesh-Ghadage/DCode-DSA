@@ -23,6 +23,10 @@ import CodeRoom from "./pages/CodeRoomPage";
 import NotVerifiedPage from "./pages/NotVerifiedPage";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import ChangePasswordPage from "./pages/ChangePasswordPage";
+import TermsOfService from "./pages/TermsOfServices";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import CookiePolicy from "./pages/CookiePolicy";
+import ContactUs from "./pages/ContactUs";
 
 function App() {
 	const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
@@ -81,6 +85,23 @@ function App() {
 					<Route
 						path="/code-room"
 						element={<CodeRoom />}
+					/>
+
+					<Route
+						path="/terms"
+						element={<TermsOfService />}
+					/>
+					<Route
+						path="/privacy"
+						element={<PrivacyPolicy />}
+					/>
+					<Route
+						path="/cookies"
+						element={<CookiePolicy />}
+					/>
+					<Route
+						path="/contact"
+						element={<ContactUs />}
 					/>
 				</Route>
 
