@@ -25,7 +25,7 @@ const HomePage = () => {
 
 			<DCodeJourney />
 
-			<Footer />
+			{/* <Footer /> */}
 		</div>
 	);
 };
