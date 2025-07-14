@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "@formspree/react";
 import { motion, useInView, AnimatePresence, easeInOut } from "framer-motion";
-import { ChevronDown, MessageCircle, X, Send } from "lucide-react";
+import { ChevronDown, MessageCircle, X, Send, Loader2 } from "lucide-react";
 import { toast } from "react-hot-toast";
 
 interface FAQItem {
@@ -336,7 +336,7 @@ export default function FAQ() {
                 onClick={closeModal}
               />
               <motion.div
-                className="bg-card rounded-xl p-8 max-w-md w-full relative z-10 shadow-2xl border border-border"
+                className="bg-base-100 rounded-xl p-8 max-w-md w-full relative z-10 shadow-2xl border border-border"
                 variants={modalVariants}
                 onClick={(e) => e.stopPropagation()}
               >
@@ -406,11 +406,7 @@ export default function FAQ() {
                   >
                     {state.submitting ? (
                       <>
-                        <motion.div
-                          className="w-4 h-4 border-2 border-primary-foreground/30 border-t-primary-foreground rounded-full"
-                          animate={{ rotate: 360 }}
-                          transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                        />
+                        <Loader2 className="animate-spin" />
                         Sending...
                       </>
                     ) : (
