@@ -13,6 +13,7 @@ import bcrypt from "bcryptjs";
 import { sendForgotPasswordMail, sendVerifyMail } from "../utils/mail.js";
 import { cookieOptions } from "../utils/constants.js";
 import { OAuth2Client } from "google-auth-library";
+import { use } from "react";
 
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
@@ -494,7 +495,15 @@ export const refreshAccessToken = asyncHandler(async (req, res) => {
 			.json(
 				new ApiResponce(
 					201,
-					user,
+					{
+						id: user.id,
+						name: user.name,
+						email: user.email,
+						image: user.image,
+						role: user.role,
+						isEmailVerified: user.isEmailVerified,
+						googleId: user.googleId
+					},
 					"accessToken and refreshToken renewed sucessfully"
 				)
 			);
