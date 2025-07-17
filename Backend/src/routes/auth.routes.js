@@ -166,7 +166,6 @@ authRouter.post(
 	upload.none(),
 	refreshAccessTokenValidator(),
 	validate,
-	authMiddleware,
 	refreshAccessToken
 );
 
