@@ -93,7 +93,7 @@ const LoginPage = () => {
 							</div>
 
 							{/* Password */}
-							<div className="form-control">
+							<div className="form-control flex flex-col">
 								<label className="label">
 									<span className="label-text font-medium">Password</span>
 								</label>
@@ -111,7 +111,7 @@ const LoginPage = () => {
 									/>
 									<button
 										type="button"
-										className="absolute inset-y-0 right-0 pr-3 flex items-center"
+										className="absolute inset-y-0 right-0 pr-3 flex items-center z-10"
 										onClick={() => setShowPassword(!showPassword)}
 									>
 										{showPassword ? (
@@ -126,6 +126,9 @@ const LoginPage = () => {
 										{errors.password.message}
 									</p>
 								)}
+								<Link to={"/forgot-password"}
+									className="self-end font-medium text-secondary-content/40"
+								>Forgot Password ?</Link>
 							</div>
 
 							{/* Submit Button */}

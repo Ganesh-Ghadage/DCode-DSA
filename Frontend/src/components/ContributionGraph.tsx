@@ -18,7 +18,7 @@ const ContributionGraph: React.FC<Props> = ({ data }) => {
 	);
 
 	return (
-		<div className="overflow-x-auto p-4">
+		<div className="min-w-4xl overflow-x-auto p-4">
 			<CalendarHeatmap
 				startDate={startDate}
 				endDate={today}

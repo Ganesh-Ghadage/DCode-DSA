@@ -1,6 +1,5 @@
 import { Route, Routes, Navigate } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
-import { Loader } from "lucide-react";
 import { useEffect } from "react";
 
 import HomePage from "./pages/HomePage";
@@ -20,21 +19,21 @@ import DashboardPage from "./pages/DashboardPage";
 import VerifyPage from "./pages/VerifyPage";
 import CodeWar from "./pages/CodeWarPage";
 import CodeRoom from "./pages/CodeRoomPage";
+import NotVerifiedPage from "./pages/NotVerifiedPage";
+import ForgotPasswordPage from "./pages/ForgotPasswordPage";
+import ChangePasswordPage from "./pages/ChangePasswordPage";
+import TermsOfService from "./pages/TermsOfServices";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import CookiePolicy from "./pages/CookiePolicy";
+import ContactUs from "./pages/ContactUs";
 
 function App() {
-	const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
+	const { authUser, checkAuth } = useAuthStore();
 
 	useEffect(() => {
 		checkAuth();
 	}, [checkAuth]);
 
-	if (!authUser && isCheckingAuth) {
-		return (
-			<div className="flex items-center justify-center h-screen">
-				<Loader className="size-10 animate-spin" />
-			</div>
-		);
-	}
 
 	return (
 		<div className="flex flex-col justify-start items-center">
@@ -43,7 +42,17 @@ function App() {
 			<Routes>
 				<Route
 					path="/"
-					element={<Layout />}
+					element={
+						authUser ? (
+							authUser?.isEmailVerified ? (
+								<Layout />
+							) : (
+								<NotVerifiedPage />
+							)
+						) : (
+							<Layout />
+						)
+					}
 				>
 					<Route
 						index
@@ -52,30 +61,55 @@ function App() {
 
 					<Route
 						path="/problem"
-						element={
-							authUser ? <ProblemsListPage /> : <Navigate to={"/login"} />
-						}
+						element={<ProblemsListPage />}
 					/>
 
 					<Route
 						path="/sheets"
-						element={authUser ? <SheetListPage /> : <Navigate to={"/login"} />}
+						element={<SheetListPage />}
 					/>
 
-					<Route 
+					<Route
 						path="/code-war"
 						element={<CodeWar />}
 					/>
 
-					<Route 
+					<Route
 						path="/code-room"
 						element={<CodeRoom />}
+					/>
+
+					<Route
+						path="/terms"
+						element={<TermsOfService />}
+					/>
+					<Route
+						path="/privacy"
+						element={<PrivacyPolicy />}
+					/>
+					<Route
+						path="/cookies"
+						element={<CookiePolicy />}
+					/>
+					<Route
+						path="/contact"
+						element={<ContactUs />}
 					/>
 				</Route>
 
 				<Route
 					path="/login"
 					element={!authUser ? <LoginPage /> : <Navigate to={"/"} />}
+				/>
+
+				<Route
+					path="/forgot-password"
+					element={!authUser ? <ForgotPasswordPage /> : <Navigate to={"/"} />}
+				/>
+
+				<Route
+					path="/change-password/:token"
+					element={!authUser ? <ChangePasswordPage /> : <Navigate to={"/"} />}
 				/>
 
 				<Route
@@ -88,7 +122,7 @@ function App() {
 					element={authUser ? <ProblemPage /> : <Navigate to={"/login"} />}
 				/>
 
-				<Route 
+				<Route
 					path="/sheet/:id"
 					element={authUser ? <SheetPage /> : <Navigate to={"/login"} />}
 				/>
@@ -97,13 +131,13 @@ function App() {
 					path="/profile"
 					element={authUser ? <ProfilePage /> : <Navigate to={"/login"} />}
 				/>
-				
+
 				<Route
 					path="/dashboard"
 					element={authUser ? <DashboardPage /> : <Navigate to={"/login"} />}
 				/>
 
-				<Route 
+				<Route
 					path="/verify/:token"
 					element={<VerifyPage />}
 				/>

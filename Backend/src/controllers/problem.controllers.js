@@ -109,11 +109,7 @@ export const getALLProblems = asyncHandler(async (req, res) => {
 	try {
 		const problems = await db.problem.findMany({
 			include: {
-				solvedBy: {
-					where: {
-						userId: req.user.id,
-					},
-				},
+				solvedBy: true
 			},
 		});
 

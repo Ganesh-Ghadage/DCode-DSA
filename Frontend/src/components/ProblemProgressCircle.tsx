@@ -13,7 +13,7 @@ const ProblemProgressCircle: React.FC<Props> = ({ solved, total, size = 140 }) =
   const strokeDashoffset = circumference - (progress / 100) * circumference;
 
   return (
-    <div className="bg-base-200 flex flex-col items-center justify-center m-5">
+    <div className="bg-base-200 flex flex-col items-center justify-center w-full h-full rounded-2xl">
       <h2 className="text-lg font-semibold mb-4 text-primary">Total Problem Solved</h2>
       <svg width={size} height={size} className="transform -rotate-90">
         <circle

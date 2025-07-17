@@ -119,3 +119,11 @@ export const googleLoginValidator = () => {
 			.notEmpty().withMessage("Google token is required"),
 	];
 };
+
+// export const updateProfileValidator = () => {
+// 	return [
+// 		body("name")
+//       .trim()
+//       .notEmpty().withMessage("Name is required"),
+// 	]
+// }

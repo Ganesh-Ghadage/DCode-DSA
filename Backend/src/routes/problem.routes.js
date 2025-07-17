@@ -113,7 +113,7 @@ problemRouter.post(
  *       200:
  *         description: Problems fetched successfully
  */
-problemRouter.get("/get-all-problems", authMiddleware, getALLProblems);
+problemRouter.get("/get-all-problems", getALLProblems);
 
 /**
  * @swagger

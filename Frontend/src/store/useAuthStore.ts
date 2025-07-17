@@ -16,18 +16,41 @@ interface loginData {
   password: string
 }
 
+interface updatePasswordData {
+  email: string,
+  newPassword: string,
+  oldPassword: string,
+}
+
+interface forgotPasswordData {
+  email: string
+}
+
+interface changePasswordData {
+  email: string,
+  newPassword: string
+}
+
 interface AuthState {
   authUser: User | null,
   isLoggingIn: boolean,
   isSigningUp: boolean,
   isCheckingAuth: boolean,
   errorMessage: string | null,
+  isLoading: boolean,
+  isVerfiyMailSending: boolean
 
   checkAuth: () => void,
   signup: (data: signupData) => void,
   login: (data: loginData) => void
   logout: () => void
   googleLogin: (credentialResponse: CredentialResponse) => void
+  verifyMail: (token: string) => void
+  resendVerifyMail: () => void
+  updatePassword: (data: updatePasswordData) => void
+  forgotPassword: (data: forgotPasswordData) => void
+  changePassword: (token: string, data: changePasswordData) => void
+  updateProfile: (name: string, avatar?: Blob | null) => void
 }
 
 export const useAuthStore = create<AuthState>()((set) => ({
@@ -36,6 +59,8 @@ export const useAuthStore = create<AuthState>()((set) => ({
   isCheckingAuth: false,
   isSigningUp: false,
   errorMessage: null,
+  isLoading: false,
+  isVerfiyMailSending: false,
 
   checkAuth: async () => {
     set({ isCheckingAuth: true })
@@ -150,6 +175,141 @@ export const useAuthStore = create<AuthState>()((set) => ({
     } finally {
       set({ isLoggingIn: false })
     }
-  }
+  },
 
+  verifyMail: async (token: string) => {
+    set({ isLoading: true, errorMessage: null })
+    try {
+      const res = await axiosInstance.get(`/auth/verify/${token}`)
+      toast.success(res.data?.message || "Your email has been verified.")
+      await useAuthStore.getState().checkAuth()
+    } catch (error) {
+      set({
+        errorMessage: error instanceof AxiosError && error?.response?.data.message
+          ? error.response.data.message
+          : "Something went wrong"
+      })
+      toast.error(
+        error instanceof AxiosError && error?.response?.data.message
+          ? error.response.data.message
+          : "Verification failed"
+      )
+    } finally {
+      set({ isLoading: false })
+    }
+  },
+
+  resendVerifyMail: async () => {
+    set({ isVerfiyMailSending: true })
+    set({ errorMessage: null })
+    try {
+      const res = await axiosInstance.post("/auth/resend-verify-email")
+      toast.success(res.data?.message || "Verify email sent successfull")
+    } catch (error) {
+      set({
+        errorMessage: error instanceof AxiosError && error?.response?.data.message
+          ? error.response.data.message
+          : "Something went wrong"
+      })
+      toast.error(
+        error instanceof AxiosError && error?.response?.data.message
+          ? error.response.data.message
+          : "Something went wrong"
+      );
+    } finally {
+      set({ isVerfiyMailSending: false })
+    }
+  },
+
+  updatePassword: async (data: updatePasswordData) => {
+    console.log(data)
+    set({ isLoading: true, errorMessage: null })
+    try {
+      const res = await axiosInstance.put(`/auth/update-password`, data)
+      toast.success(res.data?.message || "Password updated successfully")
+    } catch (error) {
+      set({
+        errorMessage: error instanceof AxiosError && error?.response?.data.message
+          ? error.response.data.message
+          : "Something went wrong"
+      })
+      toast.error(
+        error instanceof AxiosError && error?.response?.data.message
+          ? error.response.data.message
+          : "Password update failed"
+      )
+    } finally {
+      set({ isLoading: false })
+    }
+  },
+
+  forgotPassword: async (data: forgotPasswordData) => {
+    set({ isLoading: true, errorMessage: null })
+    try {
+      const res = await axiosInstance.post(`/auth/forgot-password`, data)
+      toast.success(res.data?.message || "Password reset link sent successfully")
+    } catch (error) {
+      set({
+        errorMessage: error instanceof AxiosError && error?.response?.data.message
+          ? error.response.data.message
+          : "Something went wrong"
+      })
+      toast.error(
+        error instanceof AxiosError && error?.response?.data.message
+          ? error.response.data.message
+          : "Password reset link generation failed"
+      )
+    } finally {
+      set({ isLoading: false })
+    }
+  },
+
+  changePassword: async (token: string, data: changePasswordData) => {
+    set({ isLoading: true, errorMessage: null })
+    try {
+      const res = await axiosInstance.put(`/auth/change-password/${token}`, data)
+      toast.success(res.data?.message || "Password reset link sent successfully")
+    } catch (error) {
+      set({
+        errorMessage: error instanceof AxiosError && error?.response?.data.message
+          ? error.response.data.message
+          : "Something went wrong"
+      })
+      toast.error(
+        error instanceof AxiosError && error?.response?.data.message
+          ? error.response.data.message
+          : "Password reset link generation failed"
+      )
+    } finally {
+      set({ isLoading: false })
+    }
+  },
+
+  updateProfile: async (name, avatar) => {
+    set({ isLoading: true, errorMessage: null })
+
+    try {
+      const formData = new FormData()
+      formData.append("name", name)
+      if (avatar) {
+        formData.append("image", avatar, "avatar.jpg")
+      }
+      const res = await axiosInstance.patch("/auth/update-profile", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      })
+
+      set({ authUser: res.data?.data })
+      toast.success(res.data?.message || "Profile updated successfully")
+    } catch (error) {
+      const message =
+        error instanceof AxiosError && error?.response?.data?.message
+          ? error.response.data.message
+          : "Failed to update profile"
+
+      set({ errorMessage: message })
+      toast.error(message)
+    } finally {
+      set({ isLoading: false })
+    }
+  }
 }))

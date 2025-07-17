@@ -22,6 +22,7 @@ import {
 	registerUser,
 	resendVerificationMail,
 	updatePassword,
+	updateUserProfile,
 	verifyUser,
 } from "../controllers/auth.controllers.js";
 import { authMiddleware } from "../middlewares/auth.middleware.js";
@@ -165,7 +166,6 @@ authRouter.post(
 	upload.none(),
 	refreshAccessTokenValidator(),
 	validate,
-	authMiddleware,
 	refreshAccessToken
 );
 
@@ -230,5 +230,12 @@ authRouter.put(
 );
 
 authRouter.post("/google", googleLoginValidator(), validate, loginWithGoogle);
+
+authRouter.patch(
+	"/update-profile",
+	upload.single("image"),
+	authMiddleware,
+	updateUserProfile
+);
 
 export default authRouter;

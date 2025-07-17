@@ -81,7 +81,7 @@ sheetRouter.post(
  *       404:
  *         description: No sheets found
  */
-sheetRouter.get("/", authMiddleware, getAllSheets);
+sheetRouter.get("/", getAllSheets);
 
 /**
  * @swagger
