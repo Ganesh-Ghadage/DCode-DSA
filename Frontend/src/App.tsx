@@ -29,19 +29,12 @@ import CookiePolicy from "./pages/CookiePolicy";
 import ContactUs from "./pages/ContactUs";
 
 function App() {
-	const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
+	const { authUser, checkAuth } = useAuthStore();
 
 	useEffect(() => {
 		checkAuth();
 	}, [checkAuth]);
 
-	if (!authUser && isCheckingAuth) {
-		return (
-			<div className="flex items-center justify-center h-screen">
-				<Loader className="size-10 animate-spin" />
-			</div>
-		);
-	}
 
 	return (
 		<div className="flex flex-col justify-start items-center">
