@@ -1,6 +1,5 @@
 import { Route, Routes, Navigate } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
-import { Loader } from "lucide-react";
 import { useEffect } from "react";
 
 import HomePage from "./pages/HomePage";
